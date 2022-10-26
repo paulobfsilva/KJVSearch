@@ -15,6 +15,7 @@
 		516983E629091947007DE3C0 /* RemoteSearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516983E529091947007DE3C0 /* RemoteSearchTests.swift */; };
 		5169840029091AB4007DE3C0 /* SearchItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516983FF29091AB4007DE3C0 /* SearchItem.swift */; };
 		5169840229091AC7007DE3C0 /* SearchLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5169840129091AC7007DE3C0 /* SearchLoader.swift */; };
+		5169840529099BEE007DE3C0 /* RemoteSearchLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5169840429099BEE007DE3C0 /* RemoteSearchLoader.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -39,6 +40,7 @@
 		516983E529091947007DE3C0 /* RemoteSearchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteSearchTests.swift; sourceTree = "<group>"; };
 		516983FF29091AB4007DE3C0 /* SearchItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchItem.swift; sourceTree = "<group>"; };
 		5169840129091AC7007DE3C0 /* SearchLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLoader.swift; sourceTree = "<group>"; };
+		5169840429099BEE007DE3C0 /* RemoteSearchLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteSearchLoader.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 		516983CD29091946007DE3C0 /* KJVSearch */ = {
 			isa = PBXGroup;
 			children = (
+				5169840329099BD3007DE3C0 /* Search API */,
 				516983FE29091A94007DE3C0 /* SearchFeature */,
 				516983CE29091946007DE3C0 /* AppDelegate.swift */,
 				516983D029091946007DE3C0 /* SceneDelegate.swift */,
@@ -106,6 +109,14 @@
 				5169840129091AC7007DE3C0 /* SearchLoader.swift */,
 			);
 			path = SearchFeature;
+			sourceTree = "<group>";
+		};
+		5169840329099BD3007DE3C0 /* Search API */ = {
+			isa = PBXGroup;
+			children = (
+				5169840429099BEE007DE3C0 /* RemoteSearchLoader.swift */,
+			);
+			path = "Search API";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -212,6 +223,7 @@
 				5169840029091AB4007DE3C0 /* SearchItem.swift in Sources */,
 				5169840229091AC7007DE3C0 /* SearchLoader.swift in Sources */,
 				516983CF29091946007DE3C0 /* AppDelegate.swift in Sources */,
+				5169840529099BEE007DE3C0 /* RemoteSearchLoader.swift in Sources */,
 				516983D129091946007DE3C0 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
