@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SearchItem {
+public struct SearchItem: Equatable {
     let sampleId: String
     let distance: Double
     let externalId: String
