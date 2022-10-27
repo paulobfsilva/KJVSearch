@@ -37,12 +37,10 @@ class RemoteSearchTests: XCTestCase {
     func test_load_deliversErrorOnClientError() {
         let (sut, client) = makeSUT()
         client.error = NSError(domain: "Test", code: 0)
-        var capturedError: RemoteSearchLoader.Error?
-        sut.load { error in
-            capturedError = error
-        }
+        var capturedErrors = [RemoteSearchLoader.Error]()
+        sut.load { capturedErrors.append($0) }
         
-        XCTAssertEqual(capturedError, .connectivity)
+        XCTAssertEqual(capturedErrors, [.connectivity])
     }
     
     // MARK: - Helpers
