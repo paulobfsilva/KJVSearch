@@ -8,7 +8,7 @@
 import Foundation
 
 public enum HTTPClientResult {
-    case success(HTTPURLResponse)
+    case success(Data, HTTPURLResponse)
     case failure(Error)
 }
 
@@ -21,6 +21,7 @@ public final class RemoteSearchLoader {
     private let client: HTTPClient
     
     public enum Error: Swift.Error {
+        // TODO: - represent error where access token is expired
         case connectivity
         case invalidData
     }
