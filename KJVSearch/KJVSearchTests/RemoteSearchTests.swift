@@ -47,11 +47,16 @@ class RemoteSearchTests: XCTestCase {
     func test_load_deliversErrorOnNon200HTTPResponse() {
         let (sut, client) = makeSUT()
         
-        var capturedErrors = [RemoteSearchLoader.Error]()
-        sut.load { capturedErrors.append($0) }
+        let samples = [199, 201, 300, 400, 401, 402, 403, 404, 405, 406, 500]
+        samples.enumerated().forEach { index, code in
+            var capturedErrors = [RemoteSearchLoader.Error]()
+            sut.load { capturedErrors.append($0) }
+            
+            client.complete(withStatusCode: code, at: index)
+            XCTAssertEqual(capturedErrors, [.invalidData])
+            capturedErrors = []
+        }
         
-        client.complete(withStatusCode: 400)
-        XCTAssertEqual(capturedErrors, [.invalidData])
     }
     
     // MARK: - Helpers
