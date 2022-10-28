@@ -12,6 +12,6 @@ public enum LoadSearchResult {
     case failure(Error)
 }
 
-protocol SearchLoader {
+public protocol SearchLoader {
     func load(completion: @escaping (LoadSearchResult) -> Void)
 }
