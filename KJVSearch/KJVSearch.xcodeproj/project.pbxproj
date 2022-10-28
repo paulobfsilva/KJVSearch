@@ -12,7 +12,7 @@
 		516983D629091946007DE3C0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 516983D429091946007DE3C0 /* Main.storyboard */; };
 		516983D829091947007DE3C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 516983D729091947007DE3C0 /* Assets.xcassets */; };
 		516983DB29091947007DE3C0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 516983D929091947007DE3C0 /* LaunchScreen.storyboard */; };
-		516983E629091947007DE3C0 /* RemoteSearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516983E529091947007DE3C0 /* RemoteSearchTests.swift */; };
+		516983E629091947007DE3C0 /* RemoteSearchLoaderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516983E529091947007DE3C0 /* RemoteSearchLoaderTests.swift */; };
 		5169840029091AB4007DE3C0 /* SearchItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516983FF29091AB4007DE3C0 /* SearchItem.swift */; };
 		5169840229091AC7007DE3C0 /* SearchLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5169840129091AC7007DE3C0 /* SearchLoader.swift */; };
 		5169840529099BEE007DE3C0 /* RemoteSearchLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5169840429099BEE007DE3C0 /* RemoteSearchLoader.swift */; };
@@ -38,7 +38,7 @@
 		516983DA29091947007DE3C0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		516983DC29091947007DE3C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		516983E129091947007DE3C0 /* KJVSearchTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KJVSearchTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		516983E529091947007DE3C0 /* RemoteSearchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteSearchTests.swift; sourceTree = "<group>"; };
+		516983E529091947007DE3C0 /* RemoteSearchLoaderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteSearchLoaderTests.swift; sourceTree = "<group>"; };
 		516983FF29091AB4007DE3C0 /* SearchItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchItem.swift; sourceTree = "<group>"; };
 		5169840129091AC7007DE3C0 /* SearchLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLoader.swift; sourceTree = "<group>"; };
 		5169840429099BEE007DE3C0 /* RemoteSearchLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteSearchLoader.swift; sourceTree = "<group>"; };
@@ -99,7 +99,7 @@
 		516983E429091947007DE3C0 /* KJVSearchTests */ = {
 			isa = PBXGroup;
 			children = (
-				516983E529091947007DE3C0 /* RemoteSearchTests.swift */,
+				519EFB26290C144A0026A202 /* Feed API */,
 			);
 			path = KJVSearchTests;
 			sourceTree = "<group>";
@@ -120,6 +120,14 @@
 				519EFB24290C09C10026A202 /* HTTPClient.swift */,
 			);
 			path = "Search API";
+			sourceTree = "<group>";
+		};
+		519EFB26290C144A0026A202 /* Feed API */ = {
+			isa = PBXGroup;
+			children = (
+				516983E529091947007DE3C0 /* RemoteSearchLoaderTests.swift */,
+			);
+			path = "Feed API";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,7 +244,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				516983E629091947007DE3C0 /* RemoteSearchTests.swift in Sources */,
+				516983E629091947007DE3C0 /* RemoteSearchLoaderTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
