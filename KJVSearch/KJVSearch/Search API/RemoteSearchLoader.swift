@@ -7,7 +7,8 @@
 
 import Foundation
 
-public final class RemoteSearchLoader {
+public final class RemoteSearchLoader: SearchLoader {
+    
     private let url: URL
     private let client: HTTPClient
     
@@ -17,10 +18,7 @@ public final class RemoteSearchLoader {
         case invalidData
     }
     
-    public enum Result: Equatable {
-        case success([SearchItem])
-        case failure(Error)
-    }
+    public typealias Result = LoadSearchResult<Error>
     
     public init(url: URL, client: HTTPClient) {
         self.url = url
