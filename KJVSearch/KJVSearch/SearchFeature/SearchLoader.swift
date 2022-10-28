@@ -12,8 +12,6 @@ public enum LoadSearchResult<Error: Swift.Error> {
     case failure(Error)
 }
 
-extension LoadSearchResult: Equatable where Error:Equatable {}
-
 protocol SearchLoader {
     associatedtype Error: Swift.Error
     func load(completion: @escaping (LoadSearchResult<Error>) -> Void)
