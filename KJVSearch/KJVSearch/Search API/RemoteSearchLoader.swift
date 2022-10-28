@@ -18,7 +18,7 @@ public final class RemoteSearchLoader: SearchLoader {
         case invalidData
     }
     
-    public typealias Result = LoadSearchResult<Error>
+    public typealias Result = LoadSearchResult
     
     public init(url: URL, client: HTTPClient) {
         self.url = url
@@ -31,7 +31,7 @@ public final class RemoteSearchLoader: SearchLoader {
             case let .success(data, response):
                 completion(RemoteSearchLoader.decode(data, from: response))
             case .failure:
-                completion(.failure(.connectivity))
+                completion(.failure(Error.connectivity))
             }
         }
     }
@@ -40,7 +40,7 @@ public final class RemoteSearchLoader: SearchLoader {
         if response.statusCode == 200, let root = try? JSONDecoder().decode(Root.self, from: data) {
             return .success(root.searchSamples)
         } else {
-            return .failure(.invalidData)
+            return .failure(Error.invalidData)
         }
     }
 }
