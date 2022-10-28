@@ -73,38 +73,21 @@ class RemoteSearchTests: XCTestCase {
     func test_load_deliversItemsOn200HTTPResponseWithJSONItems() {
         let (sut, client) = makeSUT()
         
-        let item1 = SearchItem(
+        let item1 = makeItem(
             sampleId: "sampleId",
             distance: 0.01,
             externalId: "externalId",
-            data: "data")
+            text: "data")
         
-        let item1JSON = [
-            "sampleId": item1.sampleId,
-            "distance": item1.distance,
-            "externalId": item1.externalId,
-            "data": item1.data
-        ] as [String : Any]
-        
-        let item2 = SearchItem(
+        let item2 = makeItem(
             sampleId: "sample_aok4uykpn8dj0204",
             distance: 0.43606346799999995,
             externalId: "2 timothy/1/14",
-            data: "That good thing which was committed unto thee keep by the Holy Ghost which dwelleth in us.")
-
-        let item2JSON = [
-            "sampleId": item2.sampleId,
-            "distance": item2.distance,
-            "externalId": item2.externalId,
-            "data": item2.data
-        ] as [String : Any]
+            text: "That good thing which was committed unto thee keep by the Holy Ghost which dwelleth in us.")
+        let items = [item1.model, item2.model]
         
-        let itemsJSON = [
-            "searchSamples": [item1JSON, item2JSON]
-        ]
-        
-        expect(sut, toCompleteWith: .success([item1, item2]), when: {
-            let json = try! JSONSerialization.data(withJSONObject: itemsJSON)
+        expect(sut, toCompleteWith: .success(items), when: {
+            let json = makeItemsJSON([item1.json, item2.json])
             
             client.complete(withStatusCode: 200, data: json)
         })
@@ -117,6 +100,22 @@ class RemoteSearchTests: XCTestCase {
         let sut = RemoteSearchLoader(url: url, client: client)
         
         return (sut, client)
+    }
+    
+    private func makeItem(sampleId: String, distance: Double, externalId: String, text: String) -> (model: SearchItem, json: [String: Any]) {
+        let item = SearchItem(sampleId: sampleId, distance: distance, externalId: externalId, data: text)
+        let json = [
+            "sampleId": sampleId,
+            "distance": distance,
+            "externalId": externalId,
+            "data": text
+        ] as [String : Any]
+        return (item, json)
+    }
+    
+    private func makeItemsJSON(_ items: [[String: Any]]) -> Data {
+        let json = ["searchSamples": items]
+        return try! JSONSerialization.data(withJSONObject: json)
     }
     
     private func expect(_ sut: RemoteSearchLoader, toCompleteWith result: RemoteSearchLoader.Result, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
