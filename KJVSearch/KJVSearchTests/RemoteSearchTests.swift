@@ -70,6 +70,46 @@ class RemoteSearchTests: XCTestCase {
         })
     }
     
+    func test_load_deliversItemsOn200HTTPResponseWithJSONItems() {
+        let (sut, client) = makeSUT()
+        
+        let item1 = SearchItem(
+            sampleId: "sampleId",
+            distance: 0.01,
+            externalId: "externalId",
+            data: "data")
+        
+        let item1JSON = [
+            "sampleId": item1.sampleId,
+            "distance": item1.distance,
+            "externalId": item1.externalId,
+            "data": item1.data
+        ] as [String : Any]
+        
+        let item2 = SearchItem(
+            sampleId: "sample_aok4uykpn8dj0204",
+            distance: 0.43606346799999995,
+            externalId: "2 timothy/1/14",
+            data: "That good thing which was committed unto thee keep by the Holy Ghost which dwelleth in us.")
+
+        let item2JSON = [
+            "sampleId": item2.sampleId,
+            "distance": item2.distance,
+            "externalId": item2.externalId,
+            "data": item2.data
+        ] as [String : Any]
+        
+        let itemsJSON = [
+            "searchSamples": [item1JSON, item2JSON]
+        ]
+        
+        expect(sut, toCompleteWith: .success([item1, item2]), when: {
+            let json = try! JSONSerialization.data(withJSONObject: itemsJSON)
+            
+            client.complete(withStatusCode: 200, data: json)
+        })
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(url: URL = URL(string: "https://a-given-url.com")!) -> (sut: RemoteSearchLoader, client: HTTPClientSpy) {
