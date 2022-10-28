@@ -94,6 +94,20 @@ class RemoteSearchTests: XCTestCase {
         })
     }
     
+    func test_load_doesNotDeliverResultAdterSUTInstanceHasBeenDeallocated() {
+        let url = URL(string: "https://any-url.com")!
+        let client = HTTPClientSpy()
+        var sut: RemoteSearchLoader? = RemoteSearchLoader(url: url, client: client)
+        
+        var capturedResults = [RemoteSearchLoader.Result]()
+        sut?.load { capturedResults.append($0) }
+        
+        sut = nil
+        client.complete(withStatusCode: 200, data: makeItemsJSON([]))
+        
+        XCTAssertTrue(capturedResults.isEmpty)
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(url: URL = URL(string: "https://a-given-url.com")!, file: StaticString = #filePath, line: UInt = #line) -> (sut: RemoteSearchLoader, client: HTTPClientSpy) {

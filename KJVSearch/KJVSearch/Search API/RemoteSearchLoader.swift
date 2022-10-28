@@ -27,17 +27,22 @@ public final class RemoteSearchLoader {
         self.client = client
     }
     public func load(completion: @escaping (Result) -> Void) {
-        client.get(from: url) { result in
+        client.get(from: url) { [weak self] result in
+            guard self != nil else { return }
             switch result {
             case let .success(data, response):
-                if response.statusCode == 200, let root = try? JSONDecoder().decode(Root.self, from: data) {
-                    completion(.success(root.searchSamples))
-                } else {
-                    completion(.failure(.invalidData))
-                }
+                completion(RemoteSearchLoader.decode(data, from: response))
             case .failure:
                 completion(.failure(.connectivity))
             }
+        }
+    }
+    
+    private static func decode(_ data: Data, from response: HTTPURLResponse) -> Result {
+        if response.statusCode == 200, let root = try? JSONDecoder().decode(Root.self, from: data) {
+            return .success(root.searchSamples)
+        } else {
+            return .failure(.invalidData)
         }
     }
 }
