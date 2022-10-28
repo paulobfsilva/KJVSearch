@@ -96,11 +96,18 @@ class RemoteSearchTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func makeSUT(url: URL = URL(string: "https://a-given-url.com")!) -> (sut: RemoteSearchLoader, client: HTTPClientSpy) {
+    private func makeSUT(url: URL = URL(string: "https://a-given-url.com")!, file: StaticString = #filePath, line: UInt = #line) -> (sut: RemoteSearchLoader, client: HTTPClientSpy) {
         let client = HTTPClientSpy()
         let sut = RemoteSearchLoader(url: url, client: client)
-        
+        trackForMemoryLeaks(sut)
+        trackForMemoryLeaks(client)
         return (sut, client)
+    }
+    
+    private func trackForMemoryLeaks(_ instance: AnyObject, file: StaticString = #filePath, line: UInt = #line) {
+        addTeardownBlock { [weak instance] in
+            XCTAssertNil(instance, "Instance should have been deallocated. Potential memory leak.", file: file, line: line)
+        }
     }
     
     private func makeItem(sampleId: String, distance: Double, externalId: String, text: String) -> (model: SearchItem, json: [String: Any]) {
