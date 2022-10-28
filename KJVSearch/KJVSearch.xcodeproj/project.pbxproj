@@ -16,6 +16,7 @@
 		5169840029091AB4007DE3C0 /* SearchItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516983FF29091AB4007DE3C0 /* SearchItem.swift */; };
 		5169840229091AC7007DE3C0 /* SearchLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5169840129091AC7007DE3C0 /* SearchLoader.swift */; };
 		5169840529099BEE007DE3C0 /* RemoteSearchLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5169840429099BEE007DE3C0 /* RemoteSearchLoader.swift */; };
+		519EFB25290C09C10026A202 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519EFB24290C09C10026A202 /* HTTPClient.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +42,7 @@
 		516983FF29091AB4007DE3C0 /* SearchItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchItem.swift; sourceTree = "<group>"; };
 		5169840129091AC7007DE3C0 /* SearchLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLoader.swift; sourceTree = "<group>"; };
 		5169840429099BEE007DE3C0 /* RemoteSearchLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteSearchLoader.swift; sourceTree = "<group>"; };
+		519EFB24290C09C10026A202 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +117,7 @@
 			isa = PBXGroup;
 			children = (
 				5169840429099BEE007DE3C0 /* RemoteSearchLoader.swift */,
+				519EFB24290C09C10026A202 /* HTTPClient.swift */,
 			);
 			path = "Search API";
 			sourceTree = "<group>";
@@ -222,6 +225,7 @@
 			files = (
 				5169840029091AB4007DE3C0 /* SearchItem.swift in Sources */,
 				5169840229091AC7007DE3C0 /* SearchLoader.swift in Sources */,
+				519EFB25290C09C10026A202 /* HTTPClient.swift in Sources */,
 				516983CF29091946007DE3C0 /* AppDelegate.swift in Sources */,
 				5169840529099BEE007DE3C0 /* RemoteSearchLoader.swift in Sources */,
 				516983D129091946007DE3C0 /* SceneDelegate.swift in Sources */,
