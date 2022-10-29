@@ -122,12 +122,6 @@ class RemoteSearchTests: XCTestCase {
         return .failure(error)
     }
     
-    private func trackForMemoryLeaks(_ instance: AnyObject, file: StaticString = #filePath, line: UInt = #line) {
-        addTeardownBlock { [weak instance] in
-            XCTAssertNil(instance, "Instance should have been deallocated. Potential memory leak.", file: file, line: line)
-        }
-    }
-    
     private func makeItem(sampleId: String, distance: Double, externalId: String, text: String) -> (model: SearchItem, json: [String: Any]) {
         let item = SearchItem(sampleId: sampleId, distance: distance, externalId: externalId, data: text)
         let json = [
