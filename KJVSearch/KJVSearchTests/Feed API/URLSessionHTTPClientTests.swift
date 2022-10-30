@@ -8,28 +8,6 @@
 import XCTest
 import KJVSearch
 
-class URLSessionHTTPClient: HTTPClient {
-    private let session: URLSession
-    
-    init(session: URLSession = .shared) {
-        self.session = session
-    }
-    
-    struct UnexpectedValuesRepresentationError: Error {}
-    
-    func get(from url: URL, completion: @escaping (HTTPClientResult) -> Void) {
-        session.dataTask(with: url, completionHandler: { data, response, error in
-            if let newError = error {
-                completion(.failure(newError))
-            } else if let newData = data, let newResponse = response as? HTTPURLResponse {
-                completion(.success(newData, newResponse))
-            } else {
-                completion(.failure(UnexpectedValuesRepresentationError()))
-            }
-        }).resume()
-    }
-}
-
 class URLSessionHTTPClientTests: XCTestCase {
     override func setUp() {
         super.setUp()
