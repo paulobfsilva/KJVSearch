@@ -41,6 +41,7 @@ public class URLSessionHTTPClient: HTTPClient {
     }
     
     private func sendRequest(request: URLRequest, completion: @escaping (HTTPClientResult) -> Void) {
+        session.configuration.requestCachePolicy = .returnCacheDataElseLoad
         session.dataTask(with: request, completionHandler: { data, response, error in
             if let newError = error {
                 completion(.failure(newError))
