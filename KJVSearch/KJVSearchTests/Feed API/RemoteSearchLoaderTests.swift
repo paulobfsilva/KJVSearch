@@ -97,7 +97,8 @@ class RemoteSearchTests: XCTestCase {
     func test_load_doesNotDeliverResultAdterSUTInstanceHasBeenDeallocated() {
         let url = URL(string: "https://any-url.com")!
         let client = HTTPClientSpy()
-        var sut: RemoteSearchLoader? = RemoteSearchLoader(url: url, client: client)
+        let query = "What is the Holy Ghost"
+        var sut: RemoteSearchLoader? = RemoteSearchLoader(url: url, client: client, query: query)
         
         var capturedResults = [RemoteSearchLoader.Result]()
         sut?.load { capturedResults.append($0) }
@@ -110,9 +111,9 @@ class RemoteSearchTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func makeSUT(url: URL = URL(string: "https://a-given-url.com")!, file: StaticString = #filePath, line: UInt = #line) -> (sut: RemoteSearchLoader, client: HTTPClientSpy) {
+    private func makeSUT(url: URL = URL(string: "https://a-given-url.com")!, query: String = "What is the Holy Ghost", file: StaticString = #filePath, line: UInt = #line) -> (sut: RemoteSearchLoader, client: HTTPClientSpy) {
         let client = HTTPClientSpy()
-        let sut = RemoteSearchLoader(url: url, client: client)
+        let sut = RemoteSearchLoader(url: url, client: client, query: query)
         trackForMemoryLeaks(sut)
         trackForMemoryLeaks(client)
         return (sut, client)
@@ -164,7 +165,7 @@ class RemoteSearchTests: XCTestCase {
             return messages.map { $0.url }
         }
         
-        func get(from url: URL, completion: @escaping (HTTPClientResult) -> Void) {
+        func get(from url: URL, query: String, completion: @escaping (HTTPClientResult) -> Void) {
             messages.append((url, completion))
         }
         

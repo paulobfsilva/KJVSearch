@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		5154210E290E8E9600DDCED0 /* URLSessionHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5154210D290E8E9600DDCED0 /* URLSessionHTTPClient.swift */; };
+		51542116290E99B600DDCED0 /* KJVSearchAPIEndToEndTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51542115290E99B600DDCED0 /* KJVSearchAPIEndToEndTests.swift */; };
+		5154211F2910748300DDCED0 /* AccessTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5154211E2910748300DDCED0 /* AccessTokenResponse.swift */; };
+		51542121291074A500DDCED0 /* AuthenticationTokenManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51542120291074A500DDCED0 /* AuthenticationTokenManager.swift */; };
+		51542124291074D800DDCED0 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51542123291074D800DDCED0 /* Constants.swift */; };
 		516983CF29091946007DE3C0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516983CE29091946007DE3C0 /* AppDelegate.swift */; };
 		516983D129091946007DE3C0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516983D029091946007DE3C0 /* SceneDelegate.swift */; };
 		516983D629091946007DE3C0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 516983D429091946007DE3C0 /* Main.storyboard */; };
@@ -23,6 +27,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		51542117290E99B600DDCED0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 516983C329091946007DE3C0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 516983CA29091946007DE3C0;
+			remoteInfo = KJVSearch;
+		};
 		516983E229091947007DE3C0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 516983C329091946007DE3C0 /* Project object */;
@@ -34,6 +45,11 @@
 
 /* Begin PBXFileReference section */
 		5154210D290E8E9600DDCED0 /* URLSessionHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClient.swift; sourceTree = "<group>"; };
+		51542113290E99B600DDCED0 /* KJVSearchAPIEndToEndTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KJVSearchAPIEndToEndTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		51542115290E99B600DDCED0 /* KJVSearchAPIEndToEndTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KJVSearchAPIEndToEndTests.swift; sourceTree = "<group>"; };
+		5154211E2910748300DDCED0 /* AccessTokenResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccessTokenResponse.swift; sourceTree = "<group>"; };
+		51542120291074A500DDCED0 /* AuthenticationTokenManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationTokenManager.swift; sourceTree = "<group>"; };
+		51542123291074D800DDCED0 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		516983CB29091946007DE3C0 /* KJVSearch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KJVSearch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		516983CE29091946007DE3C0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		516983D029091946007DE3C0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -52,6 +68,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		51542110290E99B600DDCED0 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		516983C829091946007DE3C0 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -69,11 +92,28 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		51542114290E99B600DDCED0 /* KJVSearchAPIEndToEndTests */ = {
+			isa = PBXGroup;
+			children = (
+				51542115290E99B600DDCED0 /* KJVSearchAPIEndToEndTests.swift */,
+			);
+			path = KJVSearchAPIEndToEndTests;
+			sourceTree = "<group>";
+		};
+		51542122291074BE00DDCED0 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				51542123291074D800DDCED0 /* Constants.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		516983C229091946007DE3C0 = {
 			isa = PBXGroup;
 			children = (
 				516983CD29091946007DE3C0 /* KJVSearch */,
 				516983E429091947007DE3C0 /* KJVSearchTests */,
+				51542114290E99B600DDCED0 /* KJVSearchAPIEndToEndTests */,
 				516983CC29091946007DE3C0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -83,6 +123,7 @@
 			children = (
 				516983CB29091946007DE3C0 /* KJVSearch.app */,
 				516983E129091947007DE3C0 /* KJVSearchTests.xctest */,
+				51542113290E99B600DDCED0 /* KJVSearchAPIEndToEndTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -90,6 +131,7 @@
 		516983CD29091946007DE3C0 /* KJVSearch */ = {
 			isa = PBXGroup;
 			children = (
+				51542122291074BE00DDCED0 /* Utilities */,
 				5169840329099BD3007DE3C0 /* Search API */,
 				516983FE29091A94007DE3C0 /* SearchFeature */,
 				516983CE29091946007DE3C0 /* AppDelegate.swift */,
@@ -125,6 +167,8 @@
 				5169840429099BEE007DE3C0 /* RemoteSearchLoader.swift */,
 				519EFB24290C09C10026A202 /* HTTPClient.swift */,
 				5154210D290E8E9600DDCED0 /* URLSessionHTTPClient.swift */,
+				5154211E2910748300DDCED0 /* AccessTokenResponse.swift */,
+				51542120291074A500DDCED0 /* AuthenticationTokenManager.swift */,
 			);
 			path = "Search API";
 			sourceTree = "<group>";
@@ -150,6 +194,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		51542112290E99B600DDCED0 /* KJVSearchAPIEndToEndTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 51542119290E99B600DDCED0 /* Build configuration list for PBXNativeTarget "KJVSearchAPIEndToEndTests" */;
+			buildPhases = (
+				5154210F290E99B600DDCED0 /* Sources */,
+				51542110290E99B600DDCED0 /* Frameworks */,
+				51542111290E99B600DDCED0 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				51542118290E99B600DDCED0 /* PBXTargetDependency */,
+			);
+			name = KJVSearchAPIEndToEndTests;
+			productName = KJVSearchAPIEndToEndTests;
+			productReference = 51542113290E99B600DDCED0 /* KJVSearchAPIEndToEndTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		516983CA29091946007DE3C0 /* KJVSearch */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 516983F529091947007DE3C0 /* Build configuration list for PBXNativeTarget "KJVSearch" */;
@@ -195,6 +257,10 @@
 				LastSwiftUpdateCheck = 1400;
 				LastUpgradeCheck = 1400;
 				TargetAttributes = {
+					51542112290E99B600DDCED0 = {
+						CreatedOnToolsVersion = 14.0.1;
+						TestTargetID = 516983CA29091946007DE3C0;
+					};
 					516983CA29091946007DE3C0 = {
 						CreatedOnToolsVersion = 14.0.1;
 					};
@@ -219,11 +285,19 @@
 			targets = (
 				516983CA29091946007DE3C0 /* KJVSearch */,
 				516983E029091947007DE3C0 /* KJVSearchTests */,
+				51542112290E99B600DDCED0 /* KJVSearchAPIEndToEndTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		51542111290E99B600DDCED0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		516983C929091946007DE3C0 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -244,6 +318,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		5154210F290E99B600DDCED0 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				51542116290E99B600DDCED0 /* KJVSearchAPIEndToEndTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		516983C729091946007DE3C0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -253,8 +335,11 @@
 				5169840229091AC7007DE3C0 /* SearchLoader.swift in Sources */,
 				519EFB25290C09C10026A202 /* HTTPClient.swift in Sources */,
 				516983CF29091946007DE3C0 /* AppDelegate.swift in Sources */,
+				51542124291074D800DDCED0 /* Constants.swift in Sources */,
 				5169840529099BEE007DE3C0 /* RemoteSearchLoader.swift in Sources */,
+				5154211F2910748300DDCED0 /* AccessTokenResponse.swift in Sources */,
 				516983D129091946007DE3C0 /* SceneDelegate.swift in Sources */,
+				51542121291074A500DDCED0 /* AuthenticationTokenManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -271,6 +356,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		51542118290E99B600DDCED0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 516983CA29091946007DE3C0 /* KJVSearch */;
+			targetProxy = 51542117290E99B600DDCED0 /* PBXContainerItemProxy */;
+		};
 		516983E329091947007DE3C0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 516983CA29091946007DE3C0 /* KJVSearch */;
@@ -298,6 +388,45 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		5154211A290E99B600DDCED0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LDXCCD7PQ8;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.paulosilva.KJVSearchAPIEndToEndTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KJVSearch.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/KJVSearch";
+			};
+			name = Debug;
+		};
+		5154211B290E99B600DDCED0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LDXCCD7PQ8;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.paulosilva.KJVSearchAPIEndToEndTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KJVSearch.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/KJVSearch";
+			};
+			name = Release;
+		};
 		516983F329091947007DE3C0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -514,6 +643,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		51542119290E99B600DDCED0 /* Build configuration list for PBXNativeTarget "KJVSearchAPIEndToEndTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5154211A290E99B600DDCED0 /* Debug */,
+				5154211B290E99B600DDCED0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		516983C629091946007DE3C0 /* Build configuration list for PBXProject "KJVSearch" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

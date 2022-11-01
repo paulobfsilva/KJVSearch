@@ -27,11 +27,11 @@ class URLSessionHTTPClientTests: XCTestCase {
         
         URLProtocolStub.observeRequests { request in
             XCTAssertEqual(request.url, url)
-            XCTAssertEqual(request.httpMethod, "GET")
+            XCTAssertEqual(request.httpMethod, "POST")
             exp.fulfill()
         }
         
-        makeSUT().get(from: anyURL()) { _ in }
+        makeSUT().get(from: anyURL(), query: anyQuery()) { _ in }
         
         wait(for: [exp], timeout: 1.0)
     }
@@ -80,7 +80,8 @@ class URLSessionHTTPClientTests: XCTestCase {
     // MARK: - HELPERS
     
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> HTTPClient {
-        let sut = URLSessionHTTPClient()
+        let tokenManager = AuthenticationTokenManagerSpy()
+        let sut = URLSessionHTTPClient(tokenManager: tokenManager)
         trackForMemoryLeaks(sut, file: file, line: line)
         return sut
     }
@@ -114,7 +115,7 @@ class URLSessionHTTPClientTests: XCTestCase {
         let sut = makeSUT(file: file, line: line)
         let exp = XCTestExpectation(description: "Wait for completion")
         var receivedResult: HTTPClientResult!
-        sut.get(from: anyURL()) { result in
+        sut.get(from: anyURL(), query: anyQuery()) { result in
             receivedResult = result
             
             exp.fulfill()
@@ -141,6 +142,10 @@ class URLSessionHTTPClientTests: XCTestCase {
     
     private func anyURL() -> URL {
         return URL(string: "https://any-url.com")!
+    }
+    
+    private func anyQuery() -> String {
+        return "What is the Holy Ghost"
     }
     
     private class URLProtocolStub: URLProtocol {
@@ -200,4 +205,15 @@ class URLSessionHTTPClientTests: XCTestCase {
         override func stopLoading() {}
 
     }
+    
+    private class AuthenticationTokenManagerSpy: AuthenticationTokenManager {
+        override func retrieveAuthToken(completion: @escaping (String) -> Void) {
+            completion(anyToken())
+        }
+        
+        private func anyToken() -> String {
+            return "any token"
+        }
+    }
+    
 }

@@ -11,21 +11,22 @@ public final class RemoteSearchLoader: SearchLoader {
     
     private let url: URL
     private let client: HTTPClient
+    private let query: String
     
     public enum Error: Swift.Error {
-        // TODO: - represent error where access token is expired
         case connectivity
         case invalidData
     }
     
     public typealias Result = LoadSearchResult
     
-    public init(url: URL, client: HTTPClient) {
+    public init(url: URL, client: HTTPClient, query: String) {
         self.url = url
         self.client = client
+        self.query = query
     }
     public func load(completion: @escaping (Result) -> Void) {
-        client.get(from: url) { [weak self] result in
+        client.get(from: url, query: query) { [weak self] result in
             guard self != nil else { return }
             switch result {
             case let .success(data, response):
