@@ -27,17 +27,38 @@
       selectedDebuggerIdentifier = ""
       selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
       shouldUseLaunchSchemeArgsEnv = "YES"
-      disableMainThreadChecker = "YES">
+      disableMainThreadChecker = "YES"
+      codeCoverageEnabled = "YES"
+      onlyGenerateCoverageForSpecifiedTargets = "YES">
+      <CodeCoverageTargets>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "516983CA29091946007DE3C0"
+            BuildableName = "KJVSearch.app"
+            BlueprintName = "KJVSearch"
+            ReferencedContainer = "container:KJVSearch.xcodeproj">
+         </BuildableReference>
+      </CodeCoverageTargets>
       <Testables>
          <TestableReference
             skipped = "NO"
-            parallelizable = "YES"
             testExecutionOrdering = "random">
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "516983E029091947007DE3C0"
                BuildableName = "KJVSearchTests.xctest"
                BlueprintName = "KJVSearchTests"
+               ReferencedContainer = "container:KJVSearch.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            parallelizable = "YES">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "51542112290E99B600DDCED0"
+               BuildableName = "KJVSearchAPIEndToEndTests.xctest"
+               BlueprintName = "KJVSearchAPIEndToEndTests"
                ReferencedContainer = "container:KJVSearch.xcodeproj">
             </BuildableReference>
          </TestableReference>
