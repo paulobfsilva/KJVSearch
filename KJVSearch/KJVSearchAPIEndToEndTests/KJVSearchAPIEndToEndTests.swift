@@ -27,11 +27,13 @@ class KJVSearchAPIEndToEndTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func getSearchResult() -> LoadSearchResult? {
+    private func getSearchResult(file: StaticString = #filePath, line: UInt = #line) -> LoadSearchResult? {
         let tokenManager = AuthenticationTokenManager()
         let serverURL = URL(string: "https://www.nyckel.com/v0.9/functions/ieydm3vaouviuob1/search?sampleCount=10&includeData=true")!
         let client = URLSessionHTTPClient(tokenManager: tokenManager)
         let loader = RemoteSearchLoader(url: serverURL, client: client, query: "What is the Holy Ghost")
+        trackForMemoryLeaks(client, file: file, line: line)
+        trackForMemoryLeaks(loader, file: file, line: line)
         
         let exp = expectation(description: "Wait for completion")
         
