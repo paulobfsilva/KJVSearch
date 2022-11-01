@@ -11,22 +11,7 @@ import XCTest
 class KJVSearchAPIEndToEndTests: XCTestCase {
 
     func test_endToEndTestServerGETSearchResult_matchesFixedTestAccountData() {
-        let tokenManager = AuthenticationTokenManager()
-        let serverURL = URL(string: "https://www.nyckel.com/v0.9/functions/ieydm3vaouviuob1/search?sampleCount=10&includeData=true")!
-        let client = URLSessionHTTPClient(tokenManager: tokenManager)
-        let loader = RemoteSearchLoader(url: serverURL, client: client, query: "What is the Holy Ghost")
-        
-        let exp = expectation(description: "Wait for completion")
-        
-        var receivedResult: LoadSearchResult?
-        loader.load { result in
-            receivedResult = result
-            exp.fulfill()
-        }
-        
-        wait(for: [exp], timeout: 10.0)
-        
-        switch receivedResult {
+        switch getSearchResult() {
         case let .success(items)?:
             XCTAssertEqual(items.count, 10, "Expected 10 items in the test search result")
             
@@ -41,6 +26,24 @@ class KJVSearchAPIEndToEndTests: XCTestCase {
     }
     
     // MARK: - Helpers
+    
+    private func getSearchResult() -> LoadSearchResult? {
+        let tokenManager = AuthenticationTokenManager()
+        let serverURL = URL(string: "https://www.nyckel.com/v0.9/functions/ieydm3vaouviuob1/search?sampleCount=10&includeData=true")!
+        let client = URLSessionHTTPClient(tokenManager: tokenManager)
+        let loader = RemoteSearchLoader(url: serverURL, client: client, query: "What is the Holy Ghost")
+        
+        let exp = expectation(description: "Wait for completion")
+        
+        var receivedResult: LoadSearchResult?
+        loader.load { result in
+            receivedResult = result
+            exp.fulfill()
+        }
+        
+        wait(for: [exp], timeout: 10.0)
+        return receivedResult
+    }
     
     private func expectedItem(at index: Int) -> SearchItem {
         return SearchItem(
