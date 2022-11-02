@@ -31,21 +31,25 @@ class SearchStore {
 class CacheSearchUseCaseTests: XCTestCase {
 
     func test_init_doesNotDeleteCacheUponCreation() {
-        let store = SearchStore()
-        _ = LocalSearchLoader(store: store)
+        let (_, store) = makeSUT()
         XCTAssertEqual(store.deleteCachedSearchCallCount, 0)
     }
     
     func test_save_requestsCacheDeletion() {
-        let store = SearchStore()
-        let sut = LocalSearchLoader(store: store)
         let items = [uniqueItem(), uniqueItem()]
+        let (sut, store) = makeSUT()
         
         sut.save(items)
         XCTAssertEqual(store.deleteCachedSearchCallCount, 1)
     }
     
     // MARK: - Helpers
+    private func makeSUT() -> (sut: LocalSearchLoader, store: SearchStore) {
+        let store = SearchStore()
+        let sut = LocalSearchLoader(store: store)
+        return (sut, store)
+    }
+    
     private func uniqueItem() -> SearchItem {
         // sampleId is what makes a SearchItem unique
         return SearchItem(sampleId: UUID().uuidString, distance: 0.5, externalId: "externalId", data: "data")
