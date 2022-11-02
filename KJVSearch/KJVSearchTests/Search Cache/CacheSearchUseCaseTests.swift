@@ -44,9 +44,11 @@ class CacheSearchUseCaseTests: XCTestCase {
     }
     
     // MARK: - Helpers
-    private func makeSUT() -> (sut: LocalSearchLoader, store: SearchStore) {
+    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalSearchLoader, store: SearchStore) {
         let store = SearchStore()
         let sut = LocalSearchLoader(store: store)
+        trackForMemoryLeaks(store, file: file, line: line)
+        trackForMemoryLeaks(sut, file: file, line: line)
         return (sut, store)
     }
     
