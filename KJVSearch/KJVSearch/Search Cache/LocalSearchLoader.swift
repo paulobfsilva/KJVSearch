@@ -11,12 +11,14 @@ public final class LocalSearchLoader {
     private let store: SearchStore
     private let currentDate: () -> Date
     
+    public typealias SaveResult = Error?
+    
     public init(store: SearchStore, currentDate: @escaping () -> Date) {
         self.store = store
         self.currentDate = currentDate
     }
     
-    public func save(_ items: [SearchItem], completion: @escaping (Error?) -> Void) {
+    public func save(_ items: [SearchItem], completion: @escaping (SaveResult) -> Void) {
         store.deleteCachedSearch { [weak self] error in
             guard let self = self else { return }
             
@@ -28,7 +30,7 @@ public final class LocalSearchLoader {
         }
     }
     
-    private func cache(_ items: [SearchItem], with completion: @escaping (Error?) -> Void) {
+    private func cache(_ items: [SearchItem], with completion: @escaping (SaveResult) -> Void) {
         store.insert(items, timestamp: currentDate()) { [weak self] cacheInsertionError in
             guard self != nil else { return }
             completion(cacheInsertionError)

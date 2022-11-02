@@ -72,7 +72,7 @@ class CacheSearchUseCaseTests: XCTestCase {
     func test_save_doesNotDeliverDeletionErrorAfterSUTInstanceHasBeenDeallocated() {
         let store = SearchStoreSpy()
         var sut: LocalSearchLoader? = LocalSearchLoader(store: store, currentDate: Date.init)
-        var receivedResults = [Error?]()
+        var receivedResults = [LocalSearchLoader.SaveResult]()
         sut?.save([uniqueItem()]) { receivedResults.append($0) }
         // remove the reference to the SUT after it has been deallocated
         sut = nil
@@ -83,7 +83,7 @@ class CacheSearchUseCaseTests: XCTestCase {
     func test_save_doesNotDeliverInsertionErrorAfterSUTInstanceHasBeenDeallocated() {
         let store = SearchStoreSpy()
         var sut: LocalSearchLoader? = LocalSearchLoader(store: store, currentDate: Date.init)
-        var receivedResults = [Error?]()
+        var receivedResults = [LocalSearchLoader.SaveResult]()
         sut?.save([uniqueItem()]) { receivedResults.append($0) }
         
         store.completeDeletionSuccessfully()
