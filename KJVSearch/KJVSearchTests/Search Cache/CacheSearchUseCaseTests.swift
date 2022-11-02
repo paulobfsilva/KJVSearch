@@ -22,9 +22,14 @@ class LocalSearchLoader {
 
 class SearchStore {
     var deleteCachedSearchCallCount = 0
+    var insertCallCount = 0
     
     func deleteCachedSearch() {
         deleteCachedSearchCallCount += 1
+    }
+    
+    func completeDeletion(with error: Error, at index: Int = 0) {
+        
     }
 }
 
@@ -43,6 +48,16 @@ class CacheSearchUseCaseTests: XCTestCase {
         XCTAssertEqual(store.deleteCachedSearchCallCount, 1)
     }
     
+    func test_save_doesNotRequestCacheInsertionOnDeletionError() {
+        let items = [uniqueItem(), uniqueItem()]
+        let (sut, store) = makeSUT()
+        let deletionError = anyError()
+        
+        sut.save(items)
+        store.completeDeletion(with: deletionError)
+        XCTAssertEqual(store.insertCallCount, 0)
+    }
+    
     // MARK: - Helpers
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalSearchLoader, store: SearchStore) {
         let store = SearchStore()
@@ -55,6 +70,10 @@ class CacheSearchUseCaseTests: XCTestCase {
     private func uniqueItem() -> SearchItem {
         // sampleId is what makes a SearchItem unique
         return SearchItem(sampleId: UUID().uuidString, distance: 0.5, externalId: "externalId", data: "data")
+    }
+    
+    private func anyError() -> NSError {
+        return NSError(domain: "any error", code: 0)
     }
     
 }
