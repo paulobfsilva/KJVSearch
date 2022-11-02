@@ -29,7 +29,6 @@ class LocalSearchLoader {
 class SearchStore {
     typealias DeletionCompletion = (Error?) -> Void
     var deleteCachedSearchCallCount = 0
-    var insertCallCount = 0
     var insertions = [(items: [SearchItem], timestamp: Date)]()
     
     private var deletionCompletions = [DeletionCompletion]()
@@ -48,7 +47,6 @@ class SearchStore {
     }
     
     func insert(_ items: [SearchItem], timestamp: Date) {
-        insertCallCount += 1
         insertions.append((items, timestamp))
     }
 }
@@ -75,16 +73,7 @@ class CacheSearchUseCaseTests: XCTestCase {
         
         sut.save(items)
         store.completeDeletion(with: deletionError)
-        XCTAssertEqual(store.insertCallCount, 0)
-    }
-    
-    func test_save_requestsNewCacheInsertionOnSuccessfulDeletion() {
-        let items = [uniqueItem(), uniqueItem()]
-        let (sut, store) = makeSUT()
-        
-        sut.save(items)
-        store.completeDeletionSuccessfully()
-        XCTAssertEqual(store.insertCallCount, 1)
+        XCTAssertEqual(store.insertions.count, 0)
     }
     
     func test_save_requestsNewCacheInsertionWithTimestampOnSuccessfulDeletion() {
