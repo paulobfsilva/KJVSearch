@@ -10,15 +10,17 @@ import XCTest
 
 class LocalSearchLoader {
     private let store: SearchStore
+    private let currentDate: () -> Date
     
-    init(store: SearchStore) {
+    init(store: SearchStore, currentDate: @escaping () -> Date) {
         self.store = store
+        self.currentDate = currentDate
     }
     
     func save(_ items: [SearchItem]) {
         store.deleteCachedSearch { [unowned self] error in
             if error == nil {
-                self.store.insert(items)
+                self.store.insert(items, timestamp: self.currentDate())
             }
         }
     }
@@ -28,6 +30,7 @@ class SearchStore {
     typealias DeletionCompletion = (Error?) -> Void
     var deleteCachedSearchCallCount = 0
     var insertCallCount = 0
+    var insertions = [(items: [SearchItem], timestamp: Date)]()
     
     private var deletionCompletions = [DeletionCompletion]()
     
@@ -44,8 +47,9 @@ class SearchStore {
         deletionCompletions[index](nil)
     }
     
-    func insert(_ items: [SearchItem]) {
+    func insert(_ items: [SearchItem], timestamp: Date) {
         insertCallCount += 1
+        insertions.append((items, timestamp))
     }
 }
 
@@ -83,10 +87,23 @@ class CacheSearchUseCaseTests: XCTestCase {
         XCTAssertEqual(store.insertCallCount, 1)
     }
     
+    func test_save_requestsNewCacheInsertionWithTimestampOnSuccessfulDeletion() {
+        let timestamp = Date()
+        let items = [uniqueItem(), uniqueItem()]
+        let (sut, store) = makeSUT(currentDate: { timestamp })
+        
+        sut.save(items)
+        store.completeDeletionSuccessfully()
+        
+        XCTAssertEqual(store.insertions.count, 1)
+        XCTAssertEqual(store.insertions.first?.items, items)
+        XCTAssertEqual(store.insertions.first?.timestamp, timestamp)
+    }
+    
     // MARK: - Helpers
-    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalSearchLoader, store: SearchStore) {
+    private func makeSUT(currentDate: @escaping () -> Date = Date.init, file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalSearchLoader, store: SearchStore) {
         let store = SearchStore()
-        let sut = LocalSearchLoader(store: store)
+        let sut = LocalSearchLoader(store: store, currentDate: currentDate)
         trackForMemoryLeaks(store, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)
         return (sut, store)
