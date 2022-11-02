@@ -16,20 +16,36 @@ class LocalSearchLoader {
     }
     
     func save(_ items: [SearchItem]) {
-        store.deleteCachedSearch()
+        store.deleteCachedSearch { [unowned self] error in
+            if error == nil {
+                self.store.insert(items)
+            }
+        }
     }
 }
 
 class SearchStore {
+    typealias DeletionCompletion = (Error?) -> Void
     var deleteCachedSearchCallCount = 0
     var insertCallCount = 0
     
-    func deleteCachedSearch() {
+    private var deletionCompletions = [DeletionCompletion]()
+    
+    func deleteCachedSearch(completion: @escaping DeletionCompletion) {
         deleteCachedSearchCallCount += 1
+        deletionCompletions.append(completion)
     }
     
     func completeDeletion(with error: Error, at index: Int = 0) {
-        
+        deletionCompletions[index](error)
+    }
+    
+    func completeDeletionSuccessfully(at index: Int = 0) {
+        deletionCompletions[index](nil)
+    }
+    
+    func insert(_ items: [SearchItem]) {
+        insertCallCount += 1
     }
 }
 
@@ -56,6 +72,15 @@ class CacheSearchUseCaseTests: XCTestCase {
         sut.save(items)
         store.completeDeletion(with: deletionError)
         XCTAssertEqual(store.insertCallCount, 0)
+    }
+    
+    func test_save_requestsNewCacheInsertionOnSuccessfulDeletion() {
+        let items = [uniqueItem(), uniqueItem()]
+        let (sut, store) = makeSUT()
+        
+        sut.save(items)
+        store.completeDeletionSuccessfully()
+        XCTAssertEqual(store.insertCallCount, 1)
     }
     
     // MARK: - Helpers
