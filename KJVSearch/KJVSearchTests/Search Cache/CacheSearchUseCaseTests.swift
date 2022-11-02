@@ -8,43 +8,6 @@
 import KJVSearch
 import XCTest
 
-class LocalSearchLoader {
-    private let store: SearchStore
-    private let currentDate: () -> Date
-    
-    init(store: SearchStore, currentDate: @escaping () -> Date) {
-        self.store = store
-        self.currentDate = currentDate
-    }
-    
-    func save(_ items: [SearchItem], completion: @escaping (Error?) -> Void) {
-        store.deleteCachedSearch { [weak self] error in
-            guard let self = self else { return }
-            
-            if let cacheDeletionError = error {
-                completion(cacheDeletionError)
-            } else {
-                self.cache(items, with: completion)
-            }
-        }
-    }
-    
-    private func cache(_ items: [SearchItem], with completion: @escaping (Error?) -> Void) {
-        store.insert(items, timestamp: currentDate()) { [weak self] cacheInsertionError in
-            guard self != nil else { return }
-            completion(cacheInsertionError)
-        }
-    }
-}
-
-protocol SearchStore {
-    typealias DeletionCompletion = (Error?) -> Void
-    typealias InsertionCompletion = (Error?) -> Void
-    
-    func deleteCachedSearch(completion: @escaping DeletionCompletion)
-    func insert(_ items: [SearchItem], timestamp: Date, completion: @escaping InsertionCompletion)
-}
-
 class CacheSearchUseCaseTests: XCTestCase {
 
     func test_init_doesNotMessageStoreUponCreation() {
