@@ -150,6 +150,7 @@
 		516983E429091947007DE3C0 /* KJVSearchTests */ = {
 			isa = PBXGroup;
 			children = (
+				51B152F0290DBE9C00D77037 /* Helpers */,
 				51AC46BA291264990044FBA1 /* Search Cache */,
 				519EFB26290C144A0026A202 /* Search API */,
 			);
@@ -180,7 +181,6 @@
 		519EFB26290C144A0026A202 /* Search API */ = {
 			isa = PBXGroup;
 			children = (
-				51B152F0290DBE9C00D77037 /* Helpers */,
 				516983E529091947007DE3C0 /* RemoteSearchLoaderTests.swift */,
 				519EFB27290D654E0026A202 /* URLSessionHTTPClientTests.swift */,
 			);
