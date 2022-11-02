@@ -28,14 +28,19 @@ class LocalSearchLoader {
 
 class SearchStore {
     typealias DeletionCompletion = (Error?) -> Void
-    var deleteCachedSearchCallCount = 0
-    var insertions = [(items: [SearchItem], timestamp: Date)]()
+    
+    enum ReceivedMessage: Equatable {
+        case deleteCachedSearch
+        case insert([SearchItem], Date)
+    }
+    
+    private(set) var receivedMessages = [ReceivedMessage]()
     
     private var deletionCompletions = [DeletionCompletion]()
     
     func deleteCachedSearch(completion: @escaping DeletionCompletion) {
-        deleteCachedSearchCallCount += 1
         deletionCompletions.append(completion)
+        receivedMessages.append(.deleteCachedSearch)
     }
     
     func completeDeletion(with error: Error, at index: Int = 0) {
@@ -47,15 +52,15 @@ class SearchStore {
     }
     
     func insert(_ items: [SearchItem], timestamp: Date) {
-        insertions.append((items, timestamp))
+        receivedMessages.append(.insert(items, timestamp))
     }
 }
 
 class CacheSearchUseCaseTests: XCTestCase {
 
-    func test_init_doesNotDeleteCacheUponCreation() {
+    func test_init_doesNotMessageStoreUponCreation() {
         let (_, store) = makeSUT()
-        XCTAssertEqual(store.deleteCachedSearchCallCount, 0)
+        XCTAssertEqual(store.receivedMessages, [])
     }
     
     func test_save_requestsCacheDeletion() {
@@ -63,7 +68,7 @@ class CacheSearchUseCaseTests: XCTestCase {
         let (sut, store) = makeSUT()
         
         sut.save(items)
-        XCTAssertEqual(store.deleteCachedSearchCallCount, 1)
+        XCTAssertEqual(store.receivedMessages, [.deleteCachedSearch])
     }
     
     func test_save_doesNotRequestCacheInsertionOnDeletionError() {
@@ -73,7 +78,7 @@ class CacheSearchUseCaseTests: XCTestCase {
         
         sut.save(items)
         store.completeDeletion(with: deletionError)
-        XCTAssertEqual(store.insertions.count, 0)
+        XCTAssertEqual(store.receivedMessages, [.deleteCachedSearch])
     }
     
     func test_save_requestsNewCacheInsertionWithTimestampOnSuccessfulDeletion() {
@@ -84,9 +89,7 @@ class CacheSearchUseCaseTests: XCTestCase {
         sut.save(items)
         store.completeDeletionSuccessfully()
         
-        XCTAssertEqual(store.insertions.count, 1)
-        XCTAssertEqual(store.insertions.first?.items, items)
-        XCTAssertEqual(store.insertions.first?.timestamp, timestamp)
+        XCTAssertEqual(store.receivedMessages, [.deleteCachedSearch, .insert(items, timestamp)])
     }
     
     // MARK: - Helpers
