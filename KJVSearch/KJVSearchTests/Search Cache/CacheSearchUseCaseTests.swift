@@ -21,7 +21,10 @@ class LocalSearchLoader {
         store.deleteCachedSearch { [weak self] error in
             guard let self = self else { return }
             if error == nil {
-                self.store.insert(items, timestamp: self.currentDate(), completion: completion)
+                self.store.insert(items, timestamp: self.currentDate()) { [weak self] error in
+                    guard self != nil else { return }
+                    completion(error)
+                }
             } else {
                 completion(error)
             }
@@ -106,6 +109,18 @@ class CacheSearchUseCaseTests: XCTestCase {
         // remove the reference to the SUT after it has been deallocated
         sut = nil
         store.completeDeletion(with: anyError())
+        XCTAssertTrue(receivedResults.isEmpty)
+    }
+    
+    func test_save_doesNotDeliverInsertionErrorAfterSUTInstanceHasBeenDeallocated() {
+        let store = SearchStoreSpy()
+        var sut: LocalSearchLoader? = LocalSearchLoader(store: store, currentDate: Date.init)
+        var receivedResults = [Error?]()
+        sut?.save([uniqueItem()]) { receivedResults.append($0) }
+        
+        store.completeDeletionSuccessfully()
+        sut = nil
+        store.completeInsertion(with: anyError())
         XCTAssertTrue(receivedResults.isEmpty)
     }
     
