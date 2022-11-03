@@ -22,6 +22,14 @@ class ValidateSearchCacheUseCaseTests: XCTestCase {
         store.completeRetrieval(with: anyError())
         XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedSearch])
     }
+    
+    func test_validateCache_doesNotDeleteCacheOnEmptyCache() {
+        let (sut, store) = makeSUT()
+        
+        sut.validateCache()
+        store.completeRetrievalWithEmptyCache()
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
+    }
 
     // MARK: - Helpers
     private func makeSUT(currentDate: @escaping () -> Date = Date.init, file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalSearchLoader, store: SearchStoreSpy) {
