@@ -13,4 +13,5 @@ public protocol SearchStore {
     
     func deleteCachedSearch(completion: @escaping DeletionCompletion)
     func insert(_ items: [LocalSearchItem], timestamp: Date, completion: @escaping InsertionCompletion)
+    func retrieve()
 }

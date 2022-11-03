@@ -13,6 +13,7 @@ class SearchStoreSpy: SearchStore {
     enum ReceivedMessage: Equatable {
         case deleteCachedSearch
         case insert([LocalSearchItem], Date)
+        case retrieve
     }
     
     private(set) var receivedMessages = [ReceivedMessage]()
@@ -44,5 +45,9 @@ class SearchStoreSpy: SearchStore {
     
     func completeInsertionSuccessfully(at index: Int = 0) {
         insertionCompletions[index](nil)
+    }
+    
+    func retrieve() {
+        receivedMessages.append(.retrieve)
     }
 }

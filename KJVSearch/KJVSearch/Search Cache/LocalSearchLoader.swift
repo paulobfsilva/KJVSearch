@@ -36,6 +36,10 @@ public final class LocalSearchLoader {
             completion(cacheInsertionError)
         }
     }
+    
+    public func load() {
+        store.retrieve()
+    }
 }
 
 private extension Array where Element == SearchItem {
