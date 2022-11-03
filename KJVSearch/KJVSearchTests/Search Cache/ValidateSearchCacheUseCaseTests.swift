@@ -31,36 +31,36 @@ class ValidateSearchCacheUseCaseTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
     
-    func test_validateCache_doesNotDeleteLessThan30DaysOldCache() {
+    func test_validateCache_doesNotDeleteNonExpiredCache() {
         let results = uniqueItems()
         let fixedCurrentDate = Date()
-        let lessThan30DaysOldTimestamp = fixedCurrentDate.adding(days: -30).adding(seconds: 1)
+        let nonExpiredTimestamp = fixedCurrentDate.minusSearchCacheMaxAge().adding(seconds: 1)
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
         
         sut.load { _ in }
-        store.completeRetrieval(with: results.local, timestamp: lessThan30DaysOldTimestamp)
+        store.completeRetrieval(with: results.local, timestamp: nonExpiredTimestamp)
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
     
-    func test_validateCache_deletes30DaysOldCache() {
+    func test_validateCache_deletesOnCacheExpiration() {
         let results = uniqueItems()
         let fixedCurrentDate = Date()
-        let thirtyDaysOldTimestamp = fixedCurrentDate.adding(days: -30)
+        let expirationTimestamp = fixedCurrentDate.minusSearchCacheMaxAge()
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
         
         sut.validateCache()
-        store.completeRetrieval(with: results.local, timestamp: thirtyDaysOldTimestamp)
+        store.completeRetrieval(with: results.local, timestamp: expirationTimestamp)
         XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedSearch])
     }
     
-    func test_validateCache_deletesMoreThan30DaysOldCache() {
+    func test_validateCache_deletesExpiredCache() {
         let results = uniqueItems()
         let fixedCurrentDate = Date()
-        let moreThan30DaysOldTimestamp = fixedCurrentDate.adding(days: -30).adding(seconds: -1)
+        let expiredTimestamp = fixedCurrentDate.minusSearchCacheMaxAge().adding(seconds: -1)
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
         
         sut.validateCache()
-        store.completeRetrieval(with: results.local, timestamp: moreThan30DaysOldTimestamp)
+        store.completeRetrieval(with: results.local, timestamp: expiredTimestamp)
         XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedSearch])
     }
     

@@ -88,36 +88,36 @@ class LoadSearchFromCacheUseCaseTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
     
-    func test_load_hasNoSideEffectsOnLessThan30DaysOldCache() {
+    func test_load_hasNoSideEffectsOnNonExpiredCache() {
         let results = uniqueItems()
         let fixedCurrentDate = Date()
-        let lessThan30DaysOldTimestamp = fixedCurrentDate.adding(days: -30).adding(seconds: 1)
+        let nonExpiredTimestamp = fixedCurrentDate.minusSearchCacheMaxAge().adding(seconds: 1)
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
         
         sut.load { _ in }
-        store.completeRetrieval(with: results.local, timestamp: lessThan30DaysOldTimestamp)
+        store.completeRetrieval(with: results.local, timestamp: nonExpiredTimestamp)
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
     
-    func test_load_hasNoSideEffectsOn30DaysOldCache() {
+    func test_load_hasNoSideEffectsOnCacheExpiration() {
         let results = uniqueItems()
         let fixedCurrentDate = Date()
-        let thirtyDaysOldTimestamp = fixedCurrentDate.adding(days: -30)
+        let expirationTimestamp = fixedCurrentDate.minusSearchCacheMaxAge()
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
         
         sut.load { _ in }
-        store.completeRetrieval(with: results.local, timestamp: thirtyDaysOldTimestamp)
+        store.completeRetrieval(with: results.local, timestamp: expirationTimestamp)
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
     
-    func test_load_hasNoSideEffectsOnMoreThan30DaysOldCache() {
+    func test_load_hasNoSideEffectsOnExpiredCache() {
         let results = uniqueItems()
         let fixedCurrentDate = Date()
-        let moreThan30DaysOldTimestamp = fixedCurrentDate.adding(days: -30).adding(seconds: -1)
+        let expiredTimestamp = fixedCurrentDate.minusSearchCacheMaxAge().adding(seconds: -1)
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
         
         sut.load { _ in }
-        store.completeRetrieval(with: results.local, timestamp: moreThan30DaysOldTimestamp)
+        store.completeRetrieval(with: results.local, timestamp: expiredTimestamp)
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
     
