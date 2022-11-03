@@ -88,7 +88,7 @@ class LoadSearchFromCacheUseCaseTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
     
-    func test_load_doesNotDeleteCacheOnLessThan30DaysOldCache() {
+    func test_load_hasNoSideEffectsOnLessThan30DaysOldCache() {
         let results = uniqueItems()
         let fixedCurrentDate = Date()
         let lessThan30DaysOldTimestamp = fixedCurrentDate.adding(days: -30).adding(seconds: 1)
