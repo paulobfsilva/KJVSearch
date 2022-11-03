@@ -33,7 +33,7 @@ public final class LocalSearchLoader {
         }
     }
     
-    public func load(completion: @escaping (LoadSearchResult?) -> Void) {
+    public func load(completion: @escaping (LoadSearchResult) -> Void) {
         store.retrieve { [unowned self] result in
             switch result {
             case let .failure(error):
