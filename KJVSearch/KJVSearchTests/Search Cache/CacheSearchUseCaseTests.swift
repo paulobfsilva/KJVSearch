@@ -16,33 +16,30 @@ class CacheSearchUseCaseTests: XCTestCase {
     }
     
     func test_save_requestsCacheDeletion() {
-        let items = [uniqueItem(), uniqueItem()]
         let (sut, store) = makeSUT()
         
-        sut.save(items) {_ in }
+        sut.save(uniqueItems().models) {_ in }
         XCTAssertEqual(store.receivedMessages, [.deleteCachedSearch])
     }
     
     func test_save_doesNotRequestCacheInsertionOnDeletionError() {
-        let items = [uniqueItem(), uniqueItem()]
         let (sut, store) = makeSUT()
         let deletionError = anyError()
         
-        sut.save(items) {_ in }
+        sut.save(uniqueItems().models) {_ in }
         store.completeDeletion(with: deletionError)
         XCTAssertEqual(store.receivedMessages, [.deleteCachedSearch])
     }
     
     func test_save_requestsNewCacheInsertionWithTimestampOnSuccessfulDeletion() {
         let timestamp = Date()
-        let items = [uniqueItem(), uniqueItem()]
-        let localItems = items.map { LocalSearchItem(sampleId: $0.sampleId, distance: $0.distance, externalId: $0.externalId, data: $0.data) }
+        let items = uniqueItems()
         let (sut, store) = makeSUT(currentDate: { timestamp })
         
-        sut.save(items) {_ in }
+        sut.save(items.models) {_ in }
         store.completeDeletionSuccessfully()
         
-        XCTAssertEqual(store.receivedMessages, [.deleteCachedSearch, .insert(localItems, timestamp)])
+        XCTAssertEqual(store.receivedMessages, [.deleteCachedSearch, .insert(items.local, timestamp)])
     }
     
     func test_save_failsOnDeletionError() {
@@ -74,7 +71,7 @@ class CacheSearchUseCaseTests: XCTestCase {
         let store = SearchStoreSpy()
         var sut: LocalSearchLoader? = LocalSearchLoader(store: store, currentDate: Date.init)
         var receivedResults = [LocalSearchLoader.SaveResult]()
-        sut?.save([uniqueItem()]) { receivedResults.append($0) }
+        sut?.save(uniqueItems().models) { receivedResults.append($0) }
         // remove the reference to the SUT after it has been deallocated
         sut = nil
         store.completeDeletion(with: anyError())
@@ -85,7 +82,7 @@ class CacheSearchUseCaseTests: XCTestCase {
         let store = SearchStoreSpy()
         var sut: LocalSearchLoader? = LocalSearchLoader(store: store, currentDate: Date.init)
         var receivedResults = [LocalSearchLoader.SaveResult]()
-        sut?.save([uniqueItem()]) { receivedResults.append($0) }
+        sut?.save(uniqueItems().models) { receivedResults.append($0) }
         
         store.completeDeletionSuccessfully()
         sut = nil
@@ -106,7 +103,7 @@ class CacheSearchUseCaseTests: XCTestCase {
         let exp = expectation(description: "Wait for save completion")
         
         var receivedError: Error?
-        sut.save([uniqueItem()]) { error in
+        sut.save(uniqueItems().models) { error in
             receivedError = error
             exp.fulfill()
         }
@@ -118,6 +115,12 @@ class CacheSearchUseCaseTests: XCTestCase {
     private func uniqueItem() -> SearchItem {
         // sampleId is what makes a SearchItem unique
         return SearchItem(sampleId: UUID().uuidString, distance: 0.5, externalId: "externalId", data: "data")
+    }
+    
+    private func uniqueItems() -> (models: [SearchItem], local: [LocalSearchItem]) {
+        let models = [uniqueItem(), uniqueItem()]
+        let local = models.map { LocalSearchItem(sampleId: $0.sampleId, distance: $0.distance, externalId: $0.externalId, data: $0.data) }
+        return (models, local)
     }
     
     private func anyError() -> NSError {
