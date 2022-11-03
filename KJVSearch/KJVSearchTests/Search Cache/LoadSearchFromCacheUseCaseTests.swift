@@ -39,36 +39,36 @@ class LoadSearchFromCacheUseCaseTests: XCTestCase {
         }
     }
     
-    func test_load_deliversCachedSearchResultsOnLessThan30DaysOldCache() {
+    func test_load_deliversCachedSearchResultsOnNonExpiredCache() {
         let results = uniqueItems()
         let fixedCurrentDate = Date()
-        let lessThan30DaysOldTimestamp = fixedCurrentDate.adding(days: -30).adding(seconds: 1)
+        let nonExpiredTimestamp = fixedCurrentDate.minusSearchCacheMaxAge().adding(seconds: 1)
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
         
         expect(sut, toCompleteWith: .success(results.models)) {
-            store.completeRetrieval(with: results.local, timestamp: lessThan30DaysOldTimestamp)
+            store.completeRetrieval(with: results.local, timestamp: nonExpiredTimestamp)
         }
     }
     
-    func test_load_deliversNoSearchResultsOn30DaysOldCache() {
+    func test_load_deliversNoSearchResultsOnExpirationCache() {
         let results = uniqueItems()
         let fixedCurrentDate = Date()
-        let thirtyDaysOldTimestamp = fixedCurrentDate.adding(days: -30)
+        let expirationTimestamp = fixedCurrentDate.minusSearchCacheMaxAge()
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
         
         expect(sut, toCompleteWith: .success([])) {
-            store.completeRetrieval(with: results.local, timestamp: thirtyDaysOldTimestamp)
+            store.completeRetrieval(with: results.local, timestamp: expirationTimestamp)
         }
     }
     
-    func test_load_deliversNoSearchResultsOnMoreThan30DaysOldCache() {
+    func test_load_deliversNoSearchResultsOnExpiredCache() {
         let results = uniqueItems()
         let fixedCurrentDate = Date()
-        let moreThan30DaysOldTimestamp = fixedCurrentDate.adding(days: -30).adding(seconds: -1)
+        let expiredTimestamp = fixedCurrentDate.minusSearchCacheMaxAge().adding(seconds: -1)
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
         
         expect(sut, toCompleteWith: .success([])) {
-            store.completeRetrieval(with: results.local, timestamp: moreThan30DaysOldTimestamp)
+            store.completeRetrieval(with: results.local, timestamp: expiredTimestamp)
         }
     }
     

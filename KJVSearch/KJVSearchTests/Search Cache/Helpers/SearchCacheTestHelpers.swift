@@ -21,8 +21,13 @@ internal func uniqueItems() -> (models: [SearchItem], local: [LocalSearchItem]) 
 
 internal extension Date {
     func minusSearchCacheMaxAge() -> Date {
-        return adding(days: -30)
+        return adding(days: -searchCacheMaxAgeInDays)
     }
+    
+    private var searchCacheMaxAgeInDays: Int {
+        return 30
+    }
+    
     func adding(days: Int) -> Date {
         return Calendar(identifier: .gregorian).date(byAdding: .day, value: days, to: self)!
     }
