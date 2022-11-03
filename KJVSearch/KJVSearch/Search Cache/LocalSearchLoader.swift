@@ -32,13 +32,15 @@ public final class LocalSearchLoader {
     }
     
     public func load(completion: @escaping (LoadSearchResult?) -> Void) {
-        store.retrieve { error in
-            if let error = error {
-                completion(.failure(error))
-            } else {
+        store.retrieve { result in
+            switch result {
+            case .empty:
                 completion(.success([]))
+            case let .failure(error):
+                completion(.failure(error))
+            case let .found(results, _):
+                completion(.success(results.toModels()))
             }
-            
         }
     }
     
@@ -55,3 +57,10 @@ private extension Array where Element == SearchItem {
         return map { LocalSearchItem(sampleId: $0.sampleId, distance: $0.distance, externalId: $0.externalId, data: $0.data)}
     }
 }
+
+private extension Array where Element == LocalSearchItem {
+    func toModels() -> [SearchItem] {
+        return map { SearchItem(sampleId: $0.sampleId, distance: $0.distance, externalId: $0.externalId, data: $0.data)}
+    }
+}
+
