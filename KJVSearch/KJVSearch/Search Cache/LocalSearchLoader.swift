@@ -37,6 +37,7 @@ public final class LocalSearchLoader {
         store.retrieve { [unowned self] result in
             switch result {
             case let .failure(error):
+                self.store.deleteCachedSearch { _ in }
                 completion(.failure(error))
             case let .found(results, timestamp) where self.validate(timestamp):
                 completion(.success(results.toModels()))
