@@ -8,13 +8,15 @@
 import Foundation
 
 private final class SearchCachePolicy {
-    let calendar = Calendar(identifier: .gregorian)
+    private init() {}
     
-    private var maxCacheAgeInDays: Int {
+    private static let calendar = Calendar(identifier: .gregorian)
+    
+    private static var maxCacheAgeInDays: Int {
         return 30
     }
     
-    func validate(_ timestamp: Date, against date: Date) -> Bool {
+    static func validate(_ timestamp: Date, against date: Date) -> Bool {
         guard let maxCacheAge = calendar.date(byAdding: .day, value: maxCacheAgeInDays, to: timestamp) else {
             return false
         }
@@ -25,7 +27,6 @@ private final class SearchCachePolicy {
 public final class LocalSearchLoader {
     private let store: SearchStore
     private let currentDate: () -> Date
-    private let cachePolicy = SearchCachePolicy()
     
     public init(store: SearchStore, currentDate: @escaping () -> Date) {
         self.store = store
@@ -65,7 +66,7 @@ extension LocalSearchLoader: SearchLoader {
             switch result {
             case let .failure(error):
                 completion(.failure(error))
-            case let .found(results, timestamp) where self.cachePolicy.validate(timestamp, against: self.currentDate()):
+            case let .found(results, timestamp) where SearchCachePolicy.validate(timestamp, against: self.currentDate()):
                 completion(.success(results.toModels()))
             case .found, .empty:
                 completion(.success([]))
@@ -81,7 +82,7 @@ extension LocalSearchLoader {
             switch result {
             case .failure:
                 self.store.deleteCachedSearch { _ in }
-            case let .found(_, timestamp) where !self.cachePolicy.validate(timestamp, against: self.currentDate()):
+            case let .found(_, timestamp) where !SearchCachePolicy.validate(timestamp, against: self.currentDate()):
                 self.store.deleteCachedSearch { _ in }
             case .empty, .found: break
             }
