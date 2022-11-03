@@ -50,6 +50,17 @@ class LoadSearchFromCacheUseCaseTests: XCTestCase {
         }
     }
     
+    func test_load_deliversNoSearchResultsOn30DaysOldCache() {
+        let results = uniqueItems()
+        let fixedCurrentDate = Date()
+        let thirtyDaysOldTimestamp = fixedCurrentDate.adding(days: -30)
+        let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
+        
+        expect(sut, toCompleteWith: .success([])) {
+            store.completeRetrieval(with: results.local, timestamp: thirtyDaysOldTimestamp)
+        }
+    }
+    
     // MARK: - Helpers
     private func makeSUT(currentDate: @escaping () -> Date = Date.init, file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalSearchLoader, store: SearchStoreSpy) {
         let store = SearchStoreSpy()
