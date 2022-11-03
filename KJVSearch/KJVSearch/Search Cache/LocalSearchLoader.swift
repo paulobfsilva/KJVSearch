@@ -41,9 +41,7 @@ public final class LocalSearchLoader {
                 completion(.failure(error))
             case let .found(results, timestamp) where self.validate(timestamp):
                 completion(.success(results.toModels()))
-            case .found:
-                completion(.success([]))
-            case .empty:
+            case .found, .empty:
                 completion(.success([]))
             }
         }
