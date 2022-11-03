@@ -36,7 +36,7 @@ public final class LocalSearchLoader {
             if let error = error {
                 completion(.failure(error))
             } else {
-                //completion(.success(<#T##[SearchItem]#>))
+                completion(.success([]))
             }
             
         }

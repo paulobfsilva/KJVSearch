@@ -41,6 +41,25 @@ class LoadSearchFromCacheUseCaseTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
         XCTAssertEqual(receivedError as NSError?, retrievalError)
     }
+    
+    func test_load_deliversNoSearchResultsOnEmptyCache() {
+        let (sut, store) = makeSUT()
+        var receivedSearchResults: [SearchItem]?
+        let exp = expectation(description: "Wait for load completion")
+        sut.load { result in
+            switch result {
+            case let .success(searchResults):
+                receivedSearchResults = searchResults
+            default:
+                XCTFail("Expected success, got \(result) instead")
+            }
+            
+            exp.fulfill()
+        }
+        store.completeRetrievalWithEmptyCache()
+        wait(for: [exp], timeout: 1.0)
+        XCTAssertEqual(receivedSearchResults, [])
+    }
 
     // MARK: - Helpers
     private func makeSUT(currentDate: @escaping () -> Date = Date.init, file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalSearchLoader, store: SearchStoreSpy) {
