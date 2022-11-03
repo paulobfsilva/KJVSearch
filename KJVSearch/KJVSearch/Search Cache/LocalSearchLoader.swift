@@ -54,7 +54,7 @@ extension LocalSearchLoader {
     }
 }
 
-extension LocalSearchLoader {
+extension LocalSearchLoader: SearchLoader {
     public func load(completion: @escaping (LoadSearchResult) -> Void) {
         store.retrieve { [weak self] result in
             guard let self = self else { return }
