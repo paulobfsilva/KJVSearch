@@ -99,7 +99,7 @@ class LoadSearchFromCacheUseCaseTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
     
-    func test_load_deletesCacheOn30DaysOldCache() {
+    func test_load_hasNoSideEffectsOn30DaysOldCache() {
         let results = uniqueItems()
         let fixedCurrentDate = Date()
         let thirtyDaysOldTimestamp = fixedCurrentDate.adding(days: -30)
@@ -107,10 +107,10 @@ class LoadSearchFromCacheUseCaseTests: XCTestCase {
         
         sut.load { _ in }
         store.completeRetrieval(with: results.local, timestamp: thirtyDaysOldTimestamp)
-        XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedSearch])
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
     
-    func test_load_deletesCacheOnMoreThan30DaysOldCache() {
+    func test_load_hasNoSideEffectsOnMoreThan30DaysOldCache() {
         let results = uniqueItems()
         let fixedCurrentDate = Date()
         let moreThan30DaysOldTimestamp = fixedCurrentDate.adding(days: -30).adding(seconds: -1)
@@ -118,7 +118,7 @@ class LoadSearchFromCacheUseCaseTests: XCTestCase {
         
         sut.load { _ in }
         store.completeRetrieval(with: results.local, timestamp: moreThan30DaysOldTimestamp)
-        XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedSearch])
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
     
     func test_load_doesNotDeliverResultAfterSUTInstanceHasBeenDeallocated() {

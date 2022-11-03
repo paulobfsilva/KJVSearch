@@ -42,7 +42,6 @@ public final class LocalSearchLoader {
             case let .found(results, timestamp) where self.validate(timestamp):
                 completion(.success(results.toModels()))
             case .found:
-                self.store.deleteCachedSearch { _ in }
                 completion(.success([]))
             case .empty:
                 completion(.success([]))
@@ -55,7 +54,9 @@ public final class LocalSearchLoader {
             switch result {
             case .failure:
                 self.store.deleteCachedSearch { _ in }
-            default: break
+            case let .found(_, timestamp) where !self.validate(timestamp):
+                self.store.deleteCachedSearch { _ in }
+            case .empty, .found: break
             }
         }
         
