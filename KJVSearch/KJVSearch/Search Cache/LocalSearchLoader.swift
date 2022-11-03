@@ -8,34 +8,28 @@
 import Foundation
 
 private final class SearchCachePolicy {
-    private let currentDate: () -> Date
     let calendar = Calendar(identifier: .gregorian)
-    
-    init(currentDate: @escaping () -> Date) {
-        self.currentDate = currentDate
-    }
     
     private var maxCacheAgeInDays: Int {
         return 30
     }
     
-    func validate(_ timestamp: Date) -> Bool {
+    func validate(_ timestamp: Date, against date: Date) -> Bool {
         guard let maxCacheAge = calendar.date(byAdding: .day, value: maxCacheAgeInDays, to: timestamp) else {
             return false
         }
-        return currentDate() < maxCacheAge
+        return date < maxCacheAge
     }
 }
 
 public final class LocalSearchLoader {
     private let store: SearchStore
     private let currentDate: () -> Date
-    private let cachePolicy: SearchCachePolicy
+    private let cachePolicy = SearchCachePolicy()
     
     public init(store: SearchStore, currentDate: @escaping () -> Date) {
         self.store = store
         self.currentDate = currentDate
-        self.cachePolicy = SearchCachePolicy(currentDate: currentDate)
     }
 }
 
@@ -71,7 +65,7 @@ extension LocalSearchLoader: SearchLoader {
             switch result {
             case let .failure(error):
                 completion(.failure(error))
-            case let .found(results, timestamp) where self.cachePolicy.validate(timestamp):
+            case let .found(results, timestamp) where self.cachePolicy.validate(timestamp, against: self.currentDate()):
                 completion(.success(results.toModels()))
             case .found, .empty:
                 completion(.success([]))
@@ -87,7 +81,7 @@ extension LocalSearchLoader {
             switch result {
             case .failure:
                 self.store.deleteCachedSearch { _ in }
-            case let .found(_, timestamp) where !self.cachePolicy.validate(timestamp):
+            case let .found(_, timestamp) where !self.cachePolicy.validate(timestamp, against: self.currentDate()):
                 self.store.deleteCachedSearch { _ in }
             case .empty, .found: break
             }
