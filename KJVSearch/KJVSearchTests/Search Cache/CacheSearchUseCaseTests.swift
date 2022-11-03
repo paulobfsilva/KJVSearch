@@ -36,12 +36,13 @@ class CacheSearchUseCaseTests: XCTestCase {
     func test_save_requestsNewCacheInsertionWithTimestampOnSuccessfulDeletion() {
         let timestamp = Date()
         let items = [uniqueItem(), uniqueItem()]
+        let localItems = items.map { LocalSearchItem(sampleId: $0.sampleId, distance: $0.distance, externalId: $0.externalId, data: $0.data) }
         let (sut, store) = makeSUT(currentDate: { timestamp })
         
         sut.save(items) {_ in }
         store.completeDeletionSuccessfully()
         
-        XCTAssertEqual(store.receivedMessages, [.deleteCachedSearch, .insert(items, timestamp)])
+        XCTAssertEqual(store.receivedMessages, [.deleteCachedSearch, .insert(localItems, timestamp)])
     }
     
     func test_save_failsOnDeletionError() {
@@ -127,7 +128,7 @@ class CacheSearchUseCaseTests: XCTestCase {
         
         enum ReceivedMessage: Equatable {
             case deleteCachedSearch
-            case insert([SearchItem], Date)
+            case insert([LocalSearchItem], Date)
         }
         
         private(set) var receivedMessages = [ReceivedMessage]()
@@ -148,7 +149,7 @@ class CacheSearchUseCaseTests: XCTestCase {
             deletionCompletions[index](nil)
         }
         
-        func insert(_ items: [SearchItem], timestamp: Date, completion: @escaping InsertionCompletion) {
+        func insert(_ items: [LocalSearchItem], timestamp: Date, completion: @escaping InsertionCompletion) {
             insertionCompletions.append(completion)
             receivedMessages.append(.insert(items, timestamp))
         }

@@ -31,9 +31,15 @@ public final class LocalSearchLoader {
     }
     
     private func cache(_ items: [SearchItem], with completion: @escaping (SaveResult) -> Void) {
-        store.insert(items, timestamp: currentDate()) { [weak self] cacheInsertionError in
+        store.insert(items.toLocal(), timestamp: currentDate()) { [weak self] cacheInsertionError in
             guard self != nil else { return }
             completion(cacheInsertionError)
         }
+    }
+}
+
+private extension Array where Element == SearchItem {
+    func toLocal() -> [LocalSearchItem] {
+        return map { LocalSearchItem(sampleId: $0.sampleId, distance: $0.distance, externalId: $0.externalId, data: $0.data)}
     }
 }
