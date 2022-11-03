@@ -38,7 +38,6 @@ public final class LocalSearchLoader {
             guard let self = self else { return }
             switch result {
             case let .failure(error):
-                self.store.deleteCachedSearch { _ in }
                 completion(.failure(error))
             case let .found(results, timestamp) where self.validate(timestamp):
                 completion(.success(results.toModels()))
@@ -49,6 +48,11 @@ public final class LocalSearchLoader {
                 completion(.success([]))
             }
         }
+    }
+    
+    public func validateCache() {
+        store.retrieve { _ in }
+        store.deleteCachedSearch { _ in }
     }
     
     private var maxCacheAgeInDays: Int {
