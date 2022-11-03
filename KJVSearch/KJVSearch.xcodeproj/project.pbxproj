@@ -34,6 +34,7 @@
 		51AC46CC291426110044FBA1 /* ValidateSearchCacheUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AC46CB291426110044FBA1 /* ValidateSearchCacheUseCaseTests.swift */; };
 		51AC46CE29142A1F0044FBA1 /* SearchCacheTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AC46CD29142A1F0044FBA1 /* SearchCacheTestHelpers.swift */; };
 		51AC46D029142AF30044FBA1 /* SharedTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AC46CF29142AF30044FBA1 /* SharedTestHelpers.swift */; };
+		51AC46D2291466C40044FBA1 /* SearchCachePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AC46D1291466C40044FBA1 /* SearchCachePolicy.swift */; };
 		51B152F2290DBEC800D77037 /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B152F1290DBEC800D77037 /* XCTestCase+MemoryLeakTracking.swift */; };
 /* End PBXBuildFile section */
 
@@ -85,6 +86,7 @@
 		51AC46CB291426110044FBA1 /* ValidateSearchCacheUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidateSearchCacheUseCaseTests.swift; sourceTree = "<group>"; };
 		51AC46CD29142A1F0044FBA1 /* SearchCacheTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCacheTestHelpers.swift; sourceTree = "<group>"; };
 		51AC46CF29142AF30044FBA1 /* SharedTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTestHelpers.swift; sourceTree = "<group>"; };
+		51AC46D1291466C40044FBA1 /* SearchCachePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCachePolicy.swift; sourceTree = "<group>"; };
 		51B152F1290DBEC800D77037 /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -224,6 +226,7 @@
 				51AC46BE2912ECAA0044FBA1 /* LocalSearchLoader.swift */,
 				51AC46C02912ECBC0044FBA1 /* SearchStore.swift */,
 				51AC46C42913B42B0044FBA1 /* LocalSearchItem.swift */,
+				51AC46D1291466C40044FBA1 /* SearchCachePolicy.swift */,
 			);
 			path = "Search Cache";
 			sourceTree = "<group>";
@@ -387,6 +390,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				51AC46C52913B42B0044FBA1 /* LocalSearchItem.swift in Sources */,
+				51AC46D2291466C40044FBA1 /* SearchCachePolicy.swift in Sources */,
 				51AC46BF2912ECAA0044FBA1 /* LocalSearchLoader.swift in Sources */,
 				5154210E290E8E9600DDCED0 /* URLSessionHTTPClient.swift in Sources */,
 				5169840029091AB4007DE3C0 /* SearchItem.swift in Sources */,
