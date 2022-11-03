@@ -11,7 +11,7 @@ public final class LocalSearchLoader {
     private let store: SearchStore
     private let currentDate: () -> Date
     let calendar = Calendar(identifier: .gregorian)
-
+    
     
     public typealias SaveResult = Error?
     public typealias LoadResult = LoadSearchResult
@@ -21,6 +21,19 @@ public final class LocalSearchLoader {
         self.currentDate = currentDate
     }
     
+    private var maxCacheAgeInDays: Int {
+        return 30
+    }
+    
+    private func validate(_ timestamp: Date) -> Bool {
+        guard let maxCacheAge = calendar.date(byAdding: .day, value: maxCacheAgeInDays, to: timestamp) else {
+            return false
+        }
+        return currentDate() < maxCacheAge
+    }
+}
+
+extension LocalSearchLoader {
     public func save(_ items: [SearchItem], completion: @escaping (SaveResult) -> Void) {
         store.deleteCachedSearch { [weak self] error in
             guard let self = self else { return }
@@ -33,6 +46,15 @@ public final class LocalSearchLoader {
         }
     }
     
+    private func cache(_ items: [SearchItem], with completion: @escaping (SaveResult) -> Void) {
+        store.insert(items.toLocal(), timestamp: currentDate()) { [weak self] cacheInsertionError in
+            guard self != nil else { return }
+            completion(cacheInsertionError)
+        }
+    }
+}
+
+extension LocalSearchLoader {
     public func load(completion: @escaping (LoadSearchResult) -> Void) {
         store.retrieve { [weak self] result in
             guard let self = self else { return }
@@ -46,7 +68,9 @@ public final class LocalSearchLoader {
             }
         }
     }
-    
+}
+
+extension LocalSearchLoader {
     public func validateCache() {
         store.retrieve { [weak self] result in
             guard let self = self else { return }
@@ -59,24 +83,6 @@ public final class LocalSearchLoader {
             }
         }
         
-    }
-    
-    private var maxCacheAgeInDays: Int {
-        return 30
-    }
-    
-    private func validate(_ timestamp: Date) -> Bool {
-        guard let maxCacheAge = calendar.date(byAdding: .day, value: maxCacheAgeInDays, to: timestamp) else {
-            return false
-        }
-        return currentDate() < maxCacheAge
-    }
-    
-    private func cache(_ items: [SearchItem], with completion: @escaping (SaveResult) -> Void) {
-        store.insert(items.toLocal(), timestamp: currentDate()) { [weak self] cacheInsertionError in
-            guard self != nil else { return }
-            completion(cacheInsertionError)
-        }
     }
 }
 
