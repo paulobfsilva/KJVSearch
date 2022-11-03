@@ -111,20 +111,4 @@ class CacheSearchUseCaseTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
         XCTAssertEqual(receivedError as NSError?, expectedError, file: file, line: line)
     }
-    
-    private func uniqueItem() -> SearchItem {
-        // sampleId is what makes a SearchItem unique
-        return SearchItem(sampleId: UUID().uuidString, distance: 0.5, externalId: "externalId", data: "data")
-    }
-    
-    private func uniqueItems() -> (models: [SearchItem], local: [LocalSearchItem]) {
-        let models = [uniqueItem(), uniqueItem()]
-        let local = models.map { LocalSearchItem(sampleId: $0.sampleId, distance: $0.distance, externalId: $0.externalId, data: $0.data) }
-        return (models, local)
-    }
-    
-    private func anyError() -> NSError {
-        return NSError(domain: "any error", code: 0)
-    }
-    
 }

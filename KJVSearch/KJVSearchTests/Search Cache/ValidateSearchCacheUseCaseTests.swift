@@ -50,30 +50,4 @@ class ValidateSearchCacheUseCaseTests: XCTestCase {
         trackForMemoryLeaks(sut, file: file, line: line)
         return (sut, store)
     }
-    
-    private func anyError() -> NSError {
-        return NSError(domain: "any error", code: 0)
-    }
-    
-    private func uniqueItem() -> SearchItem {
-        // sampleId is what makes a SearchItem unique
-        return SearchItem(sampleId: UUID().uuidString, distance: 0.5, externalId: "externalId", data: "data")
-    }
-    
-    private func uniqueItems() -> (models: [SearchItem], local: [LocalSearchItem]) {
-        let models = [uniqueItem(), uniqueItem()]
-        let local = models.map { LocalSearchItem(sampleId: $0.sampleId, distance: $0.distance, externalId: $0.externalId, data: $0.data) }
-        return (models, local)
-    }
-    
-}
-
-private extension Date {
-    func adding(days: Int) -> Date {
-        return Calendar(identifier: .gregorian).date(byAdding: .day, value: days, to: self)!
-    }
-    
-    func adding(seconds: TimeInterval) -> Date {
-        return self + seconds
-    }
 }

@@ -9,7 +9,7 @@ import KJVSearch
 import XCTest
 
 class LoadSearchFromCacheUseCaseTests: XCTestCase {
-
+    
     func test_init_doesNotMessageStoreUponCreation() {
         let (_, store) = makeSUT()
         XCTAssertEqual(store.receivedMessages, [])
@@ -38,7 +38,7 @@ class LoadSearchFromCacheUseCaseTests: XCTestCase {
             store.completeRetrievalWithEmptyCache()
         }
     }
-
+    
     func test_load_deliversCachedSearchResultsOnLessThan30DaysOldCache() {
         let results = uniqueItems()
         let fixedCurrentDate = Date()
@@ -160,28 +160,4 @@ class LoadSearchFromCacheUseCaseTests: XCTestCase {
         wait(for: [exp], timeout: 1.0)
     }
     
-    private func anyError() -> NSError {
-        return NSError(domain: "any error", code: 0)
-    }
-    
-    private func uniqueItem() -> SearchItem {
-        // sampleId is what makes a SearchItem unique
-        return SearchItem(sampleId: UUID().uuidString, distance: 0.5, externalId: "externalId", data: "data")
-    }
-    
-    private func uniqueItems() -> (models: [SearchItem], local: [LocalSearchItem]) {
-        let models = [uniqueItem(), uniqueItem()]
-        let local = models.map { LocalSearchItem(sampleId: $0.sampleId, distance: $0.distance, externalId: $0.externalId, data: $0.data) }
-        return (models, local)
-    }
-}
-
-private extension Date {
-    func adding(days: Int) -> Date {
-        return Calendar(identifier: .gregorian).date(byAdding: .day, value: days, to: self)!
-    }
-    
-    func adding(seconds: TimeInterval) -> Date {
-        return self + seconds
-    }
 }
