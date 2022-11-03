@@ -10,6 +10,8 @@ import Foundation
 public final class LocalSearchLoader {
     private let store: SearchStore
     private let currentDate: () -> Date
+    let calendar = Calendar(identifier: .gregorian)
+
     
     public typealias SaveResult = Error?
     public typealias LoadResult = LoadSearchResult
@@ -44,9 +46,12 @@ public final class LocalSearchLoader {
         }
     }
     
+    private var maxCacheAgeInDays: Int {
+        return 30
+    }
+    
     private func validate(_ timestamp: Date) -> Bool {
-        let calendar = Calendar(identifier: .gregorian)
-        guard let maxCacheAge = calendar.date(byAdding: .day, value: 30, to: timestamp) else {
+        guard let maxCacheAge = calendar.date(byAdding: .day, value: maxCacheAgeInDays, to: timestamp) else {
             return false
         }
         return currentDate() < maxCacheAge
