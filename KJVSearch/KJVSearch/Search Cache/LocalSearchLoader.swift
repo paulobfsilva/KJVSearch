@@ -30,15 +30,15 @@ public final class LocalSearchLoader {
         }
     }
     
+    public func load(completion: @escaping (Error?) -> Void) {
+        store.retrieve(completion: completion)
+    }
+    
     private func cache(_ items: [SearchItem], with completion: @escaping (SaveResult) -> Void) {
         store.insert(items.toLocal(), timestamp: currentDate()) { [weak self] cacheInsertionError in
             guard self != nil else { return }
             completion(cacheInsertionError)
         }
-    }
-    
-    public func load() {
-        store.retrieve()
     }
 }
 
