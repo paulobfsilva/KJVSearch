@@ -88,6 +88,17 @@ class LoadSearchFromCacheUseCaseTests: XCTestCase {
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
     
+    func test_load_doesNotDeleteCacheOnLessThan30DaysOldCache() {
+        let results = uniqueItems()
+        let fixedCurrentDate = Date()
+        let lessThan30DaysOldTimestamp = fixedCurrentDate.adding(days: -30).adding(seconds: 1)
+        let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
+        
+        sut.load { _ in }
+        store.completeRetrieval(with: results.local, timestamp: lessThan30DaysOldTimestamp)
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
+    }
+    
     // MARK: - Helpers
     private func makeSUT(currentDate: @escaping () -> Date = Date.init, file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalSearchLoader, store: SearchStoreSpy) {
         let store = SearchStoreSpy()
