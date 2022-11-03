@@ -12,10 +12,6 @@ public final class LocalSearchLoader {
     private let currentDate: () -> Date
     let calendar = Calendar(identifier: .gregorian)
     
-    
-    public typealias SaveResult = Error?
-    public typealias LoadResult = LoadSearchResult
-    
     public init(store: SearchStore, currentDate: @escaping () -> Date) {
         self.store = store
         self.currentDate = currentDate
@@ -34,6 +30,8 @@ public final class LocalSearchLoader {
 }
 
 extension LocalSearchLoader {
+    public typealias SaveResult = Error?
+
     public func save(_ items: [SearchItem], completion: @escaping (SaveResult) -> Void) {
         store.deleteCachedSearch { [weak self] error in
             guard let self = self else { return }
@@ -55,6 +53,8 @@ extension LocalSearchLoader {
 }
 
 extension LocalSearchLoader: SearchLoader {
+    public typealias LoadResult = LoadSearchResult
+
     public func load(completion: @escaping (LoadSearchResult) -> Void) {
         store.retrieve { [weak self] result in
             guard let self = self else { return }
