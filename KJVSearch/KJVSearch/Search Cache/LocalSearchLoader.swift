@@ -12,6 +12,7 @@ public final class LocalSearchLoader {
     private let currentDate: () -> Date
     
     public typealias SaveResult = Error?
+    public typealias LoadResult = LoadSearchResult
     
     public init(store: SearchStore, currentDate: @escaping () -> Date) {
         self.store = store
@@ -30,8 +31,15 @@ public final class LocalSearchLoader {
         }
     }
     
-    public func load(completion: @escaping (Error?) -> Void) {
-        store.retrieve(completion: completion)
+    public func load(completion: @escaping (LoadSearchResult?) -> Void) {
+        store.retrieve { error in
+            if let error = error {
+                completion(.failure(error))
+            } else {
+                //completion(.success(<#T##[SearchItem]#>))
+            }
+            
+        }
     }
     
     private func cache(_ items: [SearchItem], with completion: @escaping (SaveResult) -> Void) {
