@@ -63,6 +63,16 @@ class ValidateSearchCacheUseCaseTests: XCTestCase {
         store.completeRetrieval(with: results.local, timestamp: moreThan30DaysOldTimestamp)
         XCTAssertEqual(store.receivedMessages, [.retrieve, .deleteCachedSearch])
     }
+    
+    func test_validateCache_doesNotDeleteInvalidCacheAfterSUTInstanceHasBeenDeallocated() {
+        let store = SearchStoreSpy()
+        var sut: LocalSearchLoader? = LocalSearchLoader(store: store, currentDate: Date.init)
+        sut?.validateCache()
+        
+        sut = nil
+        store.completeRetrieval(with: anyError())
+        XCTAssertEqual(store.receivedMessages, [.retrieve])
+    }
 
     // MARK: - Helpers
     private func makeSUT(currentDate: @escaping () -> Date = Date.init, file: StaticString = #filePath, line: UInt = #line) -> (sut: LocalSearchLoader, store: SearchStoreSpy) {
