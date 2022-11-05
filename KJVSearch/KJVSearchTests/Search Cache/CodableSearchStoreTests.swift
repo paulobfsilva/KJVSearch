@@ -8,7 +8,7 @@
 import KJVSearch
 import XCTest
 
-class CodableSearchStore {
+class CodableSearchStore: SearchStore {
     
     private struct Cache: Codable {
         let searchResults: [CodableSearchItem]
@@ -43,7 +43,7 @@ class CodableSearchStore {
         self.storeURL = storeURL
     }
     
-    func retrieve(completion: @escaping SearchStore.RetrievalCompletion) {
+    func retrieve(completion: @escaping RetrievalCompletion) {
         guard let data = try? Data(contentsOf: storeURL) else {
             return completion(.empty)
         }
@@ -57,7 +57,7 @@ class CodableSearchStore {
         }
     }
     
-    func insert(_ items: [LocalSearchItem], timestamp: Date, completion: @escaping SearchStore.InsertionCompletion) {
+    func insert(_ items: [LocalSearchItem], timestamp: Date, completion: @escaping InsertionCompletion) {
         do {
             let encoder = JSONEncoder()
             let cache = Cache(searchResults: items.map(CodableSearchItem.init), timestamp: timestamp)
