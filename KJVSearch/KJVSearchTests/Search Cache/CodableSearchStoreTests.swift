@@ -91,12 +91,7 @@ class CodableSearchStoreTests: XCTestCase {
         let searchResults = uniqueItems().local
         let timestamp = Date()
         
-        let exp = expectation(description: "Wait for cache retrieval")
-        sut.insert(searchResults, timestamp: timestamp) { insertionError in
-            XCTAssertNil(insertionError, "Expected search results to be inserted successfully")
-            exp.fulfill()
-        }
-        wait(for: [exp], timeout: 1.0)
+        insert((searchResults, timestamp), to: sut)
         
         expect(sut, toRetrieve: .found(results: searchResults, timestamp: timestamp))
     }
@@ -106,12 +101,7 @@ class CodableSearchStoreTests: XCTestCase {
         let searchResults = uniqueItems().local
         let timestamp = Date()
         
-        let exp = expectation(description: "Wait for cache retrieval")
-        sut.insert(searchResults, timestamp: timestamp) { insertionError in
-            XCTAssertNil(insertionError, "Expected search results to be inserted successfully")
-            exp.fulfill()
-        }
-        wait(for: [exp], timeout: 1.0)
+        insert((searchResults, timestamp), to: sut)
         
         expect(sut, toRetrieveTwice: .found(results: searchResults, timestamp: timestamp))
     }
@@ -122,6 +112,15 @@ class CodableSearchStoreTests: XCTestCase {
         let sut = CodableSearchStore(storeURL: testSpecificStoreURL())
         trackForMemoryLeaks(sut, file: file, line: line)
         return sut
+    }
+    
+    private func insert(_ cache: (results: [LocalSearchItem], timestamp: Date), to sut: CodableSearchStore) {
+        let exp = expectation (description: "Wait for cache insertion")
+        sut.insert(cache.results, timestamp: cache.timestamp) { insertionError in
+            XCTAssertNil(insertionError, "Expected feed to be inserted successfully")
+            exp.fulfill ()
+        }
+        wait(for: [exp], timeout: 1.0)
     }
     
     private func expect(_ sut: CodableSearchStore, toRetrieveTwice expectedResult: RetrieveCachedFeedResult, file: StaticString = #filePath, line: UInt = #line) {
