@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct LocalSearchItem: Equatable, Decodable {
+public struct LocalSearchItem: Equatable, Codable {
     public let sampleId: String
     public let distance: Double
     public let externalId: String
