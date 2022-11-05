@@ -35,6 +35,7 @@
 		51AC46CE29142A1F0044FBA1 /* SearchCacheTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AC46CD29142A1F0044FBA1 /* SearchCacheTestHelpers.swift */; };
 		51AC46D029142AF30044FBA1 /* SharedTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AC46CF29142AF30044FBA1 /* SharedTestHelpers.swift */; };
 		51AC46D2291466C40044FBA1 /* SearchCachePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AC46D1291466C40044FBA1 /* SearchCachePolicy.swift */; };
+		51AC46D42915BA5B0044FBA1 /* CodableSearchStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AC46D32915BA5B0044FBA1 /* CodableSearchStoreTests.swift */; };
 		51B152F2290DBEC800D77037 /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B152F1290DBEC800D77037 /* XCTestCase+MemoryLeakTracking.swift */; };
 /* End PBXBuildFile section */
 
@@ -87,6 +88,7 @@
 		51AC46CD29142A1F0044FBA1 /* SearchCacheTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCacheTestHelpers.swift; sourceTree = "<group>"; };
 		51AC46CF29142AF30044FBA1 /* SharedTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTestHelpers.swift; sourceTree = "<group>"; };
 		51AC46D1291466C40044FBA1 /* SearchCachePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCachePolicy.swift; sourceTree = "<group>"; };
+		51AC46D32915BA5B0044FBA1 /* CodableSearchStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableSearchStoreTests.swift; sourceTree = "<group>"; };
 		51B152F1290DBEC800D77037 /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -216,6 +218,7 @@
 				51AC46BB291264CF0044FBA1 /* CacheSearchUseCaseTests.swift */,
 				51AC46C62913BA010044FBA1 /* LoadSearchFromCacheUseCaseTests.swift */,
 				51AC46CB291426110044FBA1 /* ValidateSearchCacheUseCaseTests.swift */,
+				51AC46D32915BA5B0044FBA1 /* CodableSearchStoreTests.swift */,
 			);
 			path = "Search Cache";
 			sourceTree = "<group>";
@@ -417,6 +420,7 @@
 				51AC46C72913BA010044FBA1 /* LoadSearchFromCacheUseCaseTests.swift in Sources */,
 				51AC46CE29142A1F0044FBA1 /* SearchCacheTestHelpers.swift in Sources */,
 				51AC46D029142AF30044FBA1 /* SharedTestHelpers.swift in Sources */,
+				51AC46D42915BA5B0044FBA1 /* CodableSearchStoreTests.swift in Sources */,
 				519EFB28290D654E0026A202 /* URLSessionHTTPClientTests.swift in Sources */,
 				51AC46BC291264CF0044FBA1 /* CacheSearchUseCaseTests.swift in Sources */,
 				51B152F2290DBEC800D77037 /* XCTestCase+MemoryLeakTracking.swift in Sources */,
