@@ -11,8 +11,30 @@ import XCTest
 class CodableSearchStore {
     
     private struct Cache: Codable {
-        let searchResults: [LocalSearchItem]
+        let searchResults: [CodableSearchItem]
         let timestamp: Date
+        
+        var localSearchResults: [LocalSearchItem] {
+            return searchResults.map { $0.local }
+        }
+    }
+    
+    private struct CodableSearchItem: Codable {
+        private let sampleId: String
+        private let distance: Double
+        private let externalId: String
+        private let data: String
+        
+        init(_ searchResults: LocalSearchItem) {
+            sampleId = searchResults.sampleId
+            distance = searchResults.distance
+            externalId = searchResults.externalId
+            data = searchResults.data
+        }
+        
+        var local: LocalSearchItem {
+            return LocalSearchItem(sampleId: sampleId, distance: distance, externalId: externalId, data: data)
+        }
     }
     
     private let storeURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appending(path: "search-results.store")
@@ -24,12 +46,13 @@ class CodableSearchStore {
         
         let decoder = JSONDecoder()
         let cache = try! decoder.decode(Cache.self, from: data)
-        completion(.found(results: cache.searchResults, timestamp: cache.timestamp))
+        completion(.found(results: cache.localSearchResults, timestamp: cache.timestamp))
     }
     
     func insert(_ items: [LocalSearchItem], timestamp: Date, completion: @escaping SearchStore.InsertionCompletion) {
         let encoder = JSONEncoder()
-        let encoded = try! encoder.encode(Cache(searchResults: items, timestamp: timestamp))
+        let cache = Cache(searchResults: items.map(CodableSearchItem.init), timestamp: timestamp)
+        let encoded = try! encoder.encode(cache)
         try! encoded.write(to: storeURL)
         completion(nil)
     }
