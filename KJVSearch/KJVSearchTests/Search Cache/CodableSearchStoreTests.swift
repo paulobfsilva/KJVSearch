@@ -73,7 +73,7 @@ class CodableSearchStoreTests: XCTestCase {
     }
 
     func test_retrieve_deliversEmptyOnEmptyCache() {
-        let sut = CodableSearchStore()
+        let sut = makeSUT()
         let exp = expectation(description: "Wait for cache retrieval")
         sut.retrieve { result in
             switch result {
@@ -89,7 +89,7 @@ class CodableSearchStoreTests: XCTestCase {
     }
     
     func test_retrieve_hasNoSideEffectsOnEmptyCache() {
-        let sut = CodableSearchStore()
+        let sut = makeSUT()
         let exp = expectation(description: "Wait for cache retrieval")
         sut.retrieve { firstResult in
             sut.retrieve { secondResult in
@@ -107,7 +107,7 @@ class CodableSearchStoreTests: XCTestCase {
     }
     
     func test_retrieveAfterInsertingToEmptyCache_deliversInsertedValues() {
-        let sut = CodableSearchStore()
+        let sut = makeSUT()
         let searchResults = uniqueItems().local
         let timestamp = Date()
         let exp = expectation(description: "Wait for cache retrieval")
@@ -126,5 +126,11 @@ class CodableSearchStoreTests: XCTestCase {
             }
         }
         wait(for: [exp], timeout: 1.0)
+    }
+    
+    // MARK: - Helpers
+    
+    private func makeSUT() -> CodableSearchStore {
+        return CodableSearchStore()
     }
 }
