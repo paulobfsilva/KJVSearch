@@ -82,45 +82,11 @@ class CodableSearchStoreTests: XCTestCase {
     
     func test_retrieve_hasNoSideEffectsOnEmptyCache() {
         let sut = makeSUT()
-        let exp = expectation(description: "Wait for cache retrieval")
-        sut.retrieve { firstResult in
-            sut.retrieve { secondResult in
-                switch (firstResult, secondResult) {
-                case (.empty, .empty):
-                    break
-                default:
-                    XCTFail("Expected retrieving twice from empty cache to deliver same empty result, got \(firstResult) and \(secondResult) instead")
-                }
-                
-                exp.fulfill()
-            }
-        }
-        wait(for: [exp], timeout: 1.0)
+
+        expect(sut, toRetrieveTwice: .empty)
     }
     
     func test_retrieveAfterInsertingToEmptyCache_deliversInsertedValues() {
-        let sut = makeSUT()
-        let searchResults = uniqueItems().local
-        let timestamp = Date()
-        let exp = expectation(description: "Wait for cache retrieval")
-        sut.insert(searchResults, timestamp: timestamp) { insertionError in
-            XCTAssertNil(insertionError, "Expected search results to be inserted successfully")
-            sut.retrieve { retrieveResult in
-                switch retrieveResult {
-                case let .found(retrievedResults, retrievedTimestamp):
-                    XCTAssertEqual(retrievedResults, searchResults)
-                    XCTAssertEqual(retrievedTimestamp, timestamp)
-                default:
-                    XCTFail("Expected found result with search results \(searchResults) and timestamp \(timestamp), got \(retrieveResult) instead")
-                }
-                
-                exp.fulfill()
-            }
-        }
-        wait(for: [exp], timeout: 1.0)
-    }
-    
-    func test_retrieve_hasNoSideEffectsOnNonEmptyCache() {
         let sut = makeSUT()
         let searchResults = uniqueItems().local
         let timestamp = Date()
@@ -135,12 +101,32 @@ class CodableSearchStoreTests: XCTestCase {
         expect(sut, toRetrieve: .found(results: searchResults, timestamp: timestamp))
     }
     
+    func test_retrieve_hasNoSideEffectsOnNonEmptyCache() {
+        let sut = makeSUT()
+        let searchResults = uniqueItems().local
+        let timestamp = Date()
+        
+        let exp = expectation(description: "Wait for cache retrieval")
+        sut.insert(searchResults, timestamp: timestamp) { insertionError in
+            XCTAssertNil(insertionError, "Expected search results to be inserted successfully")
+            exp.fulfill()
+        }
+        wait(for: [exp], timeout: 1.0)
+        
+        expect(sut, toRetrieveTwice: .found(results: searchResults, timestamp: timestamp))
+    }
+    
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> CodableSearchStore {
         let sut = CodableSearchStore(storeURL: testSpecificStoreURL())
         trackForMemoryLeaks(sut, file: file, line: line)
         return sut
+    }
+    
+    private func expect(_ sut: CodableSearchStore, toRetrieveTwice expectedResult: RetrieveCachedFeedResult, file: StaticString = #filePath, line: UInt = #line) {
+        expect (sut, toRetrieve: expectedResult, file: file, line: line)
+        expect (sut, toRetrieve: expectedResult, file: file, line: line)
     }
     
     private func expect(_ sut: CodableSearchStore, toRetrieve expectedResult: RetrieveCachedFeedResult, file: StaticString = #filePath, line: UInt = #line) {
