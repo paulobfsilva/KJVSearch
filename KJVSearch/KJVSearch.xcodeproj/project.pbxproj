@@ -36,6 +36,7 @@
 		51AC46D029142AF30044FBA1 /* SharedTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AC46CF29142AF30044FBA1 /* SharedTestHelpers.swift */; };
 		51AC46D2291466C40044FBA1 /* SearchCachePolicy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AC46D1291466C40044FBA1 /* SearchCachePolicy.swift */; };
 		51AC46D42915BA5B0044FBA1 /* CodableSearchStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AC46D32915BA5B0044FBA1 /* CodableSearchStoreTests.swift */; };
+		51AC46D6291727C90044FBA1 /* CodableSearchStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AC46D5291727C90044FBA1 /* CodableSearchStore.swift */; };
 		51B152F2290DBEC800D77037 /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B152F1290DBEC800D77037 /* XCTestCase+MemoryLeakTracking.swift */; };
 /* End PBXBuildFile section */
 
@@ -89,6 +90,7 @@
 		51AC46CF29142AF30044FBA1 /* SharedTestHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedTestHelpers.swift; sourceTree = "<group>"; };
 		51AC46D1291466C40044FBA1 /* SearchCachePolicy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchCachePolicy.swift; sourceTree = "<group>"; };
 		51AC46D32915BA5B0044FBA1 /* CodableSearchStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableSearchStoreTests.swift; sourceTree = "<group>"; };
+		51AC46D5291727C90044FBA1 /* CodableSearchStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodableSearchStore.swift; sourceTree = "<group>"; };
 		51B152F1290DBEC800D77037 /* XCTestCase+MemoryLeakTracking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "XCTestCase+MemoryLeakTracking.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -230,6 +232,7 @@
 				51AC46C02912ECBC0044FBA1 /* SearchStore.swift */,
 				51AC46C42913B42B0044FBA1 /* LocalSearchItem.swift */,
 				51AC46D1291466C40044FBA1 /* SearchCachePolicy.swift */,
+				51AC46D5291727C90044FBA1 /* CodableSearchStore.swift */,
 			);
 			path = "Search Cache";
 			sourceTree = "<group>";
@@ -392,6 +395,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				51AC46D6291727C90044FBA1 /* CodableSearchStore.swift in Sources */,
 				51AC46C52913B42B0044FBA1 /* LocalSearchItem.swift in Sources */,
 				51AC46D2291466C40044FBA1 /* SearchCachePolicy.swift in Sources */,
 				51AC46BF2912ECAA0044FBA1 /* LocalSearchLoader.swift in Sources */,
