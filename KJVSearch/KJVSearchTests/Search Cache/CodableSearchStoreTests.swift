@@ -37,7 +37,11 @@ class CodableSearchStore {
         }
     }
     
-    private let storeURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appending(path: "search-results.store")
+    private let storeURL: URL
+    
+    init(storeURL: URL) {
+        self.storeURL = storeURL
+    }
     
     func retrieve(completion: @escaping SearchStore.RetrievalCompletion) {
         guard let data = try? Data(contentsOf: storeURL) else {
@@ -131,7 +135,8 @@ class CodableSearchStoreTests: XCTestCase {
     // MARK: - Helpers
     
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> CodableSearchStore {
-        let sut = CodableSearchStore()
+        let storeURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!.appending(path: "search-results.store")
+        let sut = CodableSearchStore(storeURL: storeURL)
         trackForMemoryLeaks(sut, file: file, line: line)
         return sut
     }
