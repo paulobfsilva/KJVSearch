@@ -55,6 +55,7 @@ class KJVSearchResultsCacheIntegrationTests: XCTestCase {
     private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> LocalSearchLoader {
         let storeBundle = Bundle( for: CoreDataSearchStore.self)
         let storeURL = testSpecificStoreURL()
+        // let store = try! CodableSearchStore(storeURL: storeURL)
         let store = try! CoreDataSearchStore(storeURL: storeURL, bundle: storeBundle)
         let sut = LocalSearchLoader(store: store, currentDate: Date.init)
         trackForMemoryLeaks(store, file: file, line: line)
