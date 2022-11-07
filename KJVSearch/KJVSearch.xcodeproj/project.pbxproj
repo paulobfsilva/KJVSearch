@@ -30,6 +30,7 @@
 		5187051E29197C9700FD35AF /* CoreDataHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5187051D29197C9700FD35AF /* CoreDataHelpers.swift */; };
 		518705202919870C00FD35AF /* CoreDataSearchStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5187051F2919870C00FD35AF /* CoreDataSearchStore.swift */; };
 		518705232919871900FD35AF /* SearchStoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 518705212919871900FD35AF /* SearchStoreDataModel.xcdatamodeld */; };
+		5187052B2919B5B600FD35AF /* KJVSearchResultsCacheIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5187052A2919B5B600FD35AF /* KJVSearchResultsCacheIntegrationTests.swift */; };
 		519EFB25290C09C10026A202 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519EFB24290C09C10026A202 /* HTTPClient.swift */; };
 		519EFB28290D654E0026A202 /* URLSessionHTTPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519EFB27290D654E0026A202 /* URLSessionHTTPClientTests.swift */; };
 		51AC46BC291264CF0044FBA1 /* CacheSearchUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AC46BB291264CF0044FBA1 /* CacheSearchUseCaseTests.swift */; };
@@ -92,6 +93,8 @@
 		5187051D29197C9700FD35AF /* CoreDataHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CoreDataHelpers.swift; path = KJVSearch/CoreDataHelpers.swift; sourceTree = SOURCE_ROOT; };
 		5187051F2919870C00FD35AF /* CoreDataSearchStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoreDataSearchStore.swift; sourceTree = "<group>"; };
 		518705222919871900FD35AF /* SearchStoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SearchStoreDataModel.xcdatamodel; sourceTree = "<group>"; };
+		518705282919B5B600FD35AF /* KJVSearchResultsCacheIntegrationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KJVSearchResultsCacheIntegrationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		5187052A2919B5B600FD35AF /* KJVSearchResultsCacheIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KJVSearchResultsCacheIntegrationTests.swift; sourceTree = "<group>"; };
 		519EFB24290C09C10026A202 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		519EFB27290D654E0026A202 /* URLSessionHTTPClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClientTests.swift; sourceTree = "<group>"; };
 		51AC46BB291264CF0044FBA1 /* CacheSearchUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheSearchUseCaseTests.swift; sourceTree = "<group>"; };
@@ -132,6 +135,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		518705252919B5B600FD35AF /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -157,6 +167,7 @@
 				516983CD29091946007DE3C0 /* KJVSearch */,
 				516983E429091947007DE3C0 /* KJVSearchTests */,
 				51542114290E99B600DDCED0 /* KJVSearchAPIEndToEndTests */,
+				518705292919B5B600FD35AF /* KJVSearchResultsCacheIntegrationTests */,
 				516983CC29091946007DE3C0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -167,6 +178,7 @@
 				516983CB29091946007DE3C0 /* KJVSearch.app */,
 				516983E129091947007DE3C0 /* KJVSearchTests.xctest */,
 				51542113290E99B600DDCED0 /* KJVSearchAPIEndToEndTests.xctest */,
+				518705282919B5B600FD35AF /* KJVSearchResultsCacheIntegrationTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -246,6 +258,14 @@
 				5187051D29197C9700FD35AF /* CoreDataHelpers.swift */,
 			);
 			path = Helpers;
+			sourceTree = "<group>";
+		};
+		518705292919B5B600FD35AF /* KJVSearchResultsCacheIntegrationTests */ = {
+			isa = PBXGroup;
+			children = (
+				5187052A2919B5B600FD35AF /* KJVSearchResultsCacheIntegrationTests.swift */,
+			);
+			path = KJVSearchResultsCacheIntegrationTests;
 			sourceTree = "<group>";
 		};
 		519EFB26290C144A0026A202 /* Search API */ = {
@@ -359,6 +379,23 @@
 			productReference = 516983E129091947007DE3C0 /* KJVSearchTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		518705272919B5B600FD35AF /* KJVSearchResultsCacheIntegrationTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5187052C2919B5B600FD35AF /* Build configuration list for PBXNativeTarget "KJVSearchResultsCacheIntegrationTests" */;
+			buildPhases = (
+				518705242919B5B600FD35AF /* Sources */,
+				518705252919B5B600FD35AF /* Frameworks */,
+				518705262919B5B600FD35AF /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = KJVSearchResultsCacheIntegrationTests;
+			productName = KJVSearchResultsCacheIntegrationTests;
+			productReference = 518705282919B5B600FD35AF /* KJVSearchResultsCacheIntegrationTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -380,6 +417,9 @@
 						CreatedOnToolsVersion = 14.0.1;
 						TestTargetID = 516983CA29091946007DE3C0;
 					};
+					518705272919B5B600FD35AF = {
+						CreatedOnToolsVersion = 14.0.1;
+					};
 				};
 			};
 			buildConfigurationList = 516983C629091946007DE3C0 /* Build configuration list for PBXProject "KJVSearch" */;
@@ -398,6 +438,7 @@
 				516983CA29091946007DE3C0 /* KJVSearch */,
 				516983E029091947007DE3C0 /* KJVSearchTests */,
 				51542112290E99B600DDCED0 /* KJVSearchAPIEndToEndTests */,
+				518705272919B5B600FD35AF /* KJVSearchResultsCacheIntegrationTests */,
 			);
 		};
 /* End PBXProject section */
@@ -421,6 +462,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		516983DF29091947007DE3C0 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		518705262919B5B600FD35AF /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -484,6 +532,14 @@
 				51AC46BC291264CF0044FBA1 /* CacheSearchUseCaseTests.swift in Sources */,
 				51B152F2290DBEC800D77037 /* XCTestCase+MemoryLeakTracking.swift in Sources */,
 				5187050929196E1C00FD35AF /* CoreDataSearchStoreTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		518705242919B5B600FD35AF /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5187052B2919B5B600FD35AF /* KJVSearchResultsCacheIntegrationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -774,6 +830,41 @@
 			};
 			name = Release;
 		};
+		5187052D2919B5B600FD35AF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LDXCCD7PQ8;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.paulosilva.KJVSearchResultsCacheIntegrationTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		5187052E2919B5B600FD35AF /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = LDXCCD7PQ8;
+				GENERATE_INFOPLIST_FILE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 12.3;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.paulosilva.KJVSearchResultsCacheIntegrationTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -809,6 +900,15 @@
 			buildConfigurations = (
 				516983F929091947007DE3C0 /* Debug */,
 				516983FA29091947007DE3C0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5187052C2919B5B600FD35AF /* Build configuration list for PBXNativeTarget "KJVSearchResultsCacheIntegrationTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5187052D2919B5B600FD35AF /* Debug */,
+				5187052E2919B5B600FD35AF /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
