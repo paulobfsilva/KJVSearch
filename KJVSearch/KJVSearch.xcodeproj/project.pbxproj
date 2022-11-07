@@ -22,6 +22,7 @@
 		5169840029091AB4007DE3C0 /* SearchItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 516983FF29091AB4007DE3C0 /* SearchItem.swift */; };
 		5169840229091AC7007DE3C0 /* SearchLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5169840129091AC7007DE3C0 /* SearchLoader.swift */; };
 		5169840529099BEE007DE3C0 /* RemoteSearchLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5169840429099BEE007DE3C0 /* RemoteSearchLoader.swift */; };
+		518704F429192B4F00FD35AF /* SearchStoreSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 518704F229192AC200FD35AF /* SearchStoreSpecs.swift */; };
 		519EFB25290C09C10026A202 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519EFB24290C09C10026A202 /* HTTPClient.swift */; };
 		519EFB28290D654E0026A202 /* URLSessionHTTPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519EFB27290D654E0026A202 /* URLSessionHTTPClientTests.swift */; };
 		51AC46BC291264CF0044FBA1 /* CacheSearchUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AC46BB291264CF0044FBA1 /* CacheSearchUseCaseTests.swift */; };
@@ -76,6 +77,7 @@
 		516983FF29091AB4007DE3C0 /* SearchItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchItem.swift; sourceTree = "<group>"; };
 		5169840129091AC7007DE3C0 /* SearchLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLoader.swift; sourceTree = "<group>"; };
 		5169840429099BEE007DE3C0 /* RemoteSearchLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoteSearchLoader.swift; sourceTree = "<group>"; };
+		518704F229192AC200FD35AF /* SearchStoreSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchStoreSpecs.swift; sourceTree = "<group>"; };
 		519EFB24290C09C10026A202 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		519EFB27290D654E0026A202 /* URLSessionHTTPClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClientTests.swift; sourceTree = "<group>"; };
 		51AC46BB291264CF0044FBA1 /* CacheSearchUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheSearchUseCaseTests.swift; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 		51AC46BA291264990044FBA1 /* Search Cache */ = {
 			isa = PBXGroup;
 			children = (
+				518704F229192AC200FD35AF /* SearchStoreSpecs.swift */,
 				51AC46C82913C6540044FBA1 /* Helpers */,
 				51AC46BB291264CF0044FBA1 /* CacheSearchUseCaseTests.swift */,
 				51AC46C62913BA010044FBA1 /* LoadSearchFromCacheUseCaseTests.swift */,
@@ -419,6 +422,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				51AC46CC291426110044FBA1 /* ValidateSearchCacheUseCaseTests.swift in Sources */,
+				518704F429192B4F00FD35AF /* SearchStoreSpecs.swift in Sources */,
 				51AC46CA2913C6690044FBA1 /* SearchStoreSpy.swift in Sources */,
 				516983E629091947007DE3C0 /* RemoteSearchLoaderTests.swift in Sources */,
 				51AC46C72913BA010044FBA1 /* LoadSearchFromCacheUseCaseTests.swift in Sources */,
