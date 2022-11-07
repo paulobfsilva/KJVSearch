@@ -19,6 +19,10 @@ internal func uniqueItems() -> (models: [SearchItem], local: [LocalSearchItem]) 
     return (models, local)
 }
 
+internal func anyQuery() -> String {
+    return "any query string"
+}
+
 internal extension Date {
     func minusSearchCacheMaxAge() -> Date {
         return adding(days: -searchCacheMaxAgeInDays)

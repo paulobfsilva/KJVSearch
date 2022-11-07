@@ -24,7 +24,7 @@ public protocol SearchStore {
     
     /// The completion handler can be invoked in any thread
     /// Clients are responsible to dispatch to appropriate threads, if needed.
-    func insert(_ items: [LocalSearchItem], timestamp: Date, completion: @escaping InsertionCompletion)
+    func insert(_ items: [LocalSearchItem], timestamp: Date, query: String, completion: @escaping InsertionCompletion)
     
     /// The completion handler can be invoked in any thread
     /// Clients are responsible to dispatch to appropriate threads, if needed.

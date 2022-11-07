@@ -21,7 +21,7 @@ extension SearchStoreSpecs where Self: XCTestCase {
     func assertThatRetrieveDeliversFoundValuesOnNonEmptyCache(on sut: SearchStore, file: StaticString = #file, line: UInt = #line) {
         let searchResults = uniqueItems().local
         let timestamp = Date()
-        insert((searchResults, timestamp), to: sut)
+        insert((searchResults, timestamp), query: anyQuery(), to: sut)
         expect(sut, toRetrieve: .found(results: searchResults, timestamp: timestamp))
     }
     
@@ -29,7 +29,7 @@ extension SearchStoreSpecs where Self: XCTestCase {
         let searchResults = uniqueItems().local
         let timestamp = Date()
         
-        insert((searchResults, timestamp), to: sut)
+        insert((searchResults, timestamp), query: anyQuery(), to: sut)
         expect(sut, toRetrieveTwice: .found(results: searchResults, timestamp: timestamp))
     }
     
@@ -46,23 +46,23 @@ extension SearchStoreSpecs where Self: XCTestCase {
     }
     
     func assertThatInsertDeliversNoErrorOnEmptyCache(on sut: SearchStore) {
-        let insertionError = insert ((uniqueItems().local, Date()), to: sut)
+        let insertionError = insert ((uniqueItems().local, Date()), query: anyQuery(), to: sut)
         XCTAssertNil(insertionError, "Expected to insert cache successfully")
     }
     
     func assertThatInsertDeliversNoErrorOnNonEmptyCache(on sut: SearchStore) {
-        insert((uniqueItems().local, Date()), to: sut)
+        insert((uniqueItems().local, Date()), query: anyQuery(), to: sut)
         let insertionError =
-        insert ((uniqueItems().local, Date()), to: sut)
+        insert ((uniqueItems().local, Date()), query: anyQuery(), to: sut)
         XCTAssertNil(insertionError, "Expected to override cache successfully")
     }
     
     func assertThatInsertOverridesPreviouslyInsertedCacheValues(on sut: SearchStore) {
-        insert((uniqueItems().local, Date()), to: sut)
+        insert((uniqueItems().local, Date()), query: anyQuery(), to: sut)
         
         let latestResult = uniqueItems().local
         let latestTimestamp = Date()
-        insert((latestResult, latestTimestamp), to: sut)
+        insert((latestResult, latestTimestamp), query: anyQuery(), to: sut)
         
         expect(sut, toRetrieve: .found(results: latestResult, timestamp: latestTimestamp))
     }
@@ -71,7 +71,7 @@ extension SearchStoreSpecs where Self: XCTestCase {
         let results = uniqueItems().local
         let timestamp = Date()
         
-        let insertionError = insert((results, timestamp), to: sut)
+        let insertionError = insert((results, timestamp), query: anyQuery(), to: sut)
         
         XCTAssertNotNil(insertionError, "Expected cache insertion to fail with an error")
     }
@@ -80,7 +80,7 @@ extension SearchStoreSpecs where Self: XCTestCase {
         let results = uniqueItems().local
         let timestamp = Date()
         
-        insert((results, timestamp), to: sut)
+        insert((results, timestamp), query: anyQuery(), to: sut)
         
         expect(sut, toRetrieve: .empty)
     }
@@ -98,13 +98,13 @@ extension SearchStoreSpecs where Self: XCTestCase {
     }
     
     func assertThatDeleteDeliversNoErrorOnNonEmptyCache(on sut: SearchStore) {
-        insert((uniqueItems().local, Date()), to: sut)
+        insert((uniqueItems().local, Date()), query: anyQuery(), to: sut)
         let deletionError = deleteCache(from: sut)
         XCTAssertNil (deletionError, "Expected non-empty cache deletion to succeed")
     }
     
     func assertThatDeleteEmptiesPreviouslyInsertedCache(on sut: SearchStore) {
-        insert((uniqueItems().local, Date()), to: sut)
+        insert((uniqueItems().local, Date()), query: anyQuery(), to: sut)
         
         deleteCache(from: sut)
         
@@ -124,7 +124,7 @@ extension SearchStoreSpecs where Self: XCTestCase {
     
     func assertThatSideEffectsRunSerially(on sut: SearchStore) {
         let op1 = expectation(description: "Operation 1")
-        sut.insert(uniqueItems().local, timestamp: Date()) { _ in
+        sut.insert(uniqueItems().local, timestamp: Date(), query: anyQuery()) { _ in
             op1.fulfill()
         }
         
@@ -134,7 +134,7 @@ extension SearchStoreSpecs where Self: XCTestCase {
         }
         
         let op3 = expectation(description: "Operation 3")
-        sut.insert(uniqueItems().local, timestamp: Date()) { _ in
+        sut.insert(uniqueItems().local, timestamp: Date(), query: anyQuery()) { _ in
             op3.fulfill()
         }
         
@@ -142,10 +142,10 @@ extension SearchStoreSpecs where Self: XCTestCase {
     }
     
     @discardableResult
-    func insert(_ cache: (results: [LocalSearchItem], timestamp: Date), to sut: SearchStore) -> Error?{
+    func insert(_ cache: (results: [LocalSearchItem], timestamp: Date), query: String, to sut: SearchStore) -> Error?{
         let exp = expectation (description: "Wait for cache insertion")
         var insertionError: Error?
-        sut.insert(cache.results, timestamp: cache.timestamp) { receivedInsertionError in
+        sut.insert(cache.results, timestamp: cache.timestamp, query: anyQuery()) { receivedInsertionError in
             insertionError = receivedInsertionError
             exp.fulfill ()
         }

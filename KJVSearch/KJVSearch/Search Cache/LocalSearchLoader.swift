@@ -20,20 +20,20 @@ public final class LocalSearchLoader {
 extension LocalSearchLoader {
     public typealias SaveResult = Error?
 
-    public func save(_ items: [SearchItem], completion: @escaping (SaveResult) -> Void) {
+    public func save(_ items: [SearchItem], query: String, completion: @escaping (SaveResult) -> Void) {
         store.deleteCachedSearch { [weak self] error in
             guard let self = self else { return }
             
             if let cacheDeletionError = error {
                 completion(cacheDeletionError)
             } else {
-                self.cache(items, with: completion)
+                self.cache(items, query: query, with: completion)
             }
         }
     }
     
-    private func cache(_ items: [SearchItem], with completion: @escaping (SaveResult) -> Void) {
-        store.insert(items.toLocal(), timestamp: currentDate()) { [weak self] cacheInsertionError in
+    private func cache(_ items: [SearchItem], query: String, with completion: @escaping (SaveResult) -> Void) {
+        store.insert(items.toLocal(), timestamp: currentDate(), query: query) { [weak self] cacheInsertionError in
             guard self != nil else { return }
             completion(cacheInsertionError)
         }

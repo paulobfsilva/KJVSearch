@@ -18,7 +18,7 @@ class CacheSearchUseCaseTests: XCTestCase {
     func test_save_requestsCacheDeletion() {
         let (sut, store) = makeSUT()
         
-        sut.save(uniqueItems().models) {_ in }
+        sut.save(uniqueItems().models, query: anyQuery()) {_ in }
         XCTAssertEqual(store.receivedMessages, [.deleteCachedSearch])
     }
     
@@ -26,7 +26,7 @@ class CacheSearchUseCaseTests: XCTestCase {
         let (sut, store) = makeSUT()
         let deletionError = anyError()
         
-        sut.save(uniqueItems().models) {_ in }
+        sut.save(uniqueItems().models, query: anyQuery()) {_ in }
         store.completeDeletion(with: deletionError)
         XCTAssertEqual(store.receivedMessages, [.deleteCachedSearch])
     }
@@ -36,7 +36,7 @@ class CacheSearchUseCaseTests: XCTestCase {
         let items = uniqueItems()
         let (sut, store) = makeSUT(currentDate: { timestamp })
         
-        sut.save(items.models) {_ in }
+        sut.save(items.models, query: anyQuery()) {_ in }
         store.completeDeletionSuccessfully()
         
         XCTAssertEqual(store.receivedMessages, [.deleteCachedSearch, .insert(items.local, timestamp)])
@@ -71,7 +71,7 @@ class CacheSearchUseCaseTests: XCTestCase {
         let store = SearchStoreSpy()
         var sut: LocalSearchLoader? = LocalSearchLoader(store: store, currentDate: Date.init)
         var receivedResults = [LocalSearchLoader.SaveResult]()
-        sut?.save(uniqueItems().models) { receivedResults.append($0) }
+        sut?.save(uniqueItems().models, query: anyQuery()) { receivedResults.append($0) }
         // remove the reference to the SUT after it has been deallocated
         sut = nil
         store.completeDeletion(with: anyError())
@@ -82,7 +82,7 @@ class CacheSearchUseCaseTests: XCTestCase {
         let store = SearchStoreSpy()
         var sut: LocalSearchLoader? = LocalSearchLoader(store: store, currentDate: Date.init)
         var receivedResults = [LocalSearchLoader.SaveResult]()
-        sut?.save(uniqueItems().models) { receivedResults.append($0) }
+        sut?.save(uniqueItems().models, query: anyQuery()) { receivedResults.append($0) }
         
         store.completeDeletionSuccessfully()
         sut = nil
@@ -103,12 +103,16 @@ class CacheSearchUseCaseTests: XCTestCase {
         let exp = expectation(description: "Wait for save completion")
         
         var receivedError: Error?
-        sut.save(uniqueItems().models) { error in
+        sut.save(uniqueItems().models, query: anyQuery()) { error in
             receivedError = error
             exp.fulfill()
         }
         action()
         wait(for: [exp], timeout: 1.0)
         XCTAssertEqual(receivedError as NSError?, expectedError, file: file, line: line)
+    }
+    
+    private func anyQuery() -> String {
+        return "any-text-query"
     }
 }

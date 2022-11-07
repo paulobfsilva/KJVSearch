@@ -35,7 +35,7 @@ class SearchStoreSpy: SearchStore {
         deletionCompletions[index](nil)
     }
     
-    func insert(_ items: [LocalSearchItem], timestamp: Date, completion: @escaping InsertionCompletion) {
+    func insert(_ items: [LocalSearchItem], timestamp: Date, query: String, completion: @escaping InsertionCompletion) {
         insertionCompletions.append(completion)
         receivedMessages.append(.insert(items, timestamp))
     }
