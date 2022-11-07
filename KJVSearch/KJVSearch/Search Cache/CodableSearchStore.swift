@@ -8,7 +8,7 @@
 import Foundation
 
 public class CodableSearchStore: SearchStore {
-    
+
     private struct Cache: Codable {
         let searchResults: [CodableSearchItem]
         let timestamp: Date
@@ -61,7 +61,7 @@ public class CodableSearchStore: SearchStore {
         }
     }
     
-    public func insert(_ items: [LocalSearchItem], timestamp: Date, completion: @escaping InsertionCompletion) {
+    public func insert(_ items: [LocalSearchItem], timestamp: Date, query: String, completion: @escaping InsertionCompletion) {
         let storeURL = self.storeURL
         queue.async(flags: .barrier) {
             do {
