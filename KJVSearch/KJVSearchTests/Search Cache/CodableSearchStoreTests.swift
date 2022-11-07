@@ -34,18 +34,14 @@ class CodableSearchStoreTests: XCTestCase, FailableSearchStore {
     
     func test_retrieve_deliversFoundValuesOnNonEmptyCache() {
         let sut = makeSUT()
-        let searchResults = uniqueItems().local
-        let timestamp = Date()
         
-        assertThatRetrieveDeliversFoundValuesOnNonEmptyCache(on: sut, results: searchResults, timestamp: timestamp)
+        assertThatRetrieveDeliversFoundValuesOnNonEmptyCache(on: sut)
     }
     
     func test_retrieve_hasNoSideEffectsOnNonEmptyCache() {
         let sut = makeSUT()
-        let searchResults = uniqueItems().local
-        let timestamp = Date()
-        
-        assertThatRetrieveHasNoSideEffectsOnNonEmptyCache(on: sut, results: searchResults, timestamp: timestamp)
+
+        assertThatRetrieveHasNoSideEffectsOnNonEmptyCache(on: sut)
     }
     
     func test_retrieve_deliversFailureOnRetrievalError() {
@@ -130,22 +126,7 @@ class CodableSearchStoreTests: XCTestCase, FailableSearchStore {
     func test_storeSideEffects_runSerially() {
         let sut = makeSUT()
         
-        let op1 = expectation(description: "Operation 1")
-        sut.insert(uniqueItems().local, timestamp: Date()) { _ in
-            op1.fulfill()
-        }
-        
-        let op2 = expectation(description: "Operation 2")
-        sut.deleteCachedSearch { _ in
-            op2.fulfill()
-        }
-        
-        let op3 = expectation(description: "Operation 3")
-        sut.insert(uniqueItems().local, timestamp: Date()) { _ in
-            op3.fulfill()
-        }
-        
-        wait(for: [op1,op2, op3], timeout: 5.0, enforceOrder: true)
+        assertThatSideEffectsRunSerially(on: sut)
     }
     
     // MARK: - Helpers

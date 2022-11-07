@@ -18,14 +18,19 @@ extension SearchStoreSpecs where Self: XCTestCase {
         expect(sut, toRetrieveTwice: .empty)
     }
     
-    func assertThatRetrieveDeliversFoundValuesOnNonEmptyCache(on sut: SearchStore, results: [LocalSearchItem], timestamp: Date, file: StaticString = #file, line: UInt = #line) {
-        insert((results, timestamp), to: sut)
-        expect(sut, toRetrieve: .found(results: results, timestamp: timestamp))
+    func assertThatRetrieveDeliversFoundValuesOnNonEmptyCache(on sut: SearchStore, file: StaticString = #file, line: UInt = #line) {
+        let searchResults = uniqueItems().local
+        let timestamp = Date()
+        insert((searchResults, timestamp), to: sut)
+        expect(sut, toRetrieve: .found(results: searchResults, timestamp: timestamp))
     }
     
-    func assertThatRetrieveHasNoSideEffectsOnNonEmptyCache(on sut: SearchStore, results: [LocalSearchItem], timestamp: Date, file: StaticString = #file, line: UInt = #line) {
-        insert((results, timestamp), to: sut)
-        expect(sut, toRetrieveTwice: .found(results: results, timestamp: timestamp))
+    func assertThatRetrieveHasNoSideEffectsOnNonEmptyCache(on sut: SearchStore, file: StaticString = #file, line: UInt = #line) {
+        let searchResults = uniqueItems().local
+        let timestamp = Date()
+        
+        insert((searchResults, timestamp), to: sut)
+        expect(sut, toRetrieveTwice: .found(results: searchResults, timestamp: timestamp))
     }
     
     func assertThatRetrieveDeliversFailureOnRetrievalError(on sut: SearchStore, for storeURL: URL) {
@@ -115,6 +120,25 @@ extension SearchStoreSpecs where Self: XCTestCase {
     func assertThatDeleteHasNoSideEffectsOnDeletionError(on sut: SearchStore) {
         deleteCache(from: sut)
         expect(sut, toRetrieve: .empty)
+    }
+    
+    func assertThatSideEffectsRunSerially(on sut: SearchStore) {
+        let op1 = expectation(description: "Operation 1")
+        sut.insert(uniqueItems().local, timestamp: Date()) { _ in
+            op1.fulfill()
+        }
+        
+        let op2 = expectation(description: "Operation 2")
+        sut.deleteCachedSearch { _ in
+            op2.fulfill()
+        }
+        
+        let op3 = expectation(description: "Operation 3")
+        sut.insert(uniqueItems().local, timestamp: Date()) { _ in
+            op3.fulfill()
+        }
+        
+        wait(for: [op1,op2, op3], timeout: 5.0, enforceOrder: true)
     }
     
     @discardableResult
