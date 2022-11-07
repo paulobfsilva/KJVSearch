@@ -31,6 +31,7 @@
 		518705202919870C00FD35AF /* CoreDataSearchStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5187051F2919870C00FD35AF /* CoreDataSearchStore.swift */; };
 		518705232919871900FD35AF /* SearchStoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 518705212919871900FD35AF /* SearchStoreDataModel.xcdatamodeld */; };
 		5187052B2919B5B600FD35AF /* KJVSearchResultsCacheIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5187052A2919B5B600FD35AF /* KJVSearchResultsCacheIntegrationTests.swift */; };
+		518705312919B92C00FD35AF /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B152F1290DBEC800D77037 /* XCTestCase+MemoryLeakTracking.swift */; };
 		519EFB25290C09C10026A202 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519EFB24290C09C10026A202 /* HTTPClient.swift */; };
 		519EFB28290D654E0026A202 /* URLSessionHTTPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519EFB27290D654E0026A202 /* URLSessionHTTPClientTests.swift */; };
 		51AC46BC291264CF0044FBA1 /* CacheSearchUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AC46BB291264CF0044FBA1 /* CacheSearchUseCaseTests.swift */; };
@@ -58,6 +59,13 @@
 			remoteInfo = KJVSearch;
 		};
 		516983E229091947007DE3C0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 516983C329091946007DE3C0 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 516983CA29091946007DE3C0;
+			remoteInfo = KJVSearch;
+		};
+		5187052F2919B7E500FD35AF /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 516983C329091946007DE3C0 /* Project object */;
 			proxyType = 1;
@@ -390,6 +398,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				518705302919B7E500FD35AF /* PBXTargetDependency */,
 			);
 			name = KJVSearchResultsCacheIntegrationTests;
 			productName = KJVSearchResultsCacheIntegrationTests;
@@ -419,6 +428,7 @@
 					};
 					518705272919B5B600FD35AF = {
 						CreatedOnToolsVersion = 14.0.1;
+						TestTargetID = 516983CA29091946007DE3C0;
 					};
 				};
 			};
@@ -540,6 +550,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5187052B2919B5B600FD35AF /* KJVSearchResultsCacheIntegrationTests.swift in Sources */,
+				518705312919B92C00FD35AF /* XCTestCase+MemoryLeakTracking.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -555,6 +566,11 @@
 			isa = PBXTargetDependency;
 			target = 516983CA29091946007DE3C0 /* KJVSearch */;
 			targetProxy = 516983E229091947007DE3C0 /* PBXContainerItemProxy */;
+		};
+		518705302919B7E500FD35AF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 516983CA29091946007DE3C0 /* KJVSearch */;
+			targetProxy = 5187052F2919B7E500FD35AF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -833,6 +849,7 @@
 		5187052D2919B5B600FD35AF /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LDXCCD7PQ8;
@@ -843,14 +860,20 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.paulosilva.KJVSearchResultsCacheIntegrationTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KJVSearch.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/KJVSearch";
 			};
 			name = Debug;
 		};
 		5187052E2919B5B600FD35AF /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = LDXCCD7PQ8;
@@ -860,8 +883,13 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.paulosilva.KJVSearchResultsCacheIntegrationTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = macosx;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/KJVSearch.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/KJVSearch";
 			};
 			name = Release;
 		};
