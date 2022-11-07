@@ -9,6 +9,114 @@ import KJVSearch
 import XCTest
 
 extension SearchStoreSpecs where Self: XCTestCase {
+    
+    func assertThatRetrieveDeliversEmptyOnEmptyCache(on sut: SearchStore, file: StaticString = #file, line: UInt = #line) {
+        expect(sut, toRetrieve: .empty, file: file, line: line)
+    }
+    
+    func assertThatRetrieveHasNoSideEffectsOnEmptyCache(on sut: SearchStore, file: StaticString = #file, line: UInt = #line) {
+        expect(sut, toRetrieveTwice: .empty)
+    }
+    
+    func assertThatRetrieveDeliversFoundValuesOnNonEmptyCache(on sut: SearchStore, results: [LocalSearchItem], timestamp: Date, file: StaticString = #file, line: UInt = #line) {
+        insert((results, timestamp), to: sut)
+        expect(sut, toRetrieve: .found(results: results, timestamp: timestamp))
+    }
+    
+    func assertThatRetrieveHasNoSideEffectsOnNonEmptyCache(on sut: SearchStore, results: [LocalSearchItem], timestamp: Date, file: StaticString = #file, line: UInt = #line) {
+        insert((results, timestamp), to: sut)
+        expect(sut, toRetrieveTwice: .found(results: results, timestamp: timestamp))
+    }
+    
+    func assertThatRetrieveDeliversFailureOnRetrievalError(on sut: SearchStore, for storeURL: URL) {
+        try! "invalid data".write(to: storeURL, atomically: false, encoding: .utf8)
+        
+        expect(sut, toRetrieve: .failure(anyError()))
+    }
+    
+    func assertThatRetrieveHasNoSideEffectsOnFailure(on sut: SearchStore, for storeURL: URL) {
+        try! "invalid data".write(to: storeURL, atomically: false, encoding: .utf8)
+        
+        expect(sut, toRetrieveTwice: .failure(anyError()))
+    }
+    
+    func assertThatInsertDeliversNoErrorOnEmptyCache(on sut: SearchStore) {
+        let insertionError = insert ((uniqueItems().local, Date()), to: sut)
+        XCTAssertNil(insertionError, "Expected to insert cache successfully")
+    }
+    
+    func assertThatInsertDeliversNoErrorOnNonEmptyCache(on sut: SearchStore) {
+        insert((uniqueItems().local, Date()), to: sut)
+        let insertionError =
+        insert ((uniqueItems().local, Date()), to: sut)
+        XCTAssertNil(insertionError, "Expected to override cache successfully")
+    }
+    
+    func assertThatInsertOverridesPreviouslyInsertedCacheValues(on sut: SearchStore) {
+        insert((uniqueItems().local, Date()), to: sut)
+        
+        let latestResult = uniqueItems().local
+        let latestTimestamp = Date()
+        insert((latestResult, latestTimestamp), to: sut)
+        
+        expect(sut, toRetrieve: .found(results: latestResult, timestamp: latestTimestamp))
+    }
+    
+    func assertThatInsertDeliversErrorOnInsertionError(on sut: SearchStore) {
+        let results = uniqueItems().local
+        let timestamp = Date()
+        
+        let insertionError = insert((results, timestamp), to: sut)
+        
+        XCTAssertNotNil(insertionError, "Expected cache insertion to fail with an error")
+    }
+    
+    func assertThatInsertHasNoSideEffectsOnInsertionError(on sut: SearchStore) {
+        let results = uniqueItems().local
+        let timestamp = Date()
+        
+        insert((results, timestamp), to: sut)
+        
+        expect(sut, toRetrieve: .empty)
+    }
+    
+    func assertThatDeleteDeliversNoErrorOnEmptyCache(on sut: SearchStore) {
+        let deletionError = deleteCache(from: sut)
+        
+        XCTAssertNil(deletionError, "Expected empty cache deletion to succeed")
+    }
+    
+    func assertThatDeleteHasNoSideEffectsOnEmptyCache(on sut: SearchStore) {
+        deleteCache(from: sut)
+        
+        expect(sut, toRetrieve: .empty)
+    }
+    
+    func assertThatDeleteDeliversNoErrorOnNonEmptyCache(on sut: SearchStore) {
+        insert((uniqueItems().local, Date()), to: sut)
+        let deletionError = deleteCache(from: sut)
+        XCTAssertNil (deletionError, "Expected non-empty cache deletion to succeed")
+    }
+    
+    func assertThatDeleteEmptiesPreviouslyInsertedCache(on sut: SearchStore) {
+        insert((uniqueItems().local, Date()), to: sut)
+        
+        deleteCache(from: sut)
+        
+        expect (sut, toRetrieve: .empty)
+    }
+    
+    func assertThatDeleteDeliversErrorOnDeletionError(on sut: SearchStore) {
+        let deletionError = deleteCache(from: sut)
+        
+        XCTAssertNotNil(deletionError, "Expected cache deletion to fail")
+    }
+    
+    func assertThatDeleteHasNoSideEffectsOnDeletionError(on sut: SearchStore) {
+        deleteCache(from: sut)
+        expect(sut, toRetrieve: .empty)
+    }
+    
     @discardableResult
     func insert(_ cache: (results: [LocalSearchItem], timestamp: Date), to sut: SearchStore) -> Error?{
         let exp = expectation (description: "Wait for cache insertion")
