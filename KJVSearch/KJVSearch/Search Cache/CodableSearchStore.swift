@@ -36,7 +36,7 @@ public class CodableSearchStore: SearchStore {
         }
     }
     
-    private let queue = DispatchQueue(label: "\(CodableSearchStore.self)Queue", qos: .userInitiated)
+    private let queue = DispatchQueue(label: "\(CodableSearchStore.self)Queue", qos: .userInitiated, attributes: .concurrent)
     
     private let storeURL: URL
     
@@ -63,7 +63,7 @@ public class CodableSearchStore: SearchStore {
     
     public func insert(_ items: [LocalSearchItem], timestamp: Date, completion: @escaping InsertionCompletion) {
         let storeURL = self.storeURL
-        queue.async {
+        queue.async(flags: .barrier) {
             do {
                 let encoder = JSONEncoder()
                 let cache = Cache(searchResults: items.map(CodableSearchItem.init), timestamp: timestamp)
@@ -78,7 +78,7 @@ public class CodableSearchStore: SearchStore {
     
     public func deleteCachedSearch(completion: @escaping DeletionCompletion) {
         let storeURL = self.storeURL
-        queue.async {
+        queue.async(flags: .barrier) {
             guard FileManager.default.fileExists(atPath: storeURL.path) else {
                 return completion(nil)
             }
