@@ -31,12 +31,7 @@ class KJVSearchResultsCacheIntegrationTests: XCTestCase {
         let sutToPerformLoad = makeSUT()
         let items = uniqueItems().models
         
-        let saveExp = expectation(description: "Wait for save completion")
-        sutToPerformSave.save(items, query: anyQuery()) { saveError in
-            XCTAssertNil(saveError, "Expected to save feed successfully")
-            saveExp.fulfill()
-        }
-        wait(for: [saveExp], timeout: 1.0)
+        save(items, with: sutToPerformSave)
         
         expect(sutToPerformLoad, toLoad: items)
     }
@@ -45,22 +40,14 @@ class KJVSearchResultsCacheIntegrationTests: XCTestCase {
         let sutToPerformFirstSave = makeSUT()
         let sutToPerformLastSave = makeSUT()
         let sutToPerformLoad = makeSUT()
-        let firstFeed = uniqueItems().models
-        let latestFeed = uniqueItems().models
-        let saveExp1 = expectation(description: "Wait for save completion")
-        sutToPerformFirstSave.save(firstFeed, query: anyQuery()) { saveError in
-            XCTAssertNil(saveError, "Expected to save feed successfully")
-            saveExp1.fulfill()
-        }
-        wait(for: [saveExp1], timeout: 1.0)
+        let firstItem = uniqueItems().models
+        let latestItem = uniqueItems().models
         
-        let saveExp2 = expectation (description: "Wait for save completion")
-        sutToPerformLastSave.save(latestFeed, query: anyQuery()) { saveError in
-            XCTAssertNil(saveError, "Expected to save feed successfully")
-            saveExp2.fulfill()
-        }
-        wait(for: [saveExp2], timeout: 1.0)
-        expect (sutToPerformLoad, toLoad: latestFeed)
+        save(firstItem, with: sutToPerformFirstSave)
+        
+        save(latestItem, with: sutToPerformLastSave)
+        
+        expect (sutToPerformLoad, toLoad: latestItem)
     }
 
     // MARK: - Helpers
@@ -88,6 +75,15 @@ class KJVSearchResultsCacheIntegrationTests: XCTestCase {
             exp.fulfill()
         }
         wait(for: [exp], timeout: 1.0)
+    }
+    
+    private func save(_ items: [SearchItem], with loader: LocalSearchLoader, file: StaticString = #file, line: UInt = #line) {
+        let saveExp = expectation(description: "Wait for save completion")
+        loader.save(items, query: anyQuery()) { saveError in
+            XCTAssertNil(saveError, "Expected to save feed successfully", file: file, line: line)
+            saveExp.fulfill()
+        }
+        wait(for: [saveExp], timeout: 1.0)
     }
     
     private func setupEmptyStoreState() {
