@@ -32,6 +32,7 @@
 		518705232919871900FD35AF /* SearchStoreDataModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 518705212919871900FD35AF /* SearchStoreDataModel.xcdatamodeld */; };
 		5187052B2919B5B600FD35AF /* KJVSearchResultsCacheIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5187052A2919B5B600FD35AF /* KJVSearchResultsCacheIntegrationTests.swift */; };
 		518705312919B92C00FD35AF /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B152F1290DBEC800D77037 /* XCTestCase+MemoryLeakTracking.swift */; };
+		518705322919BB0000FD35AF /* SearchCacheTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AC46CD29142A1F0044FBA1 /* SearchCacheTestHelpers.swift */; };
 		519EFB25290C09C10026A202 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519EFB24290C09C10026A202 /* HTTPClient.swift */; };
 		519EFB28290D654E0026A202 /* URLSessionHTTPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519EFB27290D654E0026A202 /* URLSessionHTTPClientTests.swift */; };
 		51AC46BC291264CF0044FBA1 /* CacheSearchUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AC46BB291264CF0044FBA1 /* CacheSearchUseCaseTests.swift */; };
@@ -549,6 +550,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				518705322919BB0000FD35AF /* SearchCacheTestHelpers.swift in Sources */,
 				5187052B2919B5B600FD35AF /* KJVSearchResultsCacheIntegrationTests.swift in Sources */,
 				518705312919B92C00FD35AF /* XCTestCase+MemoryLeakTracking.swift in Sources */,
 			);
