@@ -18,7 +18,7 @@ public class URLSessionHTTPClient: HTTPClient {
     
     private struct UnexpectedValuesRepresentationError: Error {}
     
-    public func get(from url: URL, query: String, completion: @escaping (HTTPClientResult) -> Void) {
+    public func get(from url: URL, query: String, completion: @escaping (HTTPClient.Result) -> Void) {
         // 1. check for auth token
         tokenManager.retrieveAuthToken { [weak self] token in
             if let request = self?.prepareRequest(url: url, query: query, token: token) {
@@ -40,13 +40,13 @@ public class URLSessionHTTPClient: HTTPClient {
         return request
     }
     
-    private func sendRequest(request: URLRequest, completion: @escaping (HTTPClientResult) -> Void) {
+    private func sendRequest(request: URLRequest, completion: @escaping (HTTPClient.Result) -> Void) {
         session.configuration.requestCachePolicy = .returnCacheDataElseLoad
         session.dataTask(with: request, completionHandler: { data, response, error in
             if let newError = error {
                 completion(.failure(newError))
             } else if let newData = data, let newResponse = response as? HTTPURLResponse {
-                completion(.success(newData, newResponse))
+                completion(.success((newData, newResponse)))
             } else {
                 completion(.failure(UnexpectedValuesRepresentationError()))
             }
