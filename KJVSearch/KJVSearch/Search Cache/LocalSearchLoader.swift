@@ -41,9 +41,9 @@ extension LocalSearchLoader {
 }
 
 extension LocalSearchLoader: SearchLoader {
-    public typealias LoadResult = LoadSearchResult
+    public typealias LoadResult = SearchLoader.Result
 
-    public func load(completion: @escaping (LoadSearchResult) -> Void) {
+    public func load(completion: @escaping (LoadResult) -> Void) {
         store.retrieve { [weak self] result in
             guard let self = self else { return }
             switch result {

@@ -18,7 +18,7 @@ public final class RemoteSearchLoader: SearchLoader {
         case invalidData
     }
     
-    public typealias Result = LoadSearchResult
+    public typealias Result = SearchLoader.Result
     
     public init(url: URL, client: HTTPClient, query: String) {
         self.url = url

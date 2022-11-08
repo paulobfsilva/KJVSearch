@@ -7,8 +7,8 @@
 
 import Foundation
 
-public typealias LoadSearchResult = Result<[SearchItem], Error>
-
 public protocol SearchLoader {
-    func load(completion: @escaping (LoadSearchResult) -> Void)
+    typealias Result = Swift.Result<[SearchItem], Error>
+
+    func load(completion: @escaping (Result) -> Void)
 }
