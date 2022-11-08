@@ -19,42 +19,32 @@ public final class CoreDataSearchStore: SearchStore {
     
     public func retrieve(completion: @escaping RetrievalCompletion) {
         perform { context in
-            do {
-                if let cache = try ManagedCache.find(in: context) {
-                    completion(.success(.some(CachedSearchResults(results: cache.localSearchResults, timestamp: cache.timestamp))))
-                } else {
-                    completion(.success(.none))
+            completion(Result {
+                try ManagedCache.find(in: context).map {
+                    return CachedSearchResults(results: $0.localSearchResults, timestamp: $0.timestamp)
                 }
-            } catch {
-                completion(.failure(error))
-            }
+            })
         }
     }
     
     public func insert(_ items: [KJVSearch.LocalSearchItem], timestamp: Date, query: String, completion: @escaping InsertionCompletion) {
         perform { context in
-            do {
+            completion(Result {
                 let managedCache = try ManagedCache.newUniqueInstance(in: context)
                 managedCache.timestamp = timestamp
                 managedCache.query = query
                 managedCache.results = ManagedSearchResult.results(from: items, in: context)
                 
                 try context.save()
-                completion(.success(Void()))
-            } catch {
-                completion(.failure(error))
-            }
+            })
         }
     }
     
     public func deleteCachedSearch(completion: @escaping DeletionCompletion) {
         perform { context in
-            do {
+            completion(Result {
                 try ManagedCache.find(in: context).map(context.delete).map(context.save)
-                completion(.success(Void()))
-            } catch {
-                completion(.failure(error))
-            }
+            })
         }
     }
         
