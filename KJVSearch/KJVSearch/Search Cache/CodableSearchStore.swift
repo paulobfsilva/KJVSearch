@@ -48,13 +48,13 @@ public class CodableSearchStore: SearchStore {
         let storeURL = self.storeURL
         queue.async {
             guard let data = try? Data(contentsOf: storeURL) else {
-                return completion(.success(.empty))
+                return completion(.success(.none))
             }
             
             do {
                 let decoder = JSONDecoder()
                 let cache = try decoder.decode(Cache.self, from: data)
-                completion(.success(.found(results: cache.localSearchResults, timestamp: cache.timestamp)))
+                completion(.success(.some(CachedSearchResults(results: cache.localSearchResults, timestamp: cache.timestamp))))
             } catch {
                 completion(.failure(error))
             }

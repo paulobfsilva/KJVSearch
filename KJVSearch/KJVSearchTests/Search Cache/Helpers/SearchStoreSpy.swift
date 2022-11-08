@@ -58,10 +58,10 @@ class SearchStoreSpy: SearchStore {
     }
     
     func completeRetrievalWithEmptyCache(at index: Int = 0) {
-        retrievalCompletions[index](.success(.empty))
+        retrievalCompletions[index](.success(.none))
     }
     
     func completeRetrieval(with results: [LocalSearchItem], timestamp: Date, at index: Int = 0) {
-        retrievalCompletions[index](.success(.found(results: results, timestamp: timestamp)))
+        retrievalCompletions[index](.success(.some(CachedSearchResults(results: results, timestamp: timestamp))))
     }
 }

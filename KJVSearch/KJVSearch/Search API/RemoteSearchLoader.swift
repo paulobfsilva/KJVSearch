@@ -29,7 +29,7 @@ public final class RemoteSearchLoader: SearchLoader {
         client.get(from: url, query: query) { [weak self] result in
             guard self != nil else { return }
             switch result {
-            case let .success(data, response):
+            case let .success((data, response)):
                 completion(RemoteSearchLoader.decode(data, from: response))
             case .failure:
                 completion(.failure(Error.connectivity))

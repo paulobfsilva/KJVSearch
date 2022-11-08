@@ -49,8 +49,8 @@ extension LocalSearchLoader: SearchLoader {
             switch result {
             case let .failure(error):
                 completion(.failure(error))
-            case let .success(.found(results, timestamp)) where SearchCachePolicy.validate(timestamp, against: self.currentDate()):
-                completion(.success(results.toModels()))
+            case let .success(.some(cache)) where SearchCachePolicy.validate(cache.timestamp, against: self.currentDate()):
+                completion(.success(cache.results.toModels()))
             case .success:
                 completion(.success([]))
             }
@@ -65,7 +65,7 @@ extension LocalSearchLoader {
             switch result {
             case .failure:
                 self.store.deleteCachedSearch { _ in }
-            case let .success(.found(_, timestamp)) where !SearchCachePolicy.validate(timestamp, against: self.currentDate()):
+            case let .success(.some(cache)) where !SearchCachePolicy.validate(cache.timestamp, against: self.currentDate()):
                 self.store.deleteCachedSearch { _ in }
             case .success: break
             }
