@@ -28,11 +28,11 @@ class SearchStoreSpy: SearchStore {
     }
     
     func completeDeletion(with error: Error, at index: Int = 0) {
-        deletionCompletions[index](error)
+        deletionCompletions[index](.failure(error))
     }
     
     func completeDeletionSuccessfully(at index: Int = 0) {
-        deletionCompletions[index](nil)
+        deletionCompletions[index](.success(Void()))
     }
     
     func insert(_ items: [LocalSearchItem], timestamp: Date, query: String, completion: @escaping InsertionCompletion) {
@@ -41,11 +41,11 @@ class SearchStoreSpy: SearchStore {
     }
     
     func completeInsertion(with error: Error, at index: Int = 0) {
-        insertionCompletions[index](error)
+        insertionCompletions[index](.failure(error))
     }
     
     func completeInsertionSuccessfully(at index: Int = 0) {
-        insertionCompletions[index](nil)
+        insertionCompletions[index](.success(Void()))
     }
     
     func retrieve(completion: @escaping RetrievalCompletion) {

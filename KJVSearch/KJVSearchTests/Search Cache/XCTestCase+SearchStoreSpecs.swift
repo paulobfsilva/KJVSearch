@@ -145,8 +145,13 @@ extension SearchStoreSpecs where Self: XCTestCase {
     func insert(_ cache: (results: [LocalSearchItem], timestamp: Date), query: String, to sut: SearchStore) -> Error?{
         let exp = expectation (description: "Wait for cache insertion")
         var insertionError: Error?
-        sut.insert(cache.results, timestamp: cache.timestamp, query: anyQuery()) { receivedInsertionError in
-            insertionError = receivedInsertionError
+        sut.insert(cache.results, timestamp: cache.timestamp, query: anyQuery()) { insertionResult in
+            switch insertionResult {
+            case .success:
+                insertionError = nil
+            case let .failure(error):
+                insertionError = error
+            }
             exp.fulfill ()
         }
         wait(for: [exp], timeout: 1.0)
@@ -157,8 +162,13 @@ extension SearchStoreSpecs where Self: XCTestCase {
     func deleteCache(from sut: SearchStore) -> Error? {
         let exp = expectation(description: "Wait for cache deletion")
         var deletionError: Error?
-        sut.deleteCachedSearch { receivedDeletionError in
-            deletionError = receivedDeletionError
+        sut.deleteCachedSearch { deletionResult in
+            switch deletionResult {
+            case .success:
+                deletionError = nil
+            case let .failure(error):
+                deletionError = error
+            }
             exp.fulfill()
         }
         wait(for: [exp], timeout: 1.0)

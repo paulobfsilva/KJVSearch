@@ -80,8 +80,14 @@ class KJVSearchResultsCacheIntegrationTests: XCTestCase {
     
     private func save(_ items: [SearchItem], with loader: LocalSearchLoader, file: StaticString = #file, line: UInt = #line) {
         let saveExp = expectation(description: "Wait for save completion")
-        loader.save(items, query: anyQuery()) { saveError in
-            XCTAssertNil(saveError, "Expected to save feed successfully", file: file, line: line)
+        loader.save(items, query: anyQuery()) { saveResult in
+            switch saveResult {
+            case .failure:
+                XCTFail("Expected to save feed successfully", file: file, line: line)
+            default:
+                break
+            }
+
             saveExp.fulfill()
         }
         wait(for: [saveExp], timeout: 1.0)

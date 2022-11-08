@@ -40,9 +40,9 @@ public final class CoreDataSearchStore: SearchStore {
                 managedCache.results = ManagedSearchResult.results(from: items, in: context)
                 
                 try context.save()
-                completion(nil)
+                completion(.success(Void()))
             } catch {
-                completion(error)
+                completion(.failure(error))
             }
         }
     }
@@ -51,9 +51,9 @@ public final class CoreDataSearchStore: SearchStore {
         perform { context in
             do {
                 try ManagedCache.find(in: context).map(context.delete).map(context.save)
-                completion(nil)
+                completion(.success(Void()))
             } catch {
-                completion(error)
+                completion(.failure(error))
             }
         }
     }

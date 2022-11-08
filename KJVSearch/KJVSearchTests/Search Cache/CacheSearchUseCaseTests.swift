@@ -103,8 +103,13 @@ class CacheSearchUseCaseTests: XCTestCase {
         let exp = expectation(description: "Wait for save completion")
         
         var receivedError: Error?
-        sut.save(uniqueItems().models, query: anyQuery()) { error in
-            receivedError = error
+        sut.save(uniqueItems().models, query: anyQuery()) { saveResult in
+            switch saveResult {
+            case .success:
+                receivedError = nil
+            case let .failure(error):
+                receivedError = error
+            }
             exp.fulfill()
         }
         action()

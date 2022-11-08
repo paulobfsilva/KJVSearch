@@ -18,16 +18,17 @@ public final class LocalSearchLoader {
 }
 
 extension LocalSearchLoader {
-    public typealias SaveResult = Error?
+    public typealias SaveResult = Result<Void, Error>
 
     public func save(_ items: [SearchItem], query: String, completion: @escaping (SaveResult) -> Void) {
-        store.deleteCachedSearch { [weak self] error in
+        store.deleteCachedSearch { [weak self] deletionResult in
             guard let self = self else { return }
             
-            if let cacheDeletionError = error {
-                completion(cacheDeletionError)
-            } else {
+            switch deletionResult {
+            case .success:
                 self.cache(items, query: query, with: completion)
+            case let .failure(error):
+                completion(.failure(error))
             }
         }
     }
