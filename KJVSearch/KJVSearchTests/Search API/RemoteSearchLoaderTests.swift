@@ -130,7 +130,7 @@ class RemoteSearchTests: XCTestCase {
             "distance": distance,
             "externalId": externalId,
             "data": text
-        ] as [String : Any]
+        ].compactMapValues { $0 }
         return (item, json)
     }
     
