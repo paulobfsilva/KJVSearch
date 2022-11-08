@@ -11,18 +11,18 @@ import XCTest
 extension SearchStoreSpecs where Self: XCTestCase {
     
     func assertThatRetrieveDeliversEmptyOnEmptyCache(on sut: SearchStore, file: StaticString = #file, line: UInt = #line) {
-        expect(sut, toRetrieve: .empty, file: file, line: line)
+        expect(sut, toRetrieve: .success(.empty), file: file, line: line)
     }
     
     func assertThatRetrieveHasNoSideEffectsOnEmptyCache(on sut: SearchStore, file: StaticString = #file, line: UInt = #line) {
-        expect(sut, toRetrieveTwice: .empty)
+        expect(sut, toRetrieveTwice: .success(.empty))
     }
     
     func assertThatRetrieveDeliversFoundValuesOnNonEmptyCache(on sut: SearchStore, file: StaticString = #file, line: UInt = #line) {
         let searchResults = uniqueItems().local
         let timestamp = Date()
         insert((searchResults, timestamp), query: anyQuery(), to: sut)
-        expect(sut, toRetrieve: .found(results: searchResults, timestamp: timestamp))
+        expect(sut, toRetrieve: .success(.found(results: searchResults, timestamp: timestamp)))
     }
     
     func assertThatRetrieveHasNoSideEffectsOnNonEmptyCache(on sut: SearchStore, file: StaticString = #file, line: UInt = #line) {
@@ -30,7 +30,7 @@ extension SearchStoreSpecs where Self: XCTestCase {
         let timestamp = Date()
         
         insert((searchResults, timestamp), query: anyQuery(), to: sut)
-        expect(sut, toRetrieveTwice: .found(results: searchResults, timestamp: timestamp))
+        expect(sut, toRetrieveTwice: .success(.found(results: searchResults, timestamp: timestamp)))
     }
     
     func assertThatRetrieveDeliversFailureOnRetrievalError(on sut: SearchStore, for storeURL: URL) {
@@ -64,7 +64,7 @@ extension SearchStoreSpecs where Self: XCTestCase {
         let latestTimestamp = Date()
         insert((latestResult, latestTimestamp), query: anyQuery(), to: sut)
         
-        expect(sut, toRetrieve: .found(results: latestResult, timestamp: latestTimestamp))
+        expect(sut, toRetrieve: .success(.found(results: latestResult, timestamp: latestTimestamp)))
     }
     
     func assertThatInsertDeliversErrorOnInsertionError(on sut: SearchStore) {
@@ -82,7 +82,7 @@ extension SearchStoreSpecs where Self: XCTestCase {
         
         insert((results, timestamp), query: anyQuery(), to: sut)
         
-        expect(sut, toRetrieve: .empty)
+        expect(sut, toRetrieve: .success(.empty))
     }
     
     func assertThatDeleteDeliversNoErrorOnEmptyCache(on sut: SearchStore) {
@@ -94,7 +94,7 @@ extension SearchStoreSpecs where Self: XCTestCase {
     func assertThatDeleteHasNoSideEffectsOnEmptyCache(on sut: SearchStore) {
         deleteCache(from: sut)
         
-        expect(sut, toRetrieve: .empty)
+        expect(sut, toRetrieve: .success(.empty))
     }
     
     func assertThatDeleteDeliversNoErrorOnNonEmptyCache(on sut: SearchStore) {
@@ -108,7 +108,7 @@ extension SearchStoreSpecs where Self: XCTestCase {
         
         deleteCache(from: sut)
         
-        expect (sut, toRetrieve: .empty)
+        expect (sut, toRetrieve: .success(.empty))
     }
     
     func assertThatDeleteDeliversErrorOnDeletionError(on sut: SearchStore) {
@@ -119,7 +119,7 @@ extension SearchStoreSpecs where Self: XCTestCase {
     
     func assertThatDeleteHasNoSideEffectsOnDeletionError(on sut: SearchStore) {
         deleteCache(from: sut)
-        expect(sut, toRetrieve: .empty)
+        expect(sut, toRetrieve: .success(.empty))
     }
     
     func assertThatSideEffectsRunSerially(on sut: SearchStore) {
@@ -165,19 +165,19 @@ extension SearchStoreSpecs where Self: XCTestCase {
         return deletionError
     }
     
-    func expect(_ sut: SearchStore, toRetrieveTwice expectedResult: RetrieveCachedFeedResult, file: StaticString = #filePath, line: UInt = #line) {
+    func expect(_ sut: SearchStore, toRetrieveTwice expectedResult: SearchStore.RetrievalResult, file: StaticString = #filePath, line: UInt = #line) {
         expect (sut, toRetrieve: expectedResult, file: file, line: line)
         expect (sut, toRetrieve: expectedResult, file: file, line: line)
     }
     
-    func expect(_ sut: SearchStore, toRetrieve expectedResult: RetrieveCachedFeedResult, file: StaticString = #filePath, line: UInt = #line) {
+    func expect(_ sut: SearchStore, toRetrieve expectedResult: SearchStore.RetrievalResult, file: StaticString = #filePath, line: UInt = #line) {
         let exp = expectation(description: "Wait for cache retrieval")
         
         sut.retrieve { retrievedResult in
             switch (expectedResult, retrievedResult) {
-            case (.empty, .empty), (.failure, .failure):
+            case (.success(.empty), .success(.empty)), (.failure, .failure):
                 break
-            case let (.found(expectedResult, expectedTimestamp), .found(retrievedResult, retrievedTimestamp)):
+            case let (.success(.found(expectedResult, expectedTimestamp)), .success(.found(retrievedResult, retrievedTimestamp))):
                 XCTAssertEqual(retrievedResult, expectedResult, file: file, line: line)
                 XCTAssertEqual(retrievedTimestamp, expectedTimestamp, file: file, line: line)
             default:

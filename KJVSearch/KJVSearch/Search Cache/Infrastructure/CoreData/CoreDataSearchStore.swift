@@ -21,9 +21,9 @@ public final class CoreDataSearchStore: SearchStore {
         perform { context in
             do {
                 if let cache = try ManagedCache.find(in: context) {
-                    completion(.found(results: cache.localSearchResults, timestamp: cache.timestamp))
+                    completion(.success(.found(results: cache.localSearchResults, timestamp: cache.timestamp)))
                 } else {
-                    completion(.empty)
+                    completion(.success(.empty))
                 }
             } catch {
                 completion(.failure(error))
