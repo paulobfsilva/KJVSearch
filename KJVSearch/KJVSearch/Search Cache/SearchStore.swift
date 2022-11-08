@@ -11,8 +11,11 @@ public typealias CachedSearchResults = (results:[LocalSearchItem], timestamp: Da
 
 
 public protocol SearchStore {
-    typealias DeletionCompletion = (Error?) -> Void
-    typealias InsertionCompletion = (Error?) -> Void
+    typealias DeletionResult = Error?
+    typealias DeletionCompletion = (DeletionResult) -> Void
+    
+    typealias InsertionResult = Error?
+    typealias InsertionCompletion = (InsertionResult) -> Void
     
     typealias RetrievalResult = Result<CachedSearchResults?, Error>
     typealias RetrievalCompletion = (RetrievalResult) -> Void
