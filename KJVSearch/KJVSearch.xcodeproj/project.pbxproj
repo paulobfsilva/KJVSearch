@@ -33,6 +33,7 @@
 		5187052B2919B5B600FD35AF /* KJVSearchResultsCacheIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5187052A2919B5B600FD35AF /* KJVSearchResultsCacheIntegrationTests.swift */; };
 		518705312919B92C00FD35AF /* XCTestCase+MemoryLeakTracking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51B152F1290DBEC800D77037 /* XCTestCase+MemoryLeakTracking.swift */; };
 		518705322919BB0000FD35AF /* SearchCacheTestHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AC46CD29142A1F0044FBA1 /* SearchCacheTestHelpers.swift */; };
+		51870535291A871C00FD35AF /* AuthenticatedHTTPClientDecoratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51870534291A871C00FD35AF /* AuthenticatedHTTPClientDecoratorTests.swift */; };
 		519EFB25290C09C10026A202 /* HTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519EFB24290C09C10026A202 /* HTTPClient.swift */; };
 		519EFB28290D654E0026A202 /* URLSessionHTTPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 519EFB27290D654E0026A202 /* URLSessionHTTPClientTests.swift */; };
 		51AC46BC291264CF0044FBA1 /* CacheSearchUseCaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51AC46BB291264CF0044FBA1 /* CacheSearchUseCaseTests.swift */; };
@@ -104,6 +105,7 @@
 		518705222919871900FD35AF /* SearchStoreDataModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SearchStoreDataModel.xcdatamodel; sourceTree = "<group>"; };
 		518705282919B5B600FD35AF /* KJVSearchResultsCacheIntegrationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KJVSearchResultsCacheIntegrationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5187052A2919B5B600FD35AF /* KJVSearchResultsCacheIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KJVSearchResultsCacheIntegrationTests.swift; sourceTree = "<group>"; };
+		51870534291A871C00FD35AF /* AuthenticatedHTTPClientDecoratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticatedHTTPClientDecoratorTests.swift; sourceTree = "<group>"; };
 		519EFB24290C09C10026A202 /* HTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTTPClient.swift; sourceTree = "<group>"; };
 		519EFB27290D654E0026A202 /* URLSessionHTTPClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClientTests.swift; sourceTree = "<group>"; };
 		51AC46BB291264CF0044FBA1 /* CacheSearchUseCaseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CacheSearchUseCaseTests.swift; sourceTree = "<group>"; };
@@ -277,9 +279,18 @@
 			path = KJVSearchResultsCacheIntegrationTests;
 			sourceTree = "<group>";
 		};
+		51870533291A86F600FD35AF /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				51870534291A871C00FD35AF /* AuthenticatedHTTPClientDecoratorTests.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
 		519EFB26290C144A0026A202 /* Search API */ = {
 			isa = PBXGroup;
 			children = (
+				51870533291A86F600FD35AF /* Authentication */,
 				516983E529091947007DE3C0 /* RemoteSearchLoaderTests.swift */,
 				519EFB27290D654E0026A202 /* URLSessionHTTPClientTests.swift */,
 			);
@@ -536,6 +547,7 @@
 				516983E629091947007DE3C0 /* RemoteSearchLoaderTests.swift in Sources */,
 				51AC46C72913BA010044FBA1 /* LoadSearchFromCacheUseCaseTests.swift in Sources */,
 				518704F629192C1500FD35AF /* XCTestCase+SearchStoreSpecs.swift in Sources */,
+				51870535291A871C00FD35AF /* AuthenticatedHTTPClientDecoratorTests.swift in Sources */,
 				51AC46CE29142A1F0044FBA1 /* SearchCacheTestHelpers.swift in Sources */,
 				51AC46D029142AF30044FBA1 /* SharedTestHelpers.swift in Sources */,
 				51AC46D42915BA5B0044FBA1 /* CodableSearchStoreTests.swift in Sources */,
