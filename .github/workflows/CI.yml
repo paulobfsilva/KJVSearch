@@ -16,4 +16,4 @@ jobs:
       - name: Build archive
         run: xcodebuild -sdk iphoneos -project KJVSearch/KJVSearch.xcodeproj -configuration Debug -scheme "CI" CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
       - name: Test
-        run: xcodebuild test -scheme "CI" -project KJVSearch/KJVSearch.xcodeproj -destination 'platform=iOS Simulator,name=iPhone 13,OS=14.5' xcpretty && exit ${PIPESTATUS[0]} CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+        run: xcodebuild test -scheme "CI" -project KJVSearch/KJVSearch.xcodeproj -destination 'platform=iOS Simulator,name=iPhone 13,OS=14.5' CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
