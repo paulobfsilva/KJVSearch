@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21279" systemVersion="22A380" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="ManagedCache" representedClassName="ManagedCache" syncable="YES">
+        <attribute name="query" attributeType="String"/>
+        <attribute name="timestamp" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="results" toMany="YES" deletionRule="Cascade" ordered="YES" destinationEntity="ManagedSearchResult" inverseName="cache" inverseEntity="ManagedSearchResult"/>
+    </entity>
+    <entity name="ManagedSearchResult" representedClassName="ManagedSearchResult" syncable="YES">
+        <attribute name="data" attributeType="String"/>
+        <attribute name="distance" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="externalId" attributeType="String"/>
+        <attribute name="sampleId" attributeType="String"/>
+        <relationship name="cache" maxCount="1" deletionRule="Cascade" destinationEntity="ManagedCache" inverseName="results" inverseEntity="ManagedCache"/>
+    </entity>
+</model>
