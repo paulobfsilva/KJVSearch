@@ -7,15 +7,12 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
-    - name: Build and test CI scheme
+  test:
+    name: Testing iOS app
     runs-on: macos-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Build app
-        run: xcodebuild build-for-testing -scheme "CI" -project KJVSearch/KJVSearch.xcodeproj  -destination 'platform=iOS Simulator,name=iPhone 13,OS=15.2' CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
-        
-    - name: Test app
-      run: test-without-building -scheme "CI" -project KJVSearch/KJVSearch.xcodeproj  -destination 'platform=iOS Simulator,name=iPhone 13,OS=15.2' CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO
+      - name: Test app
+        run: xcodebuild -project KJVSearch/KJVSearch.xcodeproj -scheme "CI"  -destination 'platform=iOS Simulator,name=iPhone 13,OS=15.2' CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO clean test
