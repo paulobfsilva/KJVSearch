@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-    name: Build and test CI scheme
+    - name: Build and test CI scheme
     runs-on: macos-latest
 
     steps:
