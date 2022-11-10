@@ -7,11 +7,8 @@
 
 import Foundation
 
-public enum LoadSearchResult {
-    case success([SearchItem])
-    case failure(Error)
-}
-
 public protocol SearchLoader {
-    func load(completion: @escaping (LoadSearchResult) -> Void)
+    typealias Result = Swift.Result<[SearchItem], Error>
+
+    func load(completion: @escaping (Result) -> Void)
 }

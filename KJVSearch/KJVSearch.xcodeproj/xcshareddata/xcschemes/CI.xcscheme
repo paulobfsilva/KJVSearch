@@ -62,6 +62,17 @@
                ReferencedContainer = "container:KJVSearch.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO"
+            testExecutionOrdering = "random">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "518705272919B5B600FD35AF"
+               BuildableName = "KJVSearchResultsCacheIntegrationTests.xctest"
+               BlueprintName = "KJVSearchResultsCacheIntegrationTests"
+               ReferencedContainer = "container:KJVSearch.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction

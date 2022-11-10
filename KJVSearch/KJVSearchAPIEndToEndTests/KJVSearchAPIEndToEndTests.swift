@@ -27,7 +27,7 @@ class KJVSearchAPIEndToEndTests: XCTestCase {
     
     // MARK: - Helpers
     
-    private func getSearchResult(file: StaticString = #filePath, line: UInt = #line) -> LoadSearchResult? {
+    private func getSearchResult(file: StaticString = #filePath, line: UInt = #line) -> SearchLoader.Result? {
         let tokenManager = AuthenticationTokenManager()
         let serverURL = URL(string: "https://www.nyckel.com/v0.9/functions/ieydm3vaouviuob1/search?sampleCount=10&includeData=true")!
         let client = URLSessionHTTPClient(session: URLSession(configuration: .ephemeral), tokenManager: tokenManager)
@@ -37,7 +37,7 @@ class KJVSearchAPIEndToEndTests: XCTestCase {
         
         let exp = expectation(description: "Wait for completion")
         
-        var receivedResult: LoadSearchResult?
+        var receivedResult: SearchLoader.Result?
         loader.load { result in
             receivedResult = result
             exp.fulfill()

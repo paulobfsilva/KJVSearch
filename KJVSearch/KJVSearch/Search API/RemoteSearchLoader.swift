@@ -18,7 +18,7 @@ public final class RemoteSearchLoader: SearchLoader {
         case invalidData
     }
     
-    public typealias Result = LoadSearchResult
+    public typealias Result = SearchLoader.Result
     
     public init(url: URL, client: HTTPClient, query: String) {
         self.url = url
@@ -29,7 +29,7 @@ public final class RemoteSearchLoader: SearchLoader {
         client.get(from: url, query: query) { [weak self] result in
             guard self != nil else { return }
             switch result {
-            case let .success(data, response):
+            case let .success((data, response)):
                 completion(RemoteSearchLoader.decode(data, from: response))
             case .failure:
                 completion(.failure(Error.connectivity))
@@ -39,7 +39,7 @@ public final class RemoteSearchLoader: SearchLoader {
     
     private static func decode(_ data: Data, from response: HTTPURLResponse) -> Result {
         if response.statusCode == 200, let root = try? JSONDecoder().decode(Root.self, from: data) {
-            return .success(root.searchSamples)
+            return .success(root.searchSamples.toModels())
         } else {
             return .failure(Error.invalidData)
         }
@@ -47,5 +47,11 @@ public final class RemoteSearchLoader: SearchLoader {
 }
 
 private struct Root: Decodable {
-    let searchSamples: [SearchItem]
+    let searchSamples: [RemoteSearchItem]
+}
+
+private extension Array where Element == RemoteSearchItem {
+    func toModels() -> [SearchItem] {
+        return map { SearchItem(sampleId: $0.sampleId, distance: $0.distance, externalId: $0.externalId, data: $0.data)}
+    }
 }
