@@ -14,19 +14,24 @@ struct SearchResultsViewModel {
 }
 
 final class SearchViewController: UITableViewController {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-    }
+    private let searchResults = SearchResultsViewModel.prototypeResults
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return searchResults.count
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return tableView.dequeueReusableCell(withIdentifier: "SearchResultCell")!
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultCell") as! SearchResultCell
+        let model = searchResults[indexPath.row]
+        cell.configure(with: model)
+        return cell
     }
+}
 
+extension SearchResultCell {
+    func configure(with model: SearchResultsViewModel) {
+        percentageImage.image = UIImage(systemName: "percent")
+        scriptureVerseLabel.text = model.scripture
+        scriptureTextLabel.text = model.text
+    }
 }

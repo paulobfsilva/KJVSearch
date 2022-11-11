@@ -8,7 +8,7 @@
 import Foundation
 
 extension SearchResultsViewModel {
-    static var searchResults: [SearchResultsViewModel] {
+    static var prototypeResults: [SearchResultsViewModel] {
         return [
             SearchResultsViewModel(
                 distance: 0.68,
