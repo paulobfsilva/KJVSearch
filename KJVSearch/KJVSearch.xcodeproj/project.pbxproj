@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		511CFB0C291F03AC00805EC3 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CFB0B291F03AC00805EC3 /* SearchViewController.swift */; };
 		511CFB0E291F085400805EC3 /* SearchResultsViewModel+PrototypeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CFB0D291F085400805EC3 /* SearchResultsViewModel+PrototypeData.swift */; };
+		511CFB10291F0A0800805EC3 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CFB0F291F0A0800805EC3 /* SearchResultCell.swift */; };
 		5154210E290E8E9600DDCED0 /* URLSessionHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5154210D290E8E9600DDCED0 /* URLSessionHTTPClient.swift */; };
 		51542116290E99B600DDCED0 /* KJVSearchAPIEndToEndTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51542115290E99B600DDCED0 /* KJVSearchAPIEndToEndTests.swift */; };
 		5154211F2910748300DDCED0 /* AccessTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5154211E2910748300DDCED0 /* AccessTokenResponse.swift */; };
@@ -80,6 +81,7 @@
 /* Begin PBXFileReference section */
 		511CFB0B291F03AC00805EC3 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		511CFB0D291F085400805EC3 /* SearchResultsViewModel+PrototypeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchResultsViewModel+PrototypeData.swift"; sourceTree = "<group>"; };
+		511CFB0F291F0A0800805EC3 /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		5154210D290E8E9600DDCED0 /* URLSessionHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClient.swift; sourceTree = "<group>"; };
 		51542113290E99B600DDCED0 /* KJVSearchAPIEndToEndTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KJVSearchAPIEndToEndTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		51542115290E99B600DDCED0 /* KJVSearchAPIEndToEndTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KJVSearchAPIEndToEndTests.swift; sourceTree = "<group>"; };
@@ -177,6 +179,7 @@
 		516983C229091946007DE3C0 = {
 			isa = PBXGroup;
 			children = (
+				511CFB0F291F0A0800805EC3 /* SearchResultCell.swift */,
 				516983CD29091946007DE3C0 /* KJVSearch */,
 				516983E429091947007DE3C0 /* KJVSearchTests */,
 				51542114290E99B600DDCED0 /* KJVSearchAPIEndToEndTests */,
@@ -530,6 +533,7 @@
 				516983D129091946007DE3C0 /* SceneDelegate.swift in Sources */,
 				51542121291074A500DDCED0 /* AuthenticationTokenManager.swift in Sources */,
 				51AC46C12912ECBC0044FBA1 /* SearchStore.swift in Sources */,
+				511CFB10291F0A0800805EC3 /* SearchResultCell.swift in Sources */,
 				51AC46C32913B0AF0044FBA1 /* RemoteSearchItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

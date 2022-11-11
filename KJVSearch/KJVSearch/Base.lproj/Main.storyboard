@@ -27,7 +27,7 @@
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchResultCell" rowHeight="480" id="NSz-0o-6iC">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchResultCell" rowHeight="480" id="NSz-0o-6iC" customClass="SearchResultCell" customModule="KJVSearch" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="66" width="390" height="480"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="NSz-0o-6iC" id="ona-Bd-Ibe">
@@ -88,6 +88,11 @@
                                         <constraint firstItem="UJa-ai-33g" firstAttribute="top" secondItem="ona-Bd-Ibe" secondAttribute="topMargin" priority="999" constant="6" id="yTx-jp-hiF"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="percentageImage" destination="AQS-mS-dnG" id="NVk-Qi-eas"/>
+                                    <outlet property="scriptureTextLabel" destination="IOO-0X-nFG" id="amR-Q3-XBd"/>
+                                    <outlet property="scriptureVerseLabel" destination="Fk2-7m-hdg" id="FnC-uR-hEQ"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
