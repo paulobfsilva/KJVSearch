@@ -7,6 +7,12 @@
 
 import UIKit
 
+struct SearchResultsViewModel {
+    let distance: Double
+    let scripture: String
+    let text: String
+}
+
 final class SearchViewController: UITableViewController {
 
     override func viewDidLoad() {
