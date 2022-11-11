@@ -32,6 +32,6 @@ extension SearchResultCell {
     func configure(with model: SearchResultsViewModel) {
         percentageImage.image = UIImage(systemName: "percent")
         scriptureVerseLabel.text = model.scripture
-        scriptureTextLabel.text = model.text
+        fadeIn(model.text)
     }
 }
