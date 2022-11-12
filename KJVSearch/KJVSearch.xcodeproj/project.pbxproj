@@ -179,7 +179,6 @@
 		516983C229091946007DE3C0 = {
 			isa = PBXGroup;
 			children = (
-				511CFB0F291F0A0800805EC3 /* SearchResultCell.swift */,
 				516983CD29091946007DE3C0 /* KJVSearch */,
 				516983E429091947007DE3C0 /* KJVSearchTests */,
 				51542114290E99B600DDCED0 /* KJVSearchAPIEndToEndTests */,
@@ -202,6 +201,7 @@
 		516983CD29091946007DE3C0 /* KJVSearch */ = {
 			isa = PBXGroup;
 			children = (
+				511CFB0F291F0A0800805EC3 /* SearchResultCell.swift */,
 				51AC46BD2912EC960044FBA1 /* Search Cache */,
 				51542122291074BE00DDCED0 /* Utilities */,
 				5169840329099BD3007DE3C0 /* Search API */,
