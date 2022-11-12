@@ -103,6 +103,6 @@
 ## UX goals for the Search UI Experience
 
 #### Load search results automatically when the search button is tapped
-#### Allow customer to manually search for more results (pull up to retrieve more) ??
+#### Allow customer to automatically retrive more results (scroll down to retrieve more)
 #### Show a loading indicator while loading the search results
 #### Render all loaded search results (scripture, distance, text)
