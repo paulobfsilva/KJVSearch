@@ -14,7 +14,25 @@ struct SearchResultsViewModel {
 }
 
 final class SearchViewController: UITableViewController {
-    private let searchResults = SearchResultsViewModel.prototypeResults
+    private var searchResults = [SearchResultsViewModel]()
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        refresh()
+        tableView.setContentOffset(CGPoint(x: 0, y: -tableView.contentInset.top), animated: animated)
+    }
+    
+    @IBAction func refresh() {
+        refreshControl?.beginRefreshing()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5)  {
+            if self.searchResults.isEmpty {
+                self.searchResults = SearchResultsViewModel.prototypeResults
+                self.tableView.reloadData()
+            }
+            self.refreshControl?.endRefreshing()
+        }
+    }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return searchResults.count
