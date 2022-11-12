@@ -6,12 +6,24 @@
 //
 
 import KJVSearch
+import UIKit
 import XCTest
 
-final class SearchViewControllerProduction {
-    init(loader: SearchViewControllerTests.LoaderSpy) {
-        
+final class SearchViewControllerProduction: UIViewController, UISearchBarDelegate {
+    private var loader: SearchLoader?
+    private var queryText: String = ""
+    
+    convenience init(loader: SearchLoader) {
+        self.init()
+        self.loader = loader
     }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        queryText = searchBar.text ?? ""
+        loader?.load { _ in }
+    }
+    
 }
 
 final class SearchViewControllerTests: XCTestCase {
@@ -23,10 +35,34 @@ final class SearchViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.loadCallCount, 0)
     }
     
+    func test_viewDidLoad_doesNotLoadSearchResults() {
+        let loader = LoaderSpy()
+        let sut = SearchViewControllerProduction(loader: loader)
+        
+        sut.loadViewIfNeeded()
+        
+        XCTAssertEqual(loader.loadCallCount, 0)
+    }
+    
+    func test_searchButtonIsTapped_loadsSearchResults() {
+        let loader = LoaderSpy()
+        let sut = SearchViewControllerProduction(loader: loader)
+        let searchBar = UISearchBar()
+
+        sut.searchBarSearchButtonClicked(searchBar)
+        XCTAssertEqual(loader.loadCallCount, 1)
+    }
+    
+    
     // MARK: - Helpers
     
-    class LoaderSpy {
+    class LoaderSpy: SearchLoader {
+        
         private(set) var loadCallCount: Int = 0
+        
+        func load(completion: @escaping (SearchLoader.Result) -> Void) {
+            loadCallCount += 1
+        }
     }
 
 }
