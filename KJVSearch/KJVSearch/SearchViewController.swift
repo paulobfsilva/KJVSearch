@@ -15,6 +15,26 @@ struct SearchResultsViewModel {
 
 final class SearchViewController: UITableViewController {
     private var searchResults = [SearchResultsViewModel]()
+    private var queryText: String = ""
+    
+    @IBOutlet private(set) var searchBar: UISearchBar!
+    @IBOutlet private(set) var searchTextField: UITextField!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        searchBar.delegate = self
+        
+        if let searchTextField = self.searchBar.value(forKey: "searchField") as? UITextField , let clearButton = searchTextField.value(forKey: "_clearButton")as? UIButton {
+
+             clearButton.addTarget(self, action: #selector(self.didTapClearButton), for: .touchUpInside)
+        }
+    }
+    
+    @objc private func didTapClearButton() {
+        queryText = searchBar.text ?? ""
+        print("Query text: \(queryText)")
+    }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -51,5 +71,19 @@ extension SearchResultCell {
         percentageImage.image = UIImage(systemName: "percent")
         scriptureVerseLabel.text = model.scripture
         fadeIn(model.text)
+    }
+}
+
+extension SearchViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        queryText = searchBar.text ?? ""
+        print("Query text: \(queryText)")
+    }
+    
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+        queryText = ""
+        print("Query text: \(queryText)")
     }
 }

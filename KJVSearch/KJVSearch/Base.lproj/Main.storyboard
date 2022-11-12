@@ -16,22 +16,26 @@
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <searchBar key="tableHeaderView" contentMode="redraw" id="d8v-Su-514">
-                            <rect key="frame" x="0.0" y="0.0" width="390" height="44"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" placeholder="Type your query" showsCancelButton="YES" id="d8v-Su-514">
+                            <rect key="frame" x="0.0" y="0.0" width="390" height="56"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <textInputTraits key="textInputTraits"/>
+                            <scopeButtonTitles>
+                                <string>Title</string>
+                                <string>Title</string>
+                            </scopeButtonTitles>
                             <connections>
                                 <outlet property="delegate" destination="IR5-U0-95q" id="j9i-YG-3lU"/>
                             </connections>
                         </searchBar>
                         <view key="tableFooterView" contentMode="scaleToFill" id="B47-J3-ivX">
-                            <rect key="frame" x="0.0" y="1264" width="390" height="16"/>
+                            <rect key="frame" x="0.0" y="1276" width="390" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </view>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="SearchResultCell" rowHeight="480" id="NSz-0o-6iC" customClass="SearchResultCell" customModule="KJVSearch" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="94" width="390" height="480"/>
+                                <rect key="frame" x="0.0" y="106" width="390" height="480"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="NSz-0o-6iC" id="ona-Bd-Ibe">
                                     <rect key="frame" x="0.0" y="0.0" width="390" height="480"/>
@@ -111,6 +115,9 @@
                             <action selector="refresh" destination="IR5-U0-95q" eventType="valueChanged" id="8AP-1X-0K7"/>
                         </connections>
                     </refreshControl>
+                    <connections>
+                        <outlet property="searchBar" destination="d8v-Su-514" id="YfD-Nl-U7T"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kci-lt-ZvS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
