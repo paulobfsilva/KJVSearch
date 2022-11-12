@@ -19,7 +19,7 @@ class RemoteSearchTests: XCTestCase {
         let url = URL(string: "https://a-given-url.com")!
         let (sut, client) = makeSUT(url: url)
         
-        sut.load { _ in }
+        sut.loadSearch(query: anyQuery()) { _ in }
         
         XCTAssertEqual(client.requestedURLs, [url])
     }
@@ -28,8 +28,8 @@ class RemoteSearchTests: XCTestCase {
         let url = URL(string: "https://a-given-url.com")!
         let (sut, client) = makeSUT(url: url)
         
-        sut.load { _ in }
-        sut.load { _ in }
+        sut.loadSearch(query: anyQuery()) { _ in }
+        sut.loadSearch(query: anyQuery()) { _ in }
         
         XCTAssertEqual(client.requestedURLs, [url, url])
     }
@@ -101,7 +101,7 @@ class RemoteSearchTests: XCTestCase {
         var sut: RemoteSearchLoader? = RemoteSearchLoader(url: url, client: client, query: query)
         
         var capturedResults = [RemoteSearchLoader.Result]()
-        sut?.load { capturedResults.append($0) }
+        sut?.loadSearch(query: anyQuery()) { capturedResults.append($0) }
         
         sut = nil
         client.complete(withStatusCode: 200, data: makeItemsJSON([]))
@@ -141,7 +141,7 @@ class RemoteSearchTests: XCTestCase {
     
     private func expect(_ sut: RemoteSearchLoader, toCompleteWith expectedResult: RemoteSearchLoader.Result, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
         let exp = expectation(description: "Wait for load completion")
-        sut.load { receivedResult in
+        sut.loadSearch(query: anyQuery()) { receivedResult in
             // unwrap the different error types for both Search API and Search Feature Modules
             switch (receivedResult, expectedResult) {
             case let (.success(receivedItems), .success(expectedItems)):

@@ -65,7 +65,7 @@ class KJVSearchResultsCacheIntegrationTests: XCTestCase {
     
     private func expect(_ sut: LocalSearchLoader, toLoad expectedSearchResults: [SearchItem], file: StaticString = #filePath, line: UInt = #line) {
         let exp = expectation (description: "Wait for load completion")
-        sut.load { result in
+        sut.loadSearch(query: anyQuery()) { result in
             switch result {
             case let .success(loadedResults) :
                 XCTAssertEqual (loadedResults, expectedSearchResults, file: file, line: line)

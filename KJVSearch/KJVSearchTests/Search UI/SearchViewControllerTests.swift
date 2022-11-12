@@ -21,7 +21,7 @@ final class SearchViewControllerProduction: UIViewController, UISearchBarDelegat
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         queryText = searchBar.text ?? ""
-        loader?.load { _ in }
+        loader?.loadSearch(query: queryText) { _ in }
     }
     
 }
@@ -60,7 +60,7 @@ final class SearchViewControllerTests: XCTestCase {
         
         private(set) var loadCallCount: Int = 0
         
-        func load(completion: @escaping (SearchLoader.Result) -> Void) {
+        func loadSearch(query: String, completion: @escaping (SearchLoader.Result) -> Void) {
             loadCallCount += 1
         }
     }

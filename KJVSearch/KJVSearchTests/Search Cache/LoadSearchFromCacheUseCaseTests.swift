@@ -18,7 +18,7 @@ class LoadSearchFromCacheUseCaseTests: XCTestCase {
     func test_load_requestsCacheRetrieval() {
         let (sut, store) = makeSUT()
         
-        sut.load { _ in }
+        sut.loadSearch(query: anyQuery()) { _ in }
         
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
@@ -75,7 +75,7 @@ class LoadSearchFromCacheUseCaseTests: XCTestCase {
     func test_load_hasNoSideEffectsOnRetrievalError() {
         let (sut, store) = makeSUT()
         
-        sut.load { _ in }
+        sut.loadSearch(query: anyQuery()) { _ in }
         store.completeRetrieval(with: anyError())
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
@@ -83,7 +83,7 @@ class LoadSearchFromCacheUseCaseTests: XCTestCase {
     func test_load_hasNoSideEffectsOnEmptyCache() {
         let (sut, store) = makeSUT()
         
-        sut.load { _ in }
+        sut.loadSearch(query: anyQuery()) { _ in }
         store.completeRetrievalWithEmptyCache()
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
@@ -94,7 +94,7 @@ class LoadSearchFromCacheUseCaseTests: XCTestCase {
         let nonExpiredTimestamp = fixedCurrentDate.minusSearchCacheMaxAge().adding(seconds: 1)
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
         
-        sut.load { _ in }
+        sut.loadSearch(query: anyQuery()) { _ in }
         store.completeRetrieval(with: results.local, timestamp: nonExpiredTimestamp)
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
@@ -105,7 +105,7 @@ class LoadSearchFromCacheUseCaseTests: XCTestCase {
         let expirationTimestamp = fixedCurrentDate.minusSearchCacheMaxAge()
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
         
-        sut.load { _ in }
+        sut.loadSearch(query: anyQuery()) { _ in }
         store.completeRetrieval(with: results.local, timestamp: expirationTimestamp)
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
@@ -116,7 +116,7 @@ class LoadSearchFromCacheUseCaseTests: XCTestCase {
         let expiredTimestamp = fixedCurrentDate.minusSearchCacheMaxAge().adding(seconds: -1)
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
         
-        sut.load { _ in }
+        sut.loadSearch(query: anyQuery()) { _ in }
         store.completeRetrieval(with: results.local, timestamp: expiredTimestamp)
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }
@@ -125,7 +125,7 @@ class LoadSearchFromCacheUseCaseTests: XCTestCase {
         let store = SearchStoreSpy()
         var sut: LocalSearchLoader? = LocalSearchLoader(store: store, currentDate: Date.init)
         var receivedResults = [LocalSearchLoader.LoadResult]()
-        sut?.load { receivedResults.append($0) }
+        sut?.loadSearch(query: anyQuery()) { receivedResults.append($0) }
         
         sut = nil
         store.completeRetrievalWithEmptyCache()
@@ -144,7 +144,7 @@ class LoadSearchFromCacheUseCaseTests: XCTestCase {
     private func expect(_ sut: LocalSearchLoader, toCompleteWith expectedResult: LocalSearchLoader.LoadResult, when action: () -> Void, file: StaticString = #filePath, line: UInt = #line) {
         let exp = expectation(description: "Wait for save completion")
         
-        sut.load { receivedResult in
+        sut.loadSearch(query: anyQuery()) { receivedResult in
             switch (receivedResult, expectedResult) {
             case let (.success(receivedResult), .success(expectedResult)):
                 XCTAssertEqual(receivedResult, expectedResult, file: file, line: line)

@@ -37,7 +37,7 @@ class ValidateSearchCacheUseCaseTests: XCTestCase {
         let nonExpiredTimestamp = fixedCurrentDate.minusSearchCacheMaxAge().adding(seconds: 1)
         let (sut, store) = makeSUT(currentDate: { fixedCurrentDate })
         
-        sut.load { _ in }
+        sut.loadSearch(query: anyQuery()) { _ in }
         store.completeRetrieval(with: results.local, timestamp: nonExpiredTimestamp)
         XCTAssertEqual(store.receivedMessages, [.retrieve])
     }

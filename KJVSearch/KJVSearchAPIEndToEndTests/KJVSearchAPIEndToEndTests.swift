@@ -38,7 +38,7 @@ class KJVSearchAPIEndToEndTests: XCTestCase {
         let exp = expectation(description: "Wait for completion")
         
         var receivedResult: SearchLoader.Result?
-        loader.load { result in
+        loader.loadSearch(query: "What is the Holy Ghost") { result in
             receivedResult = result
             exp.fulfill()
         }
