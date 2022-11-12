@@ -93,6 +93,7 @@
                                 </tableViewCellContentView>
                                 <connections>
                                     <outlet property="percentageImage" destination="AQS-mS-dnG" id="NVk-Qi-eas"/>
+                                    <outlet property="scriptureContainer" destination="ona-Bd-Ibe" id="BwS-cC-AwE"/>
                                     <outlet property="scriptureTextLabel" destination="IOO-0X-nFG" id="amR-Q3-XBd"/>
                                     <outlet property="scriptureVerseLabel" destination="Fk2-7m-hdg" id="FnC-uR-hEQ"/>
                                 </connections>
