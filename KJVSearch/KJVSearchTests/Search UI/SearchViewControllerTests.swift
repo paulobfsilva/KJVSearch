@@ -29,15 +29,13 @@ final class SearchViewControllerProduction: UIViewController, UISearchBarDelegat
 final class SearchViewControllerTests: XCTestCase {
 
     func test_init_doesNotLoadSearchResults() {
-        let loader = LoaderSpy()
-        _ = SearchViewControllerProduction(loader: loader)
+        let (_, loader) = makeSUT()
         
         XCTAssertEqual(loader.loadCallCount, 0)
     }
     
     func test_viewDidLoad_doesNotLoadSearchResults() {
-        let loader = LoaderSpy()
-        let sut = SearchViewControllerProduction(loader: loader)
+        let (sut, loader) = makeSUT()
         
         sut.loadViewIfNeeded()
         
@@ -45,8 +43,7 @@ final class SearchViewControllerTests: XCTestCase {
     }
     
     func test_searchButtonIsTapped_loadsSearchResults() {
-        let loader = LoaderSpy()
-        let sut = SearchViewControllerProduction(loader: loader)
+        let (sut, loader) = makeSUT()
         let searchBar = UISearchBar()
 
         sut.searchBarSearchButtonClicked(searchBar)
@@ -55,6 +52,14 @@ final class SearchViewControllerTests: XCTestCase {
     
     
     // MARK: - Helpers
+    
+    private func makeSUT(file: StaticString = #filePath, line: UInt = #line) -> (sut: SearchViewControllerProduction, loader: LoaderSpy) {
+        let loader = LoaderSpy()
+        let sut = SearchViewControllerProduction(loader: loader)
+        trackForMemoryLeaks(loader, file: file, line: line)
+        trackForMemoryLeaks(sut, file: file, line: line)
+        return (sut, loader)
+    }
     
     class LoaderSpy: SearchLoader {
         
