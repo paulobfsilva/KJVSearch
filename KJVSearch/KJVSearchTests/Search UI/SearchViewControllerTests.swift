@@ -81,6 +81,28 @@ final class SearchViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.loadCallCount, 1)
     }
     
+    func test_searchButtonIsTapped_expectTableViewToHaveDefaultNumberOfRows() {
+        let (sut, loader) = makeSUT()
+        let searchBar = UISearchBar()
+        
+        sut.searchBarSearchButtonClicked(searchBar) { _ in }
+        loader.completeSearchResultsLoading()
+        
+        XCTAssertEqual(loader.loadCallCount, 1)
+    }
+    
+    func test_scrollToEndOfTable_loadsMoreItems() {
+        let (sut, loader) = makeSUT()
+        let searchBar = UISearchBar()
+        sut.searchBarSearchButtonClicked(searchBar) { _ in }
+        loader.completeSearchResultsLoading(at: 0)
+        
+        sut.searchBarSearchButtonClicked(searchBar) { _ in }
+        loader.completeSearchResultsLoading(at: 1)
+
+        XCTAssertEqual(loader.loadCallCount, 2)
+    }
+    
     
     // MARK: - Helpers
     
@@ -93,23 +115,17 @@ final class SearchViewControllerTests: XCTestCase {
     }
     
     class LoaderSpy: SearchLoader {
-        
-        private(set) var loadCallCount: Int = 0
+        private var completions = [(SearchLoader.Result) -> Void]()
+        var loadCallCount: Int {
+            return completions.count
+        }
         
         func loadSearch(query: String, limit: Int = 10, completion: @escaping (SearchLoader.Result) -> Void) {
-            loadCallCount += 1
-            completion(.success([
-                SearchItem(sampleId: "", distance: 0.5, externalId: "", data: ""),
-                SearchItem(sampleId: "", distance: 0.5, externalId: "", data: ""),
-                SearchItem(sampleId: "", distance: 0.5, externalId: "", data: ""),
-                SearchItem(sampleId: "", distance: 0.5, externalId: "", data: ""),
-                SearchItem(sampleId: "", distance: 0.5, externalId: "", data: ""),
-                SearchItem(sampleId: "", distance: 0.5, externalId: "", data: ""),
-                SearchItem(sampleId: "", distance: 0.5, externalId: "", data: ""),
-                SearchItem(sampleId: "", distance: 0.5, externalId: "", data: ""),
-                SearchItem(sampleId: "", distance: 0.5, externalId: "", data: ""),
-                SearchItem(sampleId: "", distance: 0.5, externalId: "", data: "")
-            ]))
+            completions.append(completion)
+        }
+        
+        func completeSearchResultsLoading(at index: Int = 0) {
+            completions[index](.success([]))
         }
     }
 
