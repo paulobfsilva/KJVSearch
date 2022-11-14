@@ -7,7 +7,7 @@
 
 import Foundation
 
-extension SearchResultsViewModel {
+public extension SearchResultsViewModel {
     static var prototypeResults: [SearchResultsViewModel] {
         return [
             SearchResultsViewModel(

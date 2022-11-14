@@ -7,20 +7,20 @@
 
 import UIKit
 
-final class SearchResultCell: UITableViewCell {
+public final class SearchResultCell: UITableViewCell {
     @IBOutlet private(set) var percentageImage: UIImageView!
     @IBOutlet private(set) var scriptureVerseLabel: UILabel!
     @IBOutlet private(set) var scriptureTextLabel: UILabel!
     @IBOutlet private(set) var scriptureContainer: UIView!
 
-    override func awakeFromNib() {
+    public override func awakeFromNib() {
         super.awakeFromNib()
         
         scriptureTextLabel.alpha = 0
         scriptureContainer.startShimmering()
     }
     
-    override func prepareForReuse() {
+    public override func prepareForReuse() {
         super.prepareForReuse()
         
         scriptureTextLabel.alpha = 0
@@ -40,7 +40,6 @@ final class SearchResultCell: UITableViewCell {
                     self.scriptureContainer.stopShimmering()
                 }
             })
-        
     }
 }
 

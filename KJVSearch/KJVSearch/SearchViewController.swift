@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct SearchResultsViewModel {
+public struct SearchResultsViewModel {
     let distance: Double
     let scripture: String
     let text: String
