@@ -25,7 +25,7 @@ public final class RemoteSearchLoader: SearchLoader {
         self.client = client
         self.query = query
     }
-    public func loadSearch(query: String, completion: @escaping (Result) -> Void) {
+    public func loadSearch(query: String, limit: Int = 10, completion: @escaping (Result) -> Void) {
         client.get(from: url, query: query) { [weak self] result in
             guard self != nil else { return }
             switch result {

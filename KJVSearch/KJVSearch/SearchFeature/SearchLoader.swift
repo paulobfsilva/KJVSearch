@@ -10,5 +10,5 @@ import Foundation
 public protocol SearchLoader {
     typealias Result = Swift.Result<[SearchItem], Error>
 
-    func loadSearch(query: String, completion: @escaping (Result) -> Void)
+    func loadSearch(query: String, limit: Int, completion: @escaping (Result) -> Void)
 }
