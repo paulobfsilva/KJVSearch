@@ -13,7 +13,7 @@ public struct SearchResultsViewModel {
     let text: String
 }
 
-final class SearchViewController: UITableViewController {
+final class SearchViewControllerPrototype: UITableViewController {
     private var searchResults = [SearchResultsViewModel]()
     private var queryText: String = ""
     
@@ -74,7 +74,7 @@ extension SearchResultCell {
     }
 }
 
-extension SearchViewController: UISearchBarDelegate {
+extension SearchViewControllerPrototype: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         searchBar.resignFirstResponder()
         queryText = searchBar.text ?? ""

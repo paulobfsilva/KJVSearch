@@ -43,9 +43,10 @@ final class SearchViewControllerProduction: UITableViewController, UISearchBarDe
         if indexPath.row == self.searchResults.count - 1 {
             self.loadMore()
         }
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultCell") as! SearchResultCell
-        _ = searchResults[indexPath.row]
-        //cell.configure(with: model)
+        let cellModel = searchResults[indexPath.row]
+        let cell = SearchResultCellProduction()
+        cell.scriptureVerseLabel.text = cellModel.externalId
+        cell.scriptureTextLabel.text = cellModel.data
         return cell
     }
     
@@ -103,6 +104,32 @@ final class SearchViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.loadCallCount, 2)
     }
     
+    func test_loadSearchResultsCompletion_rendersSuccessfullyLoadedSearchResults() {
+        let searchResult0 = makeSearchResult(
+            sampleId: "sampleId",
+            externalId: "externalId",
+            distance: 0.5,
+            data: "A text for a verse"
+        )
+        let searchBar = UISearchBar()
+        let (sut, loader) = makeSUT()
+        
+        sut.loadViewIfNeeded()
+        
+        XCTAssertEqual(sut.numberOfRenderedSearchResultViews(), 0)
+        
+        sut.searchBarSearchButtonClicked(searchBar) { _ in }
+        
+        loader.completeSearchResultsLoading(with: [searchResult0], at:0)
+        XCTAssertEqual(sut.numberOfRenderedSearchResultViews(), 1)
+        
+//        let view = sut.searchResultsView(at: 0) as? SearchResultCellProduction
+//        XCTAssertNotNil(view)
+//        XCTAssertEqual(view?.scriptureText, searchResult0.data)
+//        XCTAssertEqual(view?.scriptureVerse, searchResult0.externalId)
+//
+    }
+    
     
     // MARK: - Helpers
     
@@ -112,6 +139,10 @@ final class SearchViewControllerTests: XCTestCase {
         trackForMemoryLeaks(loader, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)
         return (sut, loader)
+    }
+    
+    private func makeSearchResult(sampleId: String, externalId: String, distance: Double, data: String) -> SearchItem {
+        return SearchItem(sampleId: sampleId, distance: distance, externalId: externalId, data: data)
     }
     
     class LoaderSpy: SearchLoader {
@@ -124,9 +155,40 @@ final class SearchViewControllerTests: XCTestCase {
             completions.append(completion)
         }
         
-        func completeSearchResultsLoading(at index: Int = 0) {
-            completions[index](.success([]))
+        func completeSearchResultsLoading(with results: [SearchItem] = [], at index: Int = 0) {
+            completions[index](.success(results))
         }
     }
 
+}
+
+private extension SearchViewControllerProduction {
+    func numberOfRenderedSearchResultViews() -> Int {
+        return tableView.numberOfRows(inSection: searchResultsSection)
+    }
+    
+    private var searchResultsSection: Int {
+        return 0
+    }
+    
+    func searchResultsView(at row: Int) -> UITableViewCell? {
+        let ds = tableView.dataSource
+        let index = IndexPath(row: row, section: searchResultsSection)
+        return ds?.tableView(tableView, cellForRowAt: index)
+    }
+}
+
+private extension SearchResultCellProduction {
+    var scriptureText: String? {
+        return scriptureTextLabel.text
+    }
+    
+    var scriptureVerse: String? {
+        return scriptureVerseLabel.text
+    }
+}
+
+class SearchResultCellProduction: UITableViewCell {
+    public var scriptureTextLabel: UILabel!
+    public var scriptureVerseLabel: UILabel!
 }

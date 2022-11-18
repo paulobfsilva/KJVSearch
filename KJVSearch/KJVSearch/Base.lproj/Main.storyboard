@@ -11,7 +11,7 @@
         <!--King James Bible Search-->
         <scene sceneID="1q6-61-itg">
             <objects>
-                <tableViewController id="IR5-U0-95q" customClass="SearchViewController" customModule="KJVSearch" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController id="IR5-U0-95q" customClass="SearchViewControllerPrototype" customModule="KJVSearch" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="aS1-4n-z6O">
                         <rect key="frame" x="0.0" y="0.0" width="390" height="844"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -29,7 +29,7 @@
                             </connections>
                         </searchBar>
                         <view key="tableFooterView" contentMode="scaleToFill" id="B47-J3-ivX">
-                            <rect key="frame" x="0.0" y="1276" width="390" height="16"/>
+                            <rect key="frame" x="0.0" y="759" width="390" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </view>

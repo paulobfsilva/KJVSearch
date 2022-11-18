@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		511CFB0C291F03AC00805EC3 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CFB0B291F03AC00805EC3 /* SearchViewController.swift */; };
+		511CFB0C291F03AC00805EC3 /* SearchViewControllerPrototype.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CFB0B291F03AC00805EC3 /* SearchViewControllerPrototype.swift */; };
 		511CFB0E291F085400805EC3 /* SearchResultsViewModel+PrototypeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CFB0D291F085400805EC3 /* SearchResultsViewModel+PrototypeData.swift */; };
 		511CFB10291F0A0800805EC3 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CFB0F291F0A0800805EC3 /* SearchResultCell.swift */; };
 		511CFB1329202D0F00805EC3 /* SearchViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CFB1229202D0F00805EC3 /* SearchViewControllerTests.swift */; };
@@ -80,7 +80,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		511CFB0B291F03AC00805EC3 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		511CFB0B291F03AC00805EC3 /* SearchViewControllerPrototype.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewControllerPrototype.swift; sourceTree = "<group>"; };
 		511CFB0D291F085400805EC3 /* SearchResultsViewModel+PrototypeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchResultsViewModel+PrototypeData.swift"; sourceTree = "<group>"; };
 		511CFB0F291F0A0800805EC3 /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		511CFB1229202D0F00805EC3 /* SearchViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewControllerTests.swift; sourceTree = "<group>"; };
@@ -222,7 +222,7 @@
 				516983D729091947007DE3C0 /* Assets.xcassets */,
 				516983D929091947007DE3C0 /* LaunchScreen.storyboard */,
 				516983DC29091947007DE3C0 /* Info.plist */,
-				511CFB0B291F03AC00805EC3 /* SearchViewController.swift */,
+				511CFB0B291F03AC00805EC3 /* SearchViewControllerPrototype.swift */,
 				511CFB0D291F085400805EC3 /* SearchResultsViewModel+PrototypeData.swift */,
 			);
 			path = KJVSearch;
@@ -535,7 +535,7 @@
 				5169840229091AC7007DE3C0 /* SearchLoader.swift in Sources */,
 				519EFB25290C09C10026A202 /* HTTPClient.swift in Sources */,
 				5187051E29197C9700FD35AF /* CoreDataHelpers.swift in Sources */,
-				511CFB0C291F03AC00805EC3 /* SearchViewController.swift in Sources */,
+				511CFB0C291F03AC00805EC3 /* SearchViewControllerPrototype.swift in Sources */,
 				516983CF29091946007DE3C0 /* AppDelegate.swift in Sources */,
 				51542124291074D800DDCED0 /* Constants.swift in Sources */,
 				5169840529099BEE007DE3C0 /* RemoteSearchLoader.swift in Sources */,
