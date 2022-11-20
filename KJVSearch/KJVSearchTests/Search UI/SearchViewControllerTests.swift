@@ -9,53 +9,6 @@ import KJVSearch
 import UIKit
 import XCTest
 
-final class SearchViewController: UITableViewController, UISearchBarDelegate {
-    private var loader: SearchLoader?
-    private var queryText: String = ""
-    private var searchResults = [SearchItem]()
-    
-    convenience init(loader: SearchLoader) {
-        self.init()
-        self.loader = loader
-    }
-    
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar, completion: @escaping (Bool) -> Void) {
-        searchBar.resignFirstResponder()
-        queryText = searchBar.text ?? ""
-        loader?.loadSearch(query: queryText, limit: 10) { [weak self] results in
-            switch results {
-            case let .success(arrayOfResults):
-                self?.searchResults = arrayOfResults
-                self?.tableView.reloadData()
-                completion(true)
-            case let .failure(error):
-                print("\(error)")
-                completion(false)
-            }
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchResults.count
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == self.searchResults.count - 1 {
-            self.loadMore()
-        }
-        let cellModel = searchResults[indexPath.row]
-        let cell = SearchResultCellProduction()
-        cell.scriptureVerseLabel.text = cellModel.externalId
-        cell.scriptureTextLabel.text = cellModel.data
-        return cell
-    }
-    
-    private func loadMore() {
-        loader?.loadSearch(query: queryText, limit: searchResults.count + 10) {_ in}
-    }
-    
-}
-
 final class SearchViewControllerTests: XCTestCase {
 
     func test_init_doesNotLoadSearchResults() {
@@ -93,6 +46,21 @@ final class SearchViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.loadCallCount, 2)
         
         sut.searchBarSearchButtonClicked(searchBar) { result in }
+        XCTAssertEqual(loader.loadCallCount, 3)
+    }
+    
+    func test_pullToRefresh_loadsSearchResults() {
+        let (sut, loader) = makeSUT()
+        let searchBar = UISearchBar()
+        
+        sut.searchBarSearchButtonClicked(searchBar) { _ in }
+        
+        sut.refreshControl?.simulatePullToRefresh()
+        
+        XCTAssertEqual(loader.loadCallCount, 2)
+        
+        sut.refreshControl?.simulatePullToRefresh()
+        
         XCTAssertEqual(loader.loadCallCount, 3)
     }
     
@@ -205,4 +173,13 @@ private extension SearchResultCellProduction {
 class SearchResultCellProduction: UITableViewCell {
     public var scriptureTextLabel: UILabel!
     public var scriptureVerseLabel: UILabel!
+}
+
+private extension UIRefreshControl {
+    func simulatePullToRefresh() {
+        allTargets.forEach { target in
+            actions(forTarget: target, forControlEvent: .valueChanged)?.forEach { (target as NSObject).perform(Selector($0))
+            }
+        }
+    }
 }

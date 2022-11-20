@@ -29,7 +29,7 @@
                             </connections>
                         </searchBar>
                         <view key="tableFooterView" contentMode="scaleToFill" id="B47-J3-ivX">
-                            <rect key="frame" x="0.0" y="759" width="390" height="16"/>
+                            <rect key="frame" x="0.0" y="1276" width="390" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </view>
