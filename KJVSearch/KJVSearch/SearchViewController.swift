@@ -29,6 +29,7 @@ public final class SearchViewController: UITableViewController, UISearchBarDeleg
     }
     
     public func searchBarSearchButtonClicked(_ searchBar: UISearchBar, completion: @escaping (Bool) -> Void) {
+        refreshControl?.beginRefreshing()
         searchBar.resignFirstResponder()
         queryText = searchBar.text ?? ""
         loader?.loadSearch(query: queryText, limit: 10) { [weak self] results in

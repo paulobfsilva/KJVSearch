@@ -64,6 +64,14 @@ final class SearchViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.loadCallCount, 3)
     }
     
+    func test_searchButtonTapped_showsLoadingIndicator() {
+        let (sut, _) = makeSUT()
+        let searchBar = UISearchBar()
+        
+        sut.searchBarSearchButtonClicked(searchBar) { _ in }
+        XCTAssertEqual(sut.refreshControl?.isRefreshing, true)
+    }
+    
     func test_searchButtonIsTapped_expectTableViewToHaveDefaultNumberOfRows() {
         let (sut, loader) = makeSUT()
         let searchBar = UISearchBar()
