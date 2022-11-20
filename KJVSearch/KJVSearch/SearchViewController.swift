@@ -25,6 +25,7 @@ public final class SearchViewController: UITableViewController, UISearchBarDeleg
     }
     
     @objc private func load() {
+        refreshControl?.beginRefreshing()
         loader?.loadSearch(query: queryText, limit: 10) { [weak self] _ in
             self?.refreshControl?.endRefreshing()
         }
