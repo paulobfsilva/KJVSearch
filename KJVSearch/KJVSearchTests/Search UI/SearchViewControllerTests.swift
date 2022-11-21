@@ -11,42 +11,23 @@ import XCTest
 
 final class SearchViewControllerTests: XCTestCase {
 
-    func test_init_doesNotLoadSearchResults() {
-        let (_, loader) = makeSUT()
-        
-        XCTAssertEqual(loader.loadCallCount, 0)
-    }
-    
-    func test_viewDidLoad_doesNotLoadSearchResults() {
+    func test_loadSearchResultsActions_requestSearchResultsFromLoader() {
         let (sut, loader) = makeSUT()
+        let searchBar = UISearchBar()
+        XCTAssertEqual(loader.loadCallCount, 0, "Expected no loading requests before view is loaded")
         
         sut.loadViewIfNeeded()
-        
-        XCTAssertEqual(loader.loadCallCount, 0)
-    }
-    
-    func test_searchButtonIsTapped_loadsSearchResults() {
-        let (sut, loader) = makeSUT()
-        let searchBar = UISearchBar()
+        XCTAssertEqual(loader.loadCallCount, 0, "Expected no loading requests once the view is loaded")
 
-        sut.searchBarSearchButtonClicked(searchBar) { result in
-            
-        }
-        XCTAssertEqual(loader.loadCallCount, 1)
-    }
-    
-    func test_multipleSearchButtonTaps_produceMultipleLoads() {
-        let (sut, loader) = makeSUT()
-        let searchBar = UISearchBar()
+        sut.searchBarSearchButtonClicked(searchBar) { _ in }
+        XCTAssertEqual(loader.loadCallCount, 1, "Expected a loading request once the search bar button is tapped")
 
         sut.searchBarSearchButtonClicked(searchBar) { result in }
-        XCTAssertEqual(loader.loadCallCount, 1)
+        XCTAssertEqual(loader.loadCallCount, 2, "Expected another loading request once the user taps the search button again")
         
         sut.searchBarSearchButtonClicked(searchBar) { result in }
-        XCTAssertEqual(loader.loadCallCount, 2)
-        
-        sut.searchBarSearchButtonClicked(searchBar) { result in }
-        XCTAssertEqual(loader.loadCallCount, 3)
+        XCTAssertEqual(loader.loadCallCount, 3, "Expected a third loading request once the user initiates another load")
+
     }
     
     func test_pullToRefresh_loadsSearchResults() {
@@ -64,39 +45,25 @@ final class SearchViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.loadCallCount, 3)
     }
     
-    func test_searchButtonTapped_showsLoadingIndicator() {
-        let (sut, _) = makeSUT()
-        let searchBar = UISearchBar()
-        
-        sut.searchBarSearchButtonClicked(searchBar) { _ in }
-        XCTAssertEqual(sut.isShowingLoadingIndicator, true)
-    }
-    
-    func test_searchButtonIsTapped_hidesLoadingIndicatorOnLoaderCompletion() {
+    func test_loadingSearchResultsIndicator_isVisibleWhileLoadingFeed() {
         let (sut, loader) = makeSUT()
         let searchBar = UISearchBar()
         
         sut.searchBarSearchButtonClicked(searchBar) { _ in }
-        loader.completeSearchResultsLoading()
         
-        XCTAssertEqual(sut.isShowingLoadingIndicator, false)
-    }
-    
-    func test_pullToRefresh_showsLoadingIndicator() {
-        let (sut, _) = makeSUT()
+        XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected loading indicator once the search bar button is tapped")
         
-        sut.simulateUserInitiatedRefresh()
+        loader.completeSearchResultsLoading(at: 0)
         
-        XCTAssertEqual(sut.isShowingLoadingIndicator, true)
-    }
-    
-    func test_userInitiatedRefresh_hidesLoadingIndicatorOnLoaderCompletion() {
-        let (sut, loader) = makeSUT()
+        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once loading is completed")
         
         sut.simulateUserInitiatedRefresh()
-        loader.completeSearchResultsLoading()
         
-        XCTAssertEqual(sut.isShowingLoadingIndicator, false)
+        XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected loading indicator once user initiated a reload")
+        
+        loader.completeSearchResultsLoading(at: 1)
+        
+        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once loading is completed")
     }
     
     func test_searchButtonIsTapped_expectTableViewToHaveDefaultNumberOfRows() {
