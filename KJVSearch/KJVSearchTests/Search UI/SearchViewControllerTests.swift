@@ -69,7 +69,7 @@ final class SearchViewControllerTests: XCTestCase {
         let searchBar = UISearchBar()
         
         sut.searchBarSearchButtonClicked(searchBar) { _ in }
-        XCTAssertEqual(sut.refreshControl?.isRefreshing, true)
+        XCTAssertEqual(sut.isShowingLoadingIndicator, true)
     }
     
     func test_searchButtonIsTapped_hidesLoadingIndicatorOnLoaderCompletion() {
@@ -79,7 +79,7 @@ final class SearchViewControllerTests: XCTestCase {
         sut.searchBarSearchButtonClicked(searchBar) { _ in }
         loader.completeSearchResultsLoading()
         
-        XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
+        XCTAssertEqual(sut.isShowingLoadingIndicator, false)
     }
     
     func test_pullToRefresh_showsLoadingIndicator() {
@@ -87,7 +87,7 @@ final class SearchViewControllerTests: XCTestCase {
         
         sut.simulateUserInitiatedRefresh()
         
-        XCTAssertEqual(sut.refreshControl?.isRefreshing, true)
+        XCTAssertEqual(sut.isShowingLoadingIndicator, true)
     }
     
     func test_userInitiatedRefresh_hidesLoadingIndicatorOnLoaderCompletion() {
@@ -96,7 +96,7 @@ final class SearchViewControllerTests: XCTestCase {
         sut.simulateUserInitiatedRefresh()
         loader.completeSearchResultsLoading()
         
-        XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
+        XCTAssertEqual(sut.isShowingLoadingIndicator, false)
     }
     
     func test_searchButtonIsTapped_expectTableViewToHaveDefaultNumberOfRows() {
@@ -213,6 +213,10 @@ class SearchResultCellProduction: UITableViewCell {
 private extension SearchViewController {
     func simulateUserInitiatedRefresh() {
         refreshControl?.simulatePullToRefresh()
+    }
+    
+    var isShowingLoadingIndicator: Bool {
+        return refreshControl?.isRefreshing == true
     }
 }
 
