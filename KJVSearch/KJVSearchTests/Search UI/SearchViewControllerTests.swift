@@ -55,11 +55,11 @@ final class SearchViewControllerTests: XCTestCase {
         
         sut.searchBarSearchButtonClicked(searchBar) { _ in }
         
-        sut.refreshControl?.simulatePullToRefresh()
+        sut.simulateUserInitiatedRefresh()
         
         XCTAssertEqual(loader.loadCallCount, 2)
         
-        sut.refreshControl?.simulatePullToRefresh()
+        sut.simulateUserInitiatedRefresh()
         
         XCTAssertEqual(loader.loadCallCount, 3)
     }
@@ -85,15 +85,15 @@ final class SearchViewControllerTests: XCTestCase {
     func test_pullToRefresh_showsLoadingIndicator() {
         let (sut, _) = makeSUT()
         
-        sut.refreshControl?.simulatePullToRefresh()
+        sut.simulateUserInitiatedRefresh()
         
         XCTAssertEqual(sut.refreshControl?.isRefreshing, true)
     }
     
-    func test_pullToRefresh_hidesLoadingIndicatorOnLoaderCompletion() {
+    func test_userInitiatedRefresh_hidesLoadingIndicatorOnLoaderCompletion() {
         let (sut, loader) = makeSUT()
         
-        sut.refreshControl?.simulatePullToRefresh()
+        sut.simulateUserInitiatedRefresh()
         loader.completeSearchResultsLoading()
         
         XCTAssertEqual(sut.refreshControl?.isRefreshing, false)
@@ -208,6 +208,12 @@ private extension SearchResultCellProduction {
 class SearchResultCellProduction: UITableViewCell {
     public var scriptureTextLabel: UILabel!
     public var scriptureVerseLabel: UILabel!
+}
+
+private extension SearchViewController {
+    func simulateUserInitiatedRefresh() {
+        refreshControl?.simulatePullToRefresh()
+    }
 }
 
 private extension UIRefreshControl {
