@@ -55,15 +55,15 @@ final class SearchViewControllerTests: XCTestCase {
         
         loader.completeSearchResultsLoading(at: 0)
         
-        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once loading is completed")
+        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once loading completes siccessfully")
         
         sut.simulateUserInitiatedRefresh()
         
         XCTAssertTrue(sut.isShowingLoadingIndicator, "Expected loading indicator once user initiated a reload")
         
-        loader.completeSearchResultsLoading(at: 1)
+        loader.completeSearchResultsWithError(at: 1)
         
-        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once loading is completed")
+        XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once loading completes with error")
     }
     
     func test_loadSearchResultsCompletion_rendersSuccessfullyLoadedSearchResults() {
