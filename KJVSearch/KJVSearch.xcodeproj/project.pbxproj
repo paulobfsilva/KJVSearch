@@ -9,9 +9,10 @@
 /* Begin PBXBuildFile section */
 		511CFB0C291F03AC00805EC3 /* SearchViewControllerPrototype.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CFB0B291F03AC00805EC3 /* SearchViewControllerPrototype.swift */; };
 		511CFB0E291F085400805EC3 /* SearchResultsViewModel+PrototypeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CFB0D291F085400805EC3 /* SearchResultsViewModel+PrototypeData.swift */; };
-		511CFB10291F0A0800805EC3 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CFB0F291F0A0800805EC3 /* SearchResultCell.swift */; };
+		511CFB10291F0A0800805EC3 /* SearchResultCellPrototype.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CFB0F291F0A0800805EC3 /* SearchResultCellPrototype.swift */; };
 		511CFB1329202D0F00805EC3 /* SearchViewControllerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CFB1229202D0F00805EC3 /* SearchViewControllerTests.swift */; };
 		511CFB15292ADAB000805EC3 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CFB14292ADAB000805EC3 /* SearchViewController.swift */; };
+		511CFB17292C384500805EC3 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 511CFB16292C384500805EC3 /* SearchResultCell.swift */; };
 		5154210E290E8E9600DDCED0 /* URLSessionHTTPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5154210D290E8E9600DDCED0 /* URLSessionHTTPClient.swift */; };
 		51542116290E99B600DDCED0 /* KJVSearchAPIEndToEndTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51542115290E99B600DDCED0 /* KJVSearchAPIEndToEndTests.swift */; };
 		5154211F2910748300DDCED0 /* AccessTokenResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5154211E2910748300DDCED0 /* AccessTokenResponse.swift */; };
@@ -83,9 +84,10 @@
 /* Begin PBXFileReference section */
 		511CFB0B291F03AC00805EC3 /* SearchViewControllerPrototype.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewControllerPrototype.swift; sourceTree = "<group>"; };
 		511CFB0D291F085400805EC3 /* SearchResultsViewModel+PrototypeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SearchResultsViewModel+PrototypeData.swift"; sourceTree = "<group>"; };
-		511CFB0F291F0A0800805EC3 /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
+		511CFB0F291F0A0800805EC3 /* SearchResultCellPrototype.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCellPrototype.swift; sourceTree = "<group>"; };
 		511CFB1229202D0F00805EC3 /* SearchViewControllerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewControllerTests.swift; sourceTree = "<group>"; };
 		511CFB14292ADAB000805EC3 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		511CFB16292C384500805EC3 /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		5154210D290E8E9600DDCED0 /* URLSessionHTTPClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLSessionHTTPClient.swift; sourceTree = "<group>"; };
 		51542113290E99B600DDCED0 /* KJVSearchAPIEndToEndTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KJVSearchAPIEndToEndTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		51542115290E99B600DDCED0 /* KJVSearchAPIEndToEndTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KJVSearchAPIEndToEndTests.swift; sourceTree = "<group>"; };
@@ -213,7 +215,7 @@
 		516983CD29091946007DE3C0 /* KJVSearch */ = {
 			isa = PBXGroup;
 			children = (
-				511CFB0F291F0A0800805EC3 /* SearchResultCell.swift */,
+				511CFB0F291F0A0800805EC3 /* SearchResultCellPrototype.swift */,
 				51AC46BD2912EC960044FBA1 /* Search Cache */,
 				51542122291074BE00DDCED0 /* Utilities */,
 				5169840329099BD3007DE3C0 /* Search API */,
@@ -227,6 +229,7 @@
 				511CFB0B291F03AC00805EC3 /* SearchViewControllerPrototype.swift */,
 				511CFB0D291F085400805EC3 /* SearchResultsViewModel+PrototypeData.swift */,
 				511CFB14292ADAB000805EC3 /* SearchViewController.swift */,
+				511CFB16292C384500805EC3 /* SearchResultCell.swift */,
 			);
 			path = KJVSearch;
 			sourceTree = "<group>";
@@ -529,6 +532,7 @@
 				51AC46C52913B42B0044FBA1 /* LocalSearchItem.swift in Sources */,
 				518705202919870C00FD35AF /* CoreDataSearchStore.swift in Sources */,
 				51AC46D2291466C40044FBA1 /* SearchCachePolicy.swift in Sources */,
+				511CFB17292C384500805EC3 /* SearchResultCell.swift in Sources */,
 				511CFB0E291F085400805EC3 /* SearchResultsViewModel+PrototypeData.swift in Sources */,
 				51AC46BF2912ECAA0044FBA1 /* LocalSearchLoader.swift in Sources */,
 				5187051A2919763300FD35AF /* ManagedCache+CoreDataClass.swift in Sources */,
@@ -548,7 +552,7 @@
 				516983D129091946007DE3C0 /* SceneDelegate.swift in Sources */,
 				51542121291074A500DDCED0 /* AuthenticationTokenManager.swift in Sources */,
 				51AC46C12912ECBC0044FBA1 /* SearchStore.swift in Sources */,
-				511CFB10291F0A0800805EC3 /* SearchResultCell.swift in Sources */,
+				511CFB10291F0A0800805EC3 /* SearchResultCellPrototype.swift in Sources */,
 				51AC46C32913B0AF0044FBA1 /* RemoteSearchItem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

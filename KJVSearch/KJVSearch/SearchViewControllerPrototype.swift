@@ -59,14 +59,14 @@ final class SearchViewControllerPrototype: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultCell") as! SearchResultCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SearchResultCell") as! SearchResultCellPrototype
         let model = searchResults[indexPath.row]
         cell.configure(with: model)
         return cell
     }
 }
 
-extension SearchResultCell {
+extension SearchResultCellPrototype {
     func configure(with model: SearchResultsViewModel) {
         percentageImage.image = UIImage(systemName: "percent")
         scriptureVerseLabel.text = model.scripture

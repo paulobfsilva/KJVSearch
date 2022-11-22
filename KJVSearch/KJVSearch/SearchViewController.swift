@@ -54,9 +54,6 @@ public final class SearchViewController: UITableViewController, UISearchBarDeleg
     }
     
     public override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == self.searchResults.count - 1 {
-            self.loadMore()
-        }
         let cellModel = searchResults[indexPath.row]
         let cell = SearchResultCell()
         cell.scriptureVerseLabel.text = cellModel.externalId

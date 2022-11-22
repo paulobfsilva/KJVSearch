@@ -66,6 +66,29 @@ final class SearchViewControllerTests: XCTestCase {
         XCTAssertFalse(sut.isShowingLoadingIndicator, "Expected no loading indicator once loading is completed")
     }
     
+    func test_loadSearchResultsCompletion_rendersSuccessfullyLoadedSearchResults() {
+        let searchResult0 = makeSearchResult(sampleId: "sampleId", externalId: "externalId", distance: 0.5, data: "data")
+        let searchResult1 = makeSearchResult(sampleId: "sampleId", externalId: "externalId", distance: 0.5, data: "data")
+        let searchResult2 = makeSearchResult(sampleId: "sampleId", externalId: "externalId", distance: 0.5, data: "data")
+        let searchResult3 = makeSearchResult(sampleId: "sampleId", externalId: "externalId", distance: 0.5, data: "data")
+        let (sut, loader) = makeSUT()
+        let searchBar = UISearchBar()
+        
+        sut.loadViewIfNeeded()
+        assertThat(sut, isRendering: [])
+        XCTAssertEqual(sut.numberOfRenderedSearchResultViews(), 0)
+        
+        sut.searchBarSearchButtonClicked(searchBar) { _ in }
+        loader.completeSearchResultsLoading(with: [searchResult0], at: 0)
+        assertThat(sut, isRendering: [searchResult0])
+        
+        assertThat(sut, hasViewConfiguredFor: searchResult0, at: 0)
+        
+        sut.searchBarSearchButtonClicked(searchBar) { _ in }
+        loader.completeSearchResultsLoading(with: [searchResult0, searchResult1, searchResult2, searchResult3], at: 1)
+        assertThat(sut, isRendering: [searchResult0, searchResult1, searchResult2, searchResult3])
+    }
+    
     func test_searchButtonIsTapped_expectTableViewToHaveDefaultNumberOfRows() {
         let (sut, loader) = makeSUT()
         let searchBar = UISearchBar()
@@ -88,32 +111,6 @@ final class SearchViewControllerTests: XCTestCase {
         XCTAssertEqual(loader.loadCallCount, 2)
     }
     
-//    func test_loadSearchResultsCompletion_rendersSuccessfullyLoadedSearchResults() {
-//        let searchResult0 = makeSearchResult(
-//            sampleId: "sampleId",
-//            externalId: "externalId",
-//            distance: 0.5,
-//            data: "A text for a verse"
-//        )
-//        let searchBar = UISearchBar()
-//        let (sut, loader) = makeSUT()
-//
-//        sut.loadViewIfNeeded()
-//
-//        XCTAssertEqual(sut.numberOfRenderedSearchResultViews(), 0)
-//
-//        sut.searchBarSearchButtonClicked(searchBar) { _ in }
-//
-//        loader.completeSearchResultsLoading(with: [searchResult0], at:0)
-//        XCTAssertEqual(sut.numberOfRenderedSearchResultViews(), 1)
-//
-////        let view = sut.searchResultsView(at: 0) as? SearchResultCellProduction
-////        XCTAssertNotNil(view)
-////        XCTAssertEqual(view?.scriptureText, searchResult0.data)
-////        XCTAssertEqual(view?.scriptureVerse, searchResult0.externalId)
-////
-//    }
-    
     
     // MARK: - Helpers
     
@@ -123,6 +120,28 @@ final class SearchViewControllerTests: XCTestCase {
         trackForMemoryLeaks(loader, file: file, line: line)
         trackForMemoryLeaks(sut, file: file, line: line)
         return (sut, loader)
+    }
+    
+    private func assertThat(_ sut: SearchViewController, isRendering searchResults: [SearchItem], file: StaticString = #filePath, line: UInt = #line) {
+        guard sut.numberOfRenderedSearchResultViews() == searchResults.count else {
+            return XCTFail("Expected \(searchResults.count) results, got \(sut.numberOfRenderedSearchResultViews()) instead", file: file, line: line)
+        }
+        
+        searchResults.enumerated().forEach {index, result in
+            assertThat(sut, hasViewConfiguredFor: result, at: index, file: file, line: line)
+        }
+                
+    }
+    
+    private func assertThat(_ sut: SearchViewController, hasViewConfiguredFor results: SearchItem, at index: Int, file: StaticString = #filePath, line: UInt = #line) {
+        let view = sut.searchResultsView(at: index)
+        
+        guard let cell = view as? SearchResultCell else {
+            return XCTFail("Expected \(SearchResultCell.self) instance, got \(String(describing: view)) instead", file: file, line: line)
+        }
+        
+        XCTAssertEqual(cell.scriptureText, results.data, "Expected text to be \(String(describing: results.data)) for results view at index (\(index))", file: file, line: line)
+        XCTAssertEqual(cell.scriptureVerse, results.externalId, "Expected verse to be \(String(describing: results.externalId)) for results view at index (\(index))", file: file, line: line)
     }
     
     private func makeSearchResult(sampleId: String, externalId: String, distance: Double, data: String) -> SearchItem {
@@ -162,7 +181,7 @@ private extension SearchViewController {
     }
 }
 
-private extension SearchResultCellProduction {
+private extension SearchResultCell {
     var scriptureText: String? {
         return scriptureTextLabel.text
     }
@@ -170,11 +189,6 @@ private extension SearchResultCellProduction {
     var scriptureVerse: String? {
         return scriptureVerseLabel.text
     }
-}
-
-class SearchResultCellProduction: UITableViewCell {
-    public var scriptureTextLabel: UILabel!
-    public var scriptureVerseLabel: UILabel!
 }
 
 private extension SearchViewController {
