@@ -89,6 +89,20 @@ final class SearchViewControllerTests: XCTestCase {
         assertThat(sut, isRendering: [searchResult0, searchResult1, searchResult2, searchResult3])
     }
     
+    func test_loadSearchResultsCompletion_doesNotAlterCurrentRenderingStateOnError() {
+        let searchResult0 = makeSearchResult(sampleId: "sampleId", externalId: "externalId", distance: 0.5, data: "data")
+        let (sut, loader) = makeSUT()
+        let searchBar = UISearchBar()
+        
+        sut.searchBarSearchButtonClicked(searchBar) { _ in }
+        loader.completeSearchResultsLoading(with: [searchResult0], at: 0)
+        assertThat(sut, isRendering: [searchResult0])
+        
+        sut.searchBarSearchButtonClicked(searchBar) { _ in }
+        loader.completeSearchResultsWithError(at: 1)
+        assertThat(sut, isRendering: [searchResult0])
+    }
+    
     func test_searchButtonIsTapped_expectTableViewToHaveDefaultNumberOfRows() {
         let (sut, loader) = makeSUT()
         let searchBar = UISearchBar()
@@ -160,6 +174,11 @@ final class SearchViewControllerTests: XCTestCase {
         
         func completeSearchResultsLoading(with results: [SearchItem] = [], at index: Int = 0) {
             completions[index](.success(results))
+        }
+        
+        func completeSearchResultsWithError(at index: Int = 0) {
+            let error = NSError(domain: "an error", code: 0)
+            completions[index](.failure(error))
         }
     }
 
