@@ -21,14 +21,35 @@ public final class SearchViewController: UITableViewController, UISearchBarDeleg
     public override func viewDidLoad() {
         super.viewDidLoad()
         searchResultsRetryButton.isHidden = true
+        searchResultsRetryButton.addTarget(self, action: #selector(retry), for: .touchUpInside)
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
     }
     
+    @objc private func retry() {
+        loader?.loadSearch(query: queryText, limit: 10) { [weak self] results in
+            self?.refreshControl?.endRefreshing()
+            switch results {
+            case let .success(arrayOfResults):
+                self?.searchResults = arrayOfResults
+                self?.tableView.reloadData()
+            case .failure:
+                self?.searchResultsRetryButton.isHidden = false
+            }
+        }
+    }
+    
     @objc private func load() {
         refreshControl?.beginRefreshing()
-        loader?.loadSearch(query: queryText, limit: 10) { [weak self] _ in
+        loader?.loadSearch(query: queryText, limit: 10) { [weak self] results in
             self?.refreshControl?.endRefreshing()
+            switch results {
+            case let .success(arrayOfResults):
+                self?.searchResults = arrayOfResults
+                self?.tableView.reloadData()
+            case .failure:
+                self?.searchResultsRetryButton.isHidden = false
+            }
         }
     }
     

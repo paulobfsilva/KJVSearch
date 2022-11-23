@@ -164,6 +164,18 @@ final class SearchViewControllerTests: XCTestCase {
         XCTAssertEqual(sut.isShowingRetryAction, true, "Expected retry action once loading completes with error")
     }
     
+    func test_searchResultsViewRetryAction_retriesSearchLoad() {
+        let (sut, loader) = makeSUT()
+        let searchBar = UISearchBar()
+        
+        sut.searchBarSearchButtonClicked(searchBar) { _ in }
+        loader.completeSearchResultsWithError()
+        XCTAssertEqual(loader.loadCallCount, 1)
+        
+        sut.simulateRetryAction()
+        XCTAssertEqual(loader.loadCallCount, 2)
+    }
+    
     
     // MARK: - Helpers
     
@@ -261,6 +273,10 @@ private extension SearchViewController {
     var isShowingRetryAction: Bool {
         return !searchResultsRetryButton.isHidden
     }
+    
+    func simulateRetryAction() {
+        searchResultsRetryButton.simulateTap()
+    }
 }
 
 private extension UIRefreshControl {
@@ -268,6 +284,14 @@ private extension UIRefreshControl {
         allTargets.forEach { target in
             actions(forTarget: target, forControlEvent: .valueChanged)?.forEach { (target as NSObject).perform(Selector($0))
             }
+        }
+    }
+}
+
+private extension UIButton {
+    func simulateTap() {
+        allTargets.forEach { target in
+            actions(forTarget: target, forControlEvent: .touchUpInside)?.forEach { (target as NSObject).perform(Selector($0))}
         }
     }
 }
