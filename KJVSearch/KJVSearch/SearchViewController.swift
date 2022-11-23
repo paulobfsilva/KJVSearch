@@ -11,6 +11,7 @@ public final class SearchViewController: UITableViewController, UISearchBarDeleg
     private var loader: SearchLoader?
     private var queryText: String = ""
     private var searchResults = [SearchItem]()
+    public var searchResultsRetryButton = UIButton()
     
     public convenience init(loader: SearchLoader) {
         self.init()
@@ -19,7 +20,7 @@ public final class SearchViewController: UITableViewController, UISearchBarDeleg
     
     public override func viewDidLoad() {
         super.viewDidLoad()
-        
+        searchResultsRetryButton.isHidden = true
         refreshControl = UIRefreshControl()
         refreshControl?.addTarget(self, action: #selector(load), for: .valueChanged)
     }
@@ -42,8 +43,8 @@ public final class SearchViewController: UITableViewController, UISearchBarDeleg
                 self?.searchResults = arrayOfResults
                 self?.tableView.reloadData()
                 completion(true)
-            case let .failure(error):
-                print("\(error)")
+            case .failure:
+                self?.searchResultsRetryButton.isHidden = false
                 completion(false)
             }
         }

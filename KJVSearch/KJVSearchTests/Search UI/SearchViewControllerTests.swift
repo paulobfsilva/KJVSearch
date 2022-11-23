@@ -104,13 +104,36 @@ final class SearchViewControllerTests: XCTestCase {
     }
     
     func test_searchButtonIsTapped_expectTableViewToHaveDefaultNumberOfRows() {
+        let searchResult0 = makeSearchResult(sampleId: "sampleId", externalId: "externalId", distance: 0.5, data: "data")
         let (sut, loader) = makeSUT()
         let searchBar = UISearchBar()
         
         sut.searchBarSearchButtonClicked(searchBar) { _ in }
-        loader.completeSearchResultsLoading()
+        loader.completeSearchResultsLoading(with: [
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0
+        ], at: 0)
         
-        XCTAssertEqual(loader.loadCallCount, 1)
+        assertThat(sut, isRendering: [
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0
+        ])
     }
     
     func test_scrollToEndOfTable_loadsMoreItems() {
@@ -123,6 +146,22 @@ final class SearchViewControllerTests: XCTestCase {
         loader.completeSearchResultsLoading(at: 1)
 
         XCTAssertEqual(loader.loadCallCount, 2)
+    }
+    
+    func test_searchResultsViewRetryButton_isVisibleOnLoadError() {
+        let (sut, loader) = makeSUT()
+        let searchBar = UISearchBar()
+        let searchResult0 = makeSearchResult(sampleId: "sampleId", externalId: "externalId", distance: 0.5, data: "data")
+        
+        sut.searchBarSearchButtonClicked(searchBar) { _ in }
+        loader.completeSearchResultsLoading(with: [searchResult0, searchResult0])
+        XCTAssertEqual(sut.isShowingRetryAction, false, "Expected no retry action while loading the search result")
+        
+        loader.completeSearchResultsLoading(with: [searchResult0])
+        XCTAssertEqual(sut.isShowingRetryAction, false, "Expected no retry action once loading completes successfully")
+        
+        loader.completeSearchResultsWithError()
+        XCTAssertEqual(sut.isShowingRetryAction, true, "Expected retry action once loading completes with error")
     }
     
     
@@ -217,6 +256,10 @@ private extension SearchViewController {
     
     var isShowingLoadingIndicator: Bool {
         return refreshControl?.isRefreshing == true
+    }
+    
+    var isShowingRetryAction: Bool {
+        return !searchResultsRetryButton.isHidden
     }
 }
 
