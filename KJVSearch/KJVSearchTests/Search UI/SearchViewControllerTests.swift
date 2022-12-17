@@ -137,15 +137,38 @@ final class SearchViewControllerTests: XCTestCase {
     }
     
     func test_scrollToEndOfTable_loadsMoreItems() {
+        let searchResult0 = makeSearchResult(sampleId: "sampleId", externalId: "externalId", distance: 0.5, data: "data")
         let (sut, loader) = makeSUT()
         let searchBar = UISearchBar()
         sut.searchBarSearchButtonClicked(searchBar) { _ in }
-        loader.completeSearchResultsLoading(at: 0)
-        
-        sut.searchBarSearchButtonClicked(searchBar) { _ in }
-        loader.completeSearchResultsLoading(at: 1)
-
+        loader.completeSearchResultsLoading(with: [
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0
+        ])
+        XCTAssertEqual(loader.loadCallCount, 1)
+        sut.simulateScrollToBottom(at: sut.numberOfRenderedSearchResultViews() - 1)
+        loader.completeSearchResultsLoading(with: [
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0,
+            searchResult0
+        ])
         XCTAssertEqual(loader.loadCallCount, 2)
+        XCTAssertEqual(sut.numberOfRenderedSearchResultViews(), 20)
     }
     
     func test_searchResultsViewRetryButton_isVisibleOnLoadError() {
@@ -276,6 +299,11 @@ private extension SearchViewController {
     
     func simulateRetryAction() {
         searchResultsRetryButton.simulateTap()
+    }
+    
+    func simulateScrollToBottom(at index: Int) {
+        let indexPath = IndexPath(row: index, section: searchResultsSection)
+        tableView.scrollToRow(at: indexPath, at: .bottom, animated: false)
     }
 }
 
